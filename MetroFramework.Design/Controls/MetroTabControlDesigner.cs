@@ -49,41 +49,23 @@ namespace MetroFramework.Design.Controls
 
         private ISelectionService selectionService;
 
-        public override SelectionRules SelectionRules
-        {
-            get
-            {
-                return Control.Dock == DockStyle.Fill ? SelectionRules.Visible : base.SelectionRules;
-            }
-        }
+        public override SelectionRules SelectionRules => Control.Dock == DockStyle.Fill ? SelectionRules.Visible : base.SelectionRules;
         public override DesignerVerbCollection Verbs
         {
             get
             {
                 if (designerVerbs.Count == 2)
                 {
-                    var myControl = (MetroTabControl)Control;
+                    MetroTabControl myControl = (MetroTabControl)Control;
                     designerVerbs[1].Enabled = myControl.TabCount != 0;
                 }
                 return designerVerbs;
             }
         }
 
-        public IDesignerHost DesignerHost
-        {
-            get
-            {
-                return designerHost ?? (designerHost = (IDesignerHost)(GetService(typeof(IDesignerHost))));
-            }
-        }
+        public IDesignerHost DesignerHost => designerHost ?? (designerHost = (IDesignerHost)GetService(typeof(IDesignerHost)));
 
-        public ISelectionService SelectionService
-        {
-            get
-            {
-                return selectionService ?? (selectionService = (ISelectionService)(GetService(typeof(ISelectionService))));
-            }
-        }
+        public ISelectionService SelectionService => selectionService ?? (selectionService = (ISelectionService)GetService(typeof(ISelectionService)));
 
         #endregion
 
@@ -91,23 +73,23 @@ namespace MetroFramework.Design.Controls
 
         public MetroTabControlDesigner()
         {
-            var verb1 = new DesignerVerb("Add Tab", OnAddPage);
-            var verb2 = new DesignerVerb("Remove Tab", OnRemovePage);
+            DesignerVerb verb1 = new DesignerVerb("Add Tab", OnAddPage);
+            DesignerVerb verb2 = new DesignerVerb("Remove Tab", OnRemovePage);
             designerVerbs.AddRange(new[] { verb1, verb2 });
         }
 
         #endregion
 
         #region Private Methods
-        
-        private void OnAddPage(Object sender, EventArgs e)
+
+        private void OnAddPage(object sender, EventArgs e)
         {
-            var parentControl = (MetroTabControl) Control;
-            var oldTabs = parentControl.Controls;
+            MetroTabControl parentControl = (MetroTabControl)Control;
+            Control.ControlCollection oldTabs = parentControl.Controls;
 
             RaiseComponentChanging(TypeDescriptor.GetProperties(parentControl)["TabPages"]);
 
-            var p = (MetroTabPage)(DesignerHost.CreateComponent(typeof(MetroTabPage)));
+            MetroTabPage p = (MetroTabPage)DesignerHost.CreateComponent(typeof(MetroTabPage));
             p.Text = p.Name;
             parentControl.TabPages.Add(p);
 
@@ -118,10 +100,10 @@ namespace MetroFramework.Design.Controls
             SetVerbs();
         }
 
-        private void OnRemovePage(Object sender, EventArgs e)
+        private void OnRemovePage(object sender, EventArgs e)
         {
-            var parentControl = (MetroTabControl) Control;
-            var oldTabs = parentControl.Controls;
+            MetroTabControl parentControl = (MetroTabControl)Control;
+            Control.ControlCollection oldTabs = parentControl.Controls;
 
             if (parentControl.SelectedIndex < 0)
             {
@@ -145,7 +127,7 @@ namespace MetroFramework.Design.Controls
 
         private void SetVerbs()
         {
-            var parentControl = (MetroTabControl) Control;
+            MetroTabControl parentControl = (MetroTabControl)Control;
 
             switch (parentControl.TabPages.Count)
             {
@@ -170,7 +152,7 @@ namespace MetroFramework.Design.Controls
                 case (int)WinApi.Messages.WM_NCHITTEST:
                     if (m.Result.ToInt32() == (int)WinApi.HitTest.HTTRANSPARENT)
                     {
-                        m.Result = (IntPtr) WinApi.HitTest.HTCLIENT;
+                        m.Result = (IntPtr)WinApi.HitTest.HTCLIENT;
                     }
                     break;
             }
@@ -180,19 +162,19 @@ namespace MetroFramework.Design.Controls
         {
             if (SelectionService.PrimarySelection == Control)
             {
-                var hti = new MetroFramework.Native.WinApi.TCHITTESTINFO
+                WinApi.TCHITTESTINFO hti = new WinApi.TCHITTESTINFO
                 {
                     pt = Control.PointToClient(point),
                     flags = 0
                 };
 
-                var m = new Message
+                Message m = new Message
                 {
                     HWnd = Control.Handle,
                     Msg = WinApi.TCM_HITTEST
                 };
 
-                var lparam =
+                IntPtr lparam =
                     System.Runtime.InteropServices.Marshal.AllocHGlobal(System.Runtime.InteropServices.Marshal.SizeOf(hti));
                 System.Runtime.InteropServices.Marshal.StructureToPtr(hti,
                                                                       lparam, false);

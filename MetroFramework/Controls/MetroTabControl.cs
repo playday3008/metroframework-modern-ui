@@ -30,10 +30,11 @@
 // http://www.codeproject.com/Articles/278/Fully-owner-drawn-tab-control
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Design;
+using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Permissions;
@@ -43,8 +44,6 @@ using MetroFramework.Components;
 using MetroFramework.Drawing;
 using MetroFramework.Interfaces;
 using MetroFramework.Native;
-using System.Collections.Generic;
-using MetroFramework.Controls;
 
 namespace MetroFramework.Controls
 {
@@ -66,16 +65,13 @@ namespace MetroFramework.Controls
     {
         public HiddenTabs(int id, string page)
         {
-            _index = id;
-            _tabpage = page;
+            Index = id;
+            TabPage = page;
         }
 
-        private int _index;
-        private string _tabpage;
+        public int Index { get; }
 
-        public int index { get { return _index; } }
-
-        public string tabpage { get { return _tabpage; } }
+        public string TabPage { get; }
     }
     #endregion HiddenTabClass
 
@@ -137,7 +133,7 @@ namespace MetroFramework.Controls
 
                 return metroStyle;
             }
-            set { metroStyle = value; }
+            set => metroStyle = value;
         }
 
         private MetroThemeStyle metroTheme = MetroThemeStyle.Default;
@@ -163,108 +159,56 @@ namespace MetroFramework.Controls
 
                 return metroTheme;
             }
-            set { metroTheme = value; }
+            set => metroTheme = value;
         }
 
-        private MetroStyleManager metroStyleManager = null;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public MetroStyleManager StyleManager
-        {
-            get { return metroStyleManager; }
-            set { metroStyleManager = value; }
-        }
-
-        private bool useCustomBackColor = false;
+        public MetroStyleManager StyleManager { get; set; } = null;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseCustomBackColor
-        {
-            get { return useCustomBackColor; }
-            set { useCustomBackColor = value; }
-        }
-
-        private bool useCustomForeColor = false;
+        public bool UseCustomBackColor { get; set; } = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseCustomForeColor
-        {
-            get { return useCustomForeColor; }
-            set { useCustomForeColor = value; }
-        }
-
-        private bool useStyleColors = false;
+        public bool UseCustomForeColor { get; set; } = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseStyleColors
-        {
-            get { return useStyleColors; }
-            set { useStyleColors = value; }
-        }
+        public bool UseStyleColors { get; set; } = false;
 
         [Browsable(false)]
         [Category(MetroDefaults.PropertyCategory.Behaviour)]
         [DefaultValue(false)]
         public bool UseSelectable
         {
-            get { return GetStyle(ControlStyles.Selectable); }
-            set { SetStyle(ControlStyles.Selectable, value); }
+            get => GetStyle(ControlStyles.Selectable);
+            set => SetStyle(ControlStyles.Selectable, value);
         }
 
         #endregion
 
         #region Fields
         //Additional variables to be used by HideTab and ShowTab
-        private List<string> tabDisable = new List<string>();
-        private List<string> tabOrder = new List<string>();
-        private List<HiddenTabs> hidTabs = new List<HiddenTabs>();
+        private readonly List<string> tabDisable = new List<string>();
+        //private readonly List<string> tabOrder = new List<string>();
+        private readonly List<HiddenTabs> hidTabs = new List<HiddenTabs>();
 
         private SubClass scUpDown = null;
         private bool bUpDown = false;
 
         private const int TabBottomBorderHeight = 3;
 
-        private MetroTabControlSize metroLabelSize = MetroTabControlSize.Medium;
         [DefaultValue(MetroTabControlSize.Medium)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public MetroTabControlSize FontSize
-        {
-            get { return metroLabelSize; }
-            set { metroLabelSize = value; }
-        }
-
-        private MetroTabControlWeight metroLabelWeight = MetroTabControlWeight.Light;
+        public MetroTabControlSize FontSize { get; set; } = MetroTabControlSize.Medium;
         [DefaultValue(MetroTabControlWeight.Light)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public MetroTabControlWeight FontWeight
-        {
-            get { return metroLabelWeight; }
-            set { metroLabelWeight = value; }
-        }
-
-        private ContentAlignment textAlign = ContentAlignment.MiddleLeft;
+        public MetroTabControlWeight FontWeight { get; set; } = MetroTabControlWeight.Light;
         [DefaultValue(ContentAlignment.MiddleLeft)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public ContentAlignment TextAlign
-        {
-            get
-            {
-                return textAlign;
-            }
-            set
-            {
-                textAlign = value;
-            }
-        }
+        public ContentAlignment TextAlign { get; set; } = ContentAlignment.MiddleLeft;
 
         [Editor("MetroFramework.Design.MetroTabPageCollectionEditor, " + AssemblyRef.MetroFrameworkDesignSN, typeof(UITypeEditor))]
-        public new TabPageCollection TabPages
-        {
-            get
-            {
-                return base.TabPages;
-            }
-        }
+        public new TabPageCollection TabPages => base.TabPages;
 
 
         private bool isMirrored;
@@ -272,10 +216,7 @@ namespace MetroFramework.Controls
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public new bool IsMirrored
         {
-            get
-            {
-                return isMirrored;
-            }
+            get => isMirrored;
             set
             {
                 if (isMirrored == value)
@@ -300,7 +241,7 @@ namespace MetroFramework.Controls
                      ControlStyles.SupportsTransparentBackColor, true);
 
             Padding = new Point(6, 8);
-            this.Selecting += MetroTabControl_Selecting;
+            Selecting += MetroTabControl_Selecting;
         }
 
         #endregion
@@ -313,7 +254,7 @@ namespace MetroFramework.Controls
             {
                 Color backColor = BackColor;
 
-                if (!useCustomBackColor)
+                if (!UseCustomBackColor)
                 {
                     backColor = MetroPaint.BackColor.Form(Theme);
                 }
@@ -354,7 +295,7 @@ namespace MetroFramework.Controls
 
         protected virtual void OnPaintForeground(PaintEventArgs e)
         {
-            for (var index = 0; index < TabPages.Count; index++)
+            for (int index = 0; index < TabPages.Count; index++)
             {
                 if (index != SelectedIndex)
                 {
@@ -392,26 +333,26 @@ namespace MetroFramework.Controls
             }
         }
 
-        private Size MeasureText(string text)
-        {
-            Size preferredSize;
-            using (Graphics g = CreateGraphics())
-            {
-                Size proposedSize = new Size(int.MaxValue, int.MaxValue);
-                preferredSize = TextRenderer.MeasureText(g, text, MetroFonts.TabControl(metroLabelSize, metroLabelWeight),
-                                                         proposedSize,
-                                                         MetroPaint.GetTextFormatFlags(TextAlign) |
-                                                         TextFormatFlags.NoPadding);
-            }
-            return preferredSize;
-        }
+        //private Size MeasureText(string text)
+        //{
+        //    Size preferredSize;
+        //    using (Graphics g = CreateGraphics())
+        //    {
+        //        Size proposedSize = new Size(int.MaxValue, int.MaxValue);
+        //        preferredSize = TextRenderer.MeasureText(g, text, MetroFonts.TabControl(FontSize, FontWeight),
+        //                                                 proposedSize,
+        //                                                 MetroPaint.GetTextFormatFlags(TextAlign) |
+        //                                                 TextFormatFlags.NoPadding);
+        //    }
+        //    return preferredSize;
+        //}
 
         private void DrawTab(int index, Graphics graphics)
         {
             Color foreColor;
             Color backColor = BackColor;
 
-            if (!useCustomBackColor)
+            if (!UseCustomBackColor)
             {
                 backColor = MetroPaint.BackColor.Form(Theme);
             }
@@ -425,13 +366,13 @@ namespace MetroFramework.Controls
             }
             else
             {
-                if (useCustomForeColor)
+                if (UseCustomForeColor)
                 {
                     foreColor = DefaultForeColor;
                 }
                 else
                 {
-                    foreColor = !useStyleColors ? MetroPaint.ForeColor.TabControl.Normal(Theme) : MetroPaint.GetStyleColor(Style);
+                    foreColor = !UseStyleColors ? MetroPaint.ForeColor.TabControl.Normal(Theme) : MetroPaint.GetStyleColor(Style);
                 }
             }
 
@@ -449,7 +390,7 @@ namespace MetroFramework.Controls
                 graphics.FillRectangle(bgBrush, bgRect);
             }
 
-            TextRenderer.DrawText(graphics, tabPage.Text, MetroFonts.TabControl(metroLabelSize, metroLabelWeight),
+            TextRenderer.DrawText(graphics, tabPage.Text, MetroFonts.TabControl(FontSize, FontWeight),
                                   tabRect, foreColor, backColor, MetroPaint.GetTextFormatFlags(TextAlign));
         }
 
@@ -525,7 +466,7 @@ namespace MetroFramework.Controls
             {
                 const int WS_EX_LAYOUTRTL = 0x400000;
                 const int WS_EX_NOINHERITLAYOUT = 0x100000;
-                var cp = base.CreateParams;
+                CreateParams cp = base.CreateParams;
                 if (isMirrored)
                 {
                     cp.ExStyle = cp.ExStyle | WS_EX_LAYOUTRTL | WS_EX_NOINHERITLAYOUT;
@@ -573,7 +514,7 @@ namespace MetroFramework.Controls
         protected override void OnCreateControl()
         {
             base.OnCreateControl();
-            this.OnFontChanged(EventArgs.Empty);
+            OnFontChanged(EventArgs.Empty);
             FindUpDown();
         }
 
@@ -610,13 +551,13 @@ namespace MetroFramework.Controls
         protected override void OnFontChanged(EventArgs e)
         {
             base.OnFontChanged(e);
-            IntPtr hFont = MetroFonts.TabControl(metroLabelSize, metroLabelWeight).ToHfont();
-            SendMessage(this.Handle, WM_SETFONT, hFont, (IntPtr)(-1));
-            SendMessage(this.Handle, WM_FONTCHANGE, IntPtr.Zero, IntPtr.Zero);
-            this.UpdateStyles();
+            IntPtr hFont = MetroFonts.TabControl(FontSize, FontWeight).ToHfont();
+            SendMessage(Handle, WM_SETFONT, hFont, (IntPtr)(-1));
+            SendMessage(Handle, WM_FONTCHANGE, IntPtr.Zero, IntPtr.Zero);
+            UpdateStyles();
         }
 
-        void MetroTabControl_Selecting(object sender, TabControlCancelEventArgs e)
+        private void MetroTabControl_Selecting(object sender, TabControlCancelEventArgs e)
         {
             if (tabDisable.Count > 0 && tabDisable.Contains(e.TabPage.Name))
             {
@@ -650,8 +591,8 @@ namespace MetroFramework.Controls
 
                         if (!bUpDown)
                         {
-                            this.scUpDown = new SubClass(pWnd, true);
-                            this.scUpDown.SubClassedWndProc += new SubClass.SubClassWndProcEventHandler(scUpDown_SubClassedWndProc);
+                            scUpDown = new SubClass(pWnd, true);
+                            scUpDown.SubClassedWndProc += new SubClass.SubClassWndProcEventHandler(ScUpDown_SubClassedWndProc);
 
                             bUpDown = true;
                         }
@@ -661,7 +602,7 @@ namespace MetroFramework.Controls
                     pWnd = WinApi.GetWindow(pWnd, WinApi.GW_HWNDNEXT);
                 }
 
-                if ((!bFound) && (bUpDown))
+                if ((!bFound) && bUpDown)
                     bUpDown = false;
             }
         }
@@ -681,7 +622,7 @@ namespace MetroFramework.Controls
         }
 
         [SecuritySafeCritical]
-        private int scUpDown_SubClassedWndProc(ref Message m)
+        private int ScUpDown_SubClassedWndProc(ref Message m)
         {
             switch (m.Msg)
             {
@@ -720,12 +661,12 @@ namespace MetroFramework.Controls
         /// <param name="tabpage"></param>
         public void HideTab(MetroTabPage tabpage)
         {
-            if (this.TabPages.Contains(tabpage))
+            if (TabPages.Contains(tabpage))
             {
-                int _tabid = this.TabPages.IndexOf(tabpage);
+                int _tabid = TabPages.IndexOf(tabpage);
 
                 hidTabs.Add(new HiddenTabs(_tabid, tabpage.Name));
-                this.TabPages.Remove(tabpage);
+                TabPages.Remove(tabpage);
             }
         }
 
@@ -736,15 +677,15 @@ namespace MetroFramework.Controls
         public void ShowTab(MetroTabPage tabpage)
         {
             HiddenTabs result = hidTabs.Find(
-                 delegate(HiddenTabs bk)
+                 delegate (HiddenTabs bk)
                  {
-                     return bk.tabpage == tabpage.Name;
+                     return bk.TabPage == tabpage.Name;
                  }
              );
 
             if (result != null)
             {
-                this.TabPages.Insert(result.index,tabpage);
+                TabPages.Insert(result.Index, tabpage);
                 hidTabs.Remove(result);
             }
         }
@@ -757,18 +698,18 @@ namespace MetroFramework.Controls
         {
             if (!tabDisable.Contains(tabpage.Name))
             {
-                if (this.SelectedTab == tabpage && this.TabCount == 1) return;
-                if (this.SelectedTab == tabpage)
+                if (SelectedTab == tabpage && TabCount == 1) return;
+                if (SelectedTab == tabpage)
                 {
-                    if (SelectedIndex == this.TabCount - 1)
+                    if (SelectedIndex == TabCount - 1)
                     { SelectedIndex = 0; }
                     else { SelectedIndex++; }
                 }
-              
-                int _tabid = this.TabPages.IndexOf(tabpage);
+
+                int _tabid = TabPages.IndexOf(tabpage);
 
                 tabDisable.Add(tabpage.Name);
-                Graphics e = this.CreateGraphics();
+                Graphics e = CreateGraphics();
                 DrawTab(_tabid, e);
                 DrawTabBottomBorder(SelectedIndex, e);
                 DrawTabSelected(SelectedIndex, e);
@@ -784,9 +725,9 @@ namespace MetroFramework.Controls
             if (tabDisable.Contains(tabpage.Name))
             {
                 tabDisable.Remove(tabpage.Name);
-                int _tabid = this.TabPages.IndexOf(tabpage);
+                int _tabid = TabPages.IndexOf(tabpage);
 
-                Graphics e = this.CreateGraphics();
+                Graphics e = CreateGraphics();
                 DrawTab(_tabid, e);
                 DrawTabBottomBorder(SelectedIndex, e);
                 DrawTabSelected(SelectedIndex, e);
@@ -811,13 +752,13 @@ namespace MetroFramework.Controls
         public bool IsTabHidden(MetroTabPage tabpage)
         {
             HiddenTabs result = hidTabs.Find(
-                delegate(HiddenTabs bk)
+                delegate (HiddenTabs bk)
                 {
-                    return bk.tabpage == tabpage.Name;
+                    return bk.TabPage == tabpage.Name;
                 }
             );
 
-            return (result != null);
+            return result != null;
         }
         #endregion
     }

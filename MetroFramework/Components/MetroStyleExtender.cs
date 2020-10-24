@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -11,16 +9,16 @@ using MetroFramework.Interfaces;
 
 namespace MetroFramework.Components
 {
-	[ProvideProperty("ApplyMetroTheme", typeof(Control))]
+    [ProvideProperty("ApplyMetroTheme", typeof(Control))]
     public sealed class MetroStyleExtender : Component, IExtenderProvider, IMetroComponent
-	{
+    {
         #region Interface
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public MetroColorStyle Style
         {
-            get { throw new NotSupportedException(); }
+            get => throw new NotSupportedException();
             set { }
         }
 
@@ -47,8 +45,8 @@ namespace MetroFramework.Components
 
                 return metroTheme;
             }
-            set 
-            { 
+            set
+            {
                 metroTheme = value;
                 UpdateTheme();
             }
@@ -59,9 +57,9 @@ namespace MetroFramework.Components
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public MetroStyleManager StyleManager
         {
-            get { return metroStyleManager; }
-            set 
-            { 
+            get => metroStyleManager;
+            set
+            {
                 metroStyleManager = value;
                 UpdateTheme();
             }
@@ -79,7 +77,7 @@ namespace MetroFramework.Components
 
         public MetroStyleExtender()
         {
-        
+
         }
 
         public MetroStyleExtender(IContainer parent)
@@ -124,17 +122,17 @@ namespace MetroFramework.Components
         #region IExtenderProvider
 
         bool IExtenderProvider.CanExtend(object target)
-		{
-		    return target is Control && !(target is IMetroControl || target is IMetroForm);
-		}
+        {
+            return target is Control && !(target is IMetroControl || target is IMetroForm);
+        }
 
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         [Description("Apply Metro Theme BackColor and ForeColor.")]
         public bool GetApplyMetroTheme(Control control)
-		{
-		    return control != null && extendedControls.Contains(control);
-		}
+        {
+            return control != null && extendedControls.Contains(control);
+        }
 
         public void SetApplyMetroTheme(Control control, bool value)
         {

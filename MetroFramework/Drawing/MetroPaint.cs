@@ -815,7 +815,7 @@ namespace MetroFramework.Drawing
 
                 case MetroColorStyle.White:
                     return MetroPens.White;
-                
+
                 case MetroColorStyle.Silver:
                     return MetroPens.Silver;
 
@@ -859,8 +859,10 @@ namespace MetroFramework.Drawing
 
         public static StringFormat GetStringFormat(ContentAlignment textAlign)
         {
-            StringFormat stringFormat = new StringFormat();
-            stringFormat.Trimming = StringTrimming.EllipsisCharacter;
+            StringFormat stringFormat = new StringFormat
+            {
+                Trimming = StringTrimming.EllipsisCharacter
+            };
 
             switch (textAlign)
             {
@@ -912,7 +914,7 @@ namespace MetroFramework.Drawing
             return GetTextFormatFlags(textAlign, false);
         }
 
-        public static TextFormatFlags GetTextFormatFlags(ContentAlignment textAlign,bool WrapToLine)
+        public static TextFormatFlags GetTextFormatFlags(ContentAlignment textAlign, bool WrapToLine)
         {
             TextFormatFlags controlFlags = TextFormatFlags.Default;
 

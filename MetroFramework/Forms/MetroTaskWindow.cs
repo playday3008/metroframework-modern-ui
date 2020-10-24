@@ -22,7 +22,6 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -47,17 +46,19 @@ namespace MetroFramework.Forms
                 singletonWindow = null;
             }
 
-            singletonWindow = new MetroTaskWindow(secToClose, userControl);
-            singletonWindow.Text = title;
-            singletonWindow.Resizable = false;
-            singletonWindow.Movable = true;
-            singletonWindow.StartPosition = FormStartPosition.Manual;
-            
-            if (parent != null && parent is IMetroForm)
+            singletonWindow = new MetroTaskWindow(secToClose, userControl)
             {
-                singletonWindow.Theme = ((IMetroForm)parent).Theme;
-                singletonWindow.Style = ((IMetroForm)parent).Style;
-                singletonWindow.StyleManager = ((IMetroForm)parent).StyleManager.Clone(singletonWindow) as MetroStyleManager;
+                Text = title,
+                Resizable = false,
+                Movable = true,
+                StartPosition = FormStartPosition.Manual
+            };
+
+            if (parent != null && parent is IMetroForm form)
+            {
+                singletonWindow.Theme = form.Theme;
+                singletonWindow.Style = form.Style;
+                singletonWindow.StyleManager = form.StyleManager.Clone(singletonWindow) as MetroStyleManager;
             }
 
             singletonWindow.Show();
@@ -65,7 +66,7 @@ namespace MetroFramework.Forms
 
         public static bool IsVisible()
         {
-            return (singletonWindow != null && singletonWindow.Visible);
+            return singletonWindow != null && singletonWindow.Visible;
         }
 
         public static void ShowTaskWindow(IWin32Window parent, string text, Control userControl)
@@ -100,12 +101,7 @@ namespace MetroFramework.Forms
             }
         }
 
-        private bool cancelTimer = false;
-        public bool CancelTimer
-        {
-            get { return cancelTimer; }
-            set { cancelTimer = value; }
-        }
+        public bool CancelTimer { get; set; } = false;
 
         private readonly int closeTime = 0;
         private int elapsedTime = 0;
@@ -215,14 +211,14 @@ namespace MetroFramework.Forms
 
             elapsedTime += 5;
 
-            if (cancelTimer)
+            if (CancelTimer)
                 elapsedTime = 0;
 
-            double perc = (double)elapsedTime / ((double)closeTime / 100);
-            progressWidth = (int)((double)Width * (perc / 100));
-            Invalidate(new Rectangle(0,0,Width,5));
+            double perc = elapsedTime / ((double)closeTime / 100);
+            progressWidth = (int)(Width * (perc / 100));
+            Invalidate(new Rectangle(0, 0, Width, 5));
 
-            if (!cancelTimer)
+            if (!CancelTimer)
                 timer.Reset();
         }
     }

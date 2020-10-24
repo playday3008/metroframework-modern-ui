@@ -1,6 +1,4 @@
-﻿
-using MetroFramework.Drawing;
-/**
+﻿/**
 * MetroFramework - Modern UI for WinForms
 * 
 * The MIT License (MIT)
@@ -24,10 +22,8 @@ using MetroFramework.Drawing;
 * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
@@ -45,26 +41,19 @@ namespace MetroFramework.Controls
     public class MetroDropDownButton : MetroButton
     {
         #region Constants
-        const int SplitSectionWidth = 18;
+        private const int SplitSectionWidth = 18;
         #endregion
 
         #region Variables
-        PushButtonState _state;
-
-
-
-        static int BorderSize = SystemInformation.Border3DSize.Width * 2;
-        bool skipNextOpen;
-        Rectangle dropDownRectangle;
-        bool showSplit;
-
-        bool isSplitMenuVisible;
-
-
-        ContextMenuStrip m_SplitMenuStrip;
-        ContextMenu m_SplitMenu;
-
-        TextFormatFlags textFormatFlags = TextFormatFlags.Default;
+        private PushButtonState _state;
+        private static readonly int BorderSize = SystemInformation.Border3DSize.Width * 2;
+        private bool skipNextOpen;
+        private Rectangle dropDownRectangle;
+        private bool showSplit;
+        private bool isSplitMenuVisible;
+        private ContextMenuStrip m_SplitMenuStrip;
+        private ContextMenu m_SplitMenu;
+        private readonly TextFormatFlags textFormatFlags = TextFormatFlags.Default;
         #endregion
 
         #region Constructor
@@ -79,20 +68,14 @@ namespace MetroFramework.Controls
         [Browsable(false)]
         public override ContextMenuStrip ContextMenuStrip
         {
-            get
-            {
-                return SplitMenuStrip;
-            }
-            set
-            {
-                SplitMenuStrip = value;
-            }
+            get => SplitMenuStrip;
+            set => SplitMenuStrip = value;
         }
 
         [DefaultValue(null)]
         public ContextMenu SplitMenu
         {
-            get { return m_SplitMenu; }
+            get => m_SplitMenu;
             set
             {
                 //remove the event handlers for the old SplitMenu
@@ -117,10 +100,7 @@ namespace MetroFramework.Controls
         [DefaultValue(null)]
         public ContextMenuStrip SplitMenuStrip
         {
-            get
-            {
-                return m_SplitMenuStrip;
-            }
+            get => m_SplitMenuStrip;
             set
             {
                 //remove the event handlers for the old SplitMenuStrip
@@ -163,10 +143,7 @@ namespace MetroFramework.Controls
 
         private PushButtonState State
         {
-            get
-            {
-                return _state;
-            }
+            get => _state;
             set
             {
                 if (!_state.Equals(value))
@@ -180,12 +157,12 @@ namespace MetroFramework.Controls
         #endregion
 
         #region SplitMenuStrip
-        void SplitMenuStrip_Opening(object sender, CancelEventArgs e)
+        private void SplitMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             isSplitMenuVisible = true;
         }
 
-        void SplitMenuStrip_Closing(object sender, ToolStripDropDownClosingEventArgs e)
+        private void SplitMenuStrip_Closing(object sender, ToolStripDropDownClosingEventArgs e)
         {
             isSplitMenuVisible = false;
 
@@ -193,12 +170,11 @@ namespace MetroFramework.Controls
 
             if (e.CloseReason == ToolStripDropDownCloseReason.AppClicked)
             {
-                skipNextOpen = (dropDownRectangle.Contains(PointToClient(Cursor.Position))) && MouseButtons == MouseButtons.Left;
+                skipNextOpen = dropDownRectangle.Contains(PointToClient(Cursor.Position)) && MouseButtons == MouseButtons.Left;
             }
         }
 
-
-        void SplitMenu_Popup(object sender, EventArgs e)
+        private void SplitMenu_Popup(object sender, EventArgs e)
         {
             isSplitMenuVisible = true;
         }
@@ -300,7 +276,7 @@ namespace MetroFramework.Controls
             }
         }
 
-        bool isMouseEntered;
+        private bool isMouseEntered;
 
         protected override void OnMouseEnter(EventArgs e)
         {
@@ -401,7 +377,7 @@ namespace MetroFramework.Controls
                               bounds.Width - dropDownRectangle.Width - internalBorder,
                               bounds.Height - (internalBorder * 2) + 2);
 
-            bool drawSplitLine = (State == PushButtonState.Hot || State == PushButtonState.Pressed || !Application.RenderWithVisualStyles);
+            bool drawSplitLine = State == PushButtonState.Hot || State == PushButtonState.Pressed || !Application.RenderWithVisualStyles;
 
 
             if (RightToLeft == RightToLeft.Yes)
@@ -462,10 +438,8 @@ namespace MetroFramework.Controls
         private void PaintTextandImage(Graphics g, Rectangle bounds)
         {
             // Figure out where our text and image should go
-            Rectangle text_rectangle;
-            Rectangle image_rectangle;
 
-            CalculateButtonTextAndImageLayout(ref bounds, out text_rectangle, out image_rectangle);
+            CalculateButtonTextAndImageLayout(ref bounds, out Rectangle _, out Rectangle image_rectangle);
 
             //draw the image
             if (Image != null)
@@ -476,7 +450,7 @@ namespace MetroFramework.Controls
                     ControlPaint.DrawImageDisabled(g, Image, image_rectangle.X, image_rectangle.Y, BackColor);
             }
 
-           
+
         }
 
         private void PaintArrow(Graphics g, Rectangle dropDownRect)
@@ -484,7 +458,7 @@ namespace MetroFramework.Controls
             Point middle = new Point(Convert.ToInt32(dropDownRect.Left + dropDownRect.Width / 2), Convert.ToInt32(dropDownRect.Top + dropDownRect.Height / 2));
 
             //if the width is odd - favor pushing it over one pixel right.
-            middle.X += (dropDownRect.Width % 2);
+            middle.X += dropDownRect.Width % 2;
 
             Point[] arrow = new[] { new Point(middle.X - 2, middle.Y - 1), new Point(middle.X + 3, middle.Y - 1), new Point(middle.X, middle.Y + 2) };
 
@@ -837,8 +811,8 @@ namespace MetroFramework.Controls
             }
 
             // Pad the result
-            ret_size.Height += (Padding.Vertical + 6);
-            ret_size.Width += (Padding.Horizontal + 6);
+            ret_size.Height += Padding.Vertical + 6;
+            ret_size.Width += Padding.Horizontal + 6;
 
             //pad the splitButton arrow region
             if (showSplit)

@@ -22,20 +22,13 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 using System.Collections;
-using System.ComponentModel;
 using System.Windows.Forms.Design;
 
 namespace MetroFramework.Design.Controls
 {
     internal class MetroButtonDesigner : ControlDesigner
     {
-        public override SelectionRules SelectionRules
-        {
-            get
-            {
-                return base.SelectionRules;
-            }
-        }
+        public override SelectionRules SelectionRules => base.SelectionRules;
 
         protected override void PreFilterProperties(IDictionary properties)
         {
@@ -44,7 +37,7 @@ namespace MetroFramework.Design.Controls
             properties.Remove("FlatAppearance");
             properties.Remove("FlatStyle");
             properties.Remove("AutoEllipsis");
-            properties.Remove("UseCompatibleTextRendering");            
+            properties.Remove("UseCompatibleTextRendering");
 
             properties.Remove("Image");
             properties.Remove("ImageAlign");
@@ -52,7 +45,7 @@ namespace MetroFramework.Design.Controls
             properties.Remove("ImageKey");
             properties.Remove("ImageList");
             properties.Remove("TextImageRelation");
-            
+
             properties.Remove("UseVisualStyleBackColor");
 
             properties.Remove("Font");

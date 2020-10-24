@@ -28,9 +28,7 @@
 // http://www.pcreview.co.uk/forums/adding-custom-tabpages-design-time-t2904262.html
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.Design;
-using System.Text;
 
 using MetroFramework.Controls;
 
@@ -40,7 +38,7 @@ namespace MetroFramework.Design.Controls
     {
         protected override CollectionForm CreateCollectionForm()
         {
-            var baseForm = base.CreateCollectionForm();
+            CollectionForm baseForm = base.CreateCollectionForm();
             baseForm.Text = "MetroTabPage Collection Editor";
             return baseForm;
         }

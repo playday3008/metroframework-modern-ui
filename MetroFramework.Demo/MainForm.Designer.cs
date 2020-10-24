@@ -1,19 +1,18 @@
-﻿
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace MetroFramework.Demo
 {
     partial class MainForm
     {
         /// <summary>
-        /// Erforderliche Designervariable.
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// Verwendete Ressourcen bereinigen.
+        /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -23,11 +22,11 @@ namespace MetroFramework.Demo
             base.Dispose(disposing);
         }
 
-        #region Vom Windows Form-Designer generierter Code
+        #region Windows Form Designer generated code
 
         /// <summary>
-        /// Erforderliche Methode für die Designerunterstützung.
-        /// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
@@ -449,7 +448,7 @@ namespace MetroFramework.Demo
             this.metroButton2.TabIndex = 6;
             this.metroButton2.Text = "Highlighted Button";
             this.metroButton2.UseSelectable = true;
-            this.metroButton2.Click += new System.EventHandler(this.metroButton2_Click);
+            this.metroButton2.Click += new System.EventHandler(this.MetroButton2_Click);
             // 
             // metroButton1
             // 
@@ -462,7 +461,7 @@ namespace MetroFramework.Demo
             this.metroButton1.Text = "Normal Button";
             this.metroToolTip.SetToolTip(this.metroButton1, "Button Tooltip");
             this.metroButton1.UseSelectable = true;
-            this.metroButton1.Click += new System.EventHandler(this.metroButton1_Click);
+            this.metroButton1.Click += new System.EventHandler(this.MetroButton1_Click);
             // 
             // metroTileSwitch
             // 
@@ -474,7 +473,7 @@ namespace MetroFramework.Demo
             this.metroTileSwitch.TabIndex = 4;
             this.metroTileSwitch.Text = "Switch Style";
             this.metroTileSwitch.UseSelectable = true;
-            this.metroTileSwitch.Click += new System.EventHandler(this.metroTileSwitch_Click);
+            this.metroTileSwitch.Click += new System.EventHandler(this.MetroTileSwitch_Click);
             // 
             // metroTile2
             // 
@@ -499,7 +498,7 @@ namespace MetroFramework.Demo
             this.metroTile1.Text = "Switch Theme";
             this.metroToolTip.SetToolTip(this.metroTile1, "Tile Tooltip");
             this.metroTile1.UseSelectable = true;
-            this.metroTile1.Click += new System.EventHandler(this.metroTile1_Click);
+            this.metroTile1.Click += new System.EventHandler(this.MetroTile1_Click);
             // 
             // metroTabPage2
             // 
@@ -612,7 +611,7 @@ namespace MetroFramework.Demo
             this.metroButton5.TabIndex = 17;
             this.metroButton5.Text = "&Show Context Menu";
             this.metroButton5.UseSelectable = true;
-            this.metroButton5.Click += new System.EventHandler(this.metroButton5_Click);
+            this.metroButton5.Click += new System.EventHandler(this.MetroButton5_Click);
             // 
             // metroToggle3
             // 
@@ -735,7 +734,7 @@ namespace MetroFramework.Demo
             this.metroComboBox1.FormattingEnabled = true;
             this.metroComboBox1.ItemHeight = 24;
             this.metroComboBox1.Items.AddRange(new object[] {
-            "Normal Combobox 1Normal Combobox 1Normal Combobox 1",
+            "Normal Combobox 1",
             "Normal Combobox 2",
             "Normal Combobox 3",
             "Normal Combobox 4"});
@@ -991,8 +990,7 @@ namespace MetroFramework.Demo
             this.metroTextBox4.CustomButton.UseSelectable = true;
             this.metroTextBox4.CustomButton.Visible = false;
             this.metroTextBox4.Enabled = false;
-            this.metroTextBox4.Lines = new string[] {
-        "Disabled Textbox"};
+            this.metroTextBox4.Lines = new string[] {"Disabled Textbox"};
             this.metroTextBox4.Location = new System.Drawing.Point(456, 130);
             this.metroTextBox4.Margin = new System.Windows.Forms.Padding(4);
             this.metroTextBox4.MaxLength = 32767;
@@ -1025,8 +1023,7 @@ namespace MetroFramework.Demo
             this.metroTextBox3.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.metroTextBox3.CustomButton.UseSelectable = true;
             this.metroTextBox3.CustomButton.Visible = false;
-            this.metroTextBox3.Lines = new string[] {
-        "Multiline Textbox"};
+            this.metroTextBox3.Lines = new string[] {"Multiline Textbox"};
             this.metroTextBox3.Location = new System.Drawing.Point(456, 165);
             this.metroTextBox3.Margin = new System.Windows.Forms.Padding(4);
             this.metroTextBox3.MaxLength = 32767;
@@ -1061,8 +1058,7 @@ namespace MetroFramework.Demo
             this.metroTextBox2.CustomButton.UseSelectable = true;
             this.metroTextBox2.CustomButton.Visible = false;
             this.metroTextBox2.IconRight = true;
-            this.metroTextBox2.Lines = new string[] {
-        "Styled Textbox"};
+            this.metroTextBox2.Lines = new string[] {"Styled Textbox"};
             this.metroTextBox2.Location = new System.Drawing.Point(456, 96);
             this.metroTextBox2.Margin = new System.Windows.Forms.Padding(4);
             this.metroTextBox2.MaxLength = 32767;
@@ -1176,14 +1172,13 @@ namespace MetroFramework.Demo
             this.metroTextBox1.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.metroTextBox1.CustomButton.UseSelectable = true;
             this.metroTextBox1.CustomButton.Visible = false;
-            this.metroTextBox1.Lines = new string[] {
-        "Normal Textbox"};
+            this.metroTextBox1.Lines = new string[] {"Normal Textbox"};
             this.metroTextBox1.Location = new System.Drawing.Point(456, 62);
             this.metroTextBox1.Margin = new System.Windows.Forms.Padding(4);
             this.metroTextBox1.MaxLength = 32767;
             this.metroTextBox1.Name = "metroTextBox1";
             this.metroTextBox1.PasswordChar = '\0';
-            this.metroTextBox1.PromptText = "With Placeholder support!";
+            this.metroTextBox1.WaterMark = "With Placeholder support!";
             this.metroTextBox1.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.metroTextBox1.SelectedText = "";
             this.metroTextBox1.SelectionLength = 0;
@@ -1239,7 +1234,7 @@ namespace MetroFramework.Demo
             this.metroButton12.TabIndex = 8;
             this.metroButton12.Text = "Default";
             this.metroButton12.UseSelectable = true;
-            this.metroButton12.Click += new System.EventHandler(this.metroButton12_Click);
+            this.metroButton12.Click += new System.EventHandler(this.MetroButton12_Click);
             // 
             // metroButton11
             // 
@@ -1250,7 +1245,7 @@ namespace MetroFramework.Demo
             this.metroButton11.TabIndex = 7;
             this.metroButton11.Text = "Retry Cancel";
             this.metroButton11.UseSelectable = true;
-            this.metroButton11.Click += new System.EventHandler(this.metroButton11_Click);
+            this.metroButton11.Click += new System.EventHandler(this.MetroButton11_Click);
             // 
             // metroButton10
             // 
@@ -1261,7 +1256,7 @@ namespace MetroFramework.Demo
             this.metroButton10.TabIndex = 6;
             this.metroButton10.Text = "Ok Cancel";
             this.metroButton10.UseSelectable = true;
-            this.metroButton10.Click += new System.EventHandler(this.metroButton10_Click);
+            this.metroButton10.Click += new System.EventHandler(this.MetroButton10_Click);
             // 
             // metroButton9
             // 
@@ -1272,7 +1267,7 @@ namespace MetroFramework.Demo
             this.metroButton9.TabIndex = 5;
             this.metroButton9.Text = "Abort Retry Ignore";
             this.metroButton9.UseSelectable = true;
-            this.metroButton9.Click += new System.EventHandler(this.metroButton9_Click);
+            this.metroButton9.Click += new System.EventHandler(this.MetroButton9_Click);
             // 
             // metroButton8
             // 
@@ -1283,7 +1278,7 @@ namespace MetroFramework.Demo
             this.metroButton8.TabIndex = 4;
             this.metroButton8.Text = "Yes No Cancel";
             this.metroButton8.UseSelectable = true;
-            this.metroButton8.Click += new System.EventHandler(this.metroButton8_Click);
+            this.metroButton8.Click += new System.EventHandler(this.MetroButton8_Click);
             // 
             // metroButton7
             // 
@@ -1294,7 +1289,7 @@ namespace MetroFramework.Demo
             this.metroButton7.TabIndex = 3;
             this.metroButton7.Text = "Yes No";
             this.metroButton7.UseSelectable = true;
-            this.metroButton7.Click += new System.EventHandler(this.metroButton7_Click);
+            this.metroButton7.Click += new System.EventHandler(this.MetroButton7_Click);
             // 
             // metroButton6
             // 
@@ -1305,7 +1300,7 @@ namespace MetroFramework.Demo
             this.metroButton6.TabIndex = 2;
             this.metroButton6.Text = "Ok";
             this.metroButton6.UseSelectable = true;
-            this.metroButton6.Click += new System.EventHandler(this.metroButton6_Click);
+            this.metroButton6.Click += new System.EventHandler(this.MetroButton6_Click);
             // 
             // metroTabPage7
             // 

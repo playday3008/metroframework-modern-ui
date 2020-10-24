@@ -22,20 +22,13 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 using System.Collections;
-using System.ComponentModel;
 using System.Windows.Forms.Design;
 
 namespace MetroFramework.Design.Controls
 {
     internal class MetroLabelDesigner : ControlDesigner
     {
-        public override SelectionRules SelectionRules
-        {
-            get
-            {
-                return base.SelectionRules;
-            }
-        }
+        public override SelectionRules SelectionRules => base.SelectionRules;
 
         protected override void PreFilterProperties(IDictionary properties)
         {

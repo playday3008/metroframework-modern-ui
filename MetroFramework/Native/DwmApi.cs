@@ -47,10 +47,10 @@ namespace MetroFramework.Native
 
             public RECT(Rectangle rect)
             {
-                this.left = rect.Left;
-                this.top = rect.Top;
-                this.right = rect.Right;
-                this.bottom = rect.Bottom;
+                left = rect.Left;
+                top = rect.Top;
+                right = rect.Right;
+                bottom = rect.Bottom;
             }
 
             public RECT(int left, int top, int right, int bottom)
@@ -63,15 +63,15 @@ namespace MetroFramework.Native
 
             public void Set()
             {
-                this.left = InlineAssignHelper(ref this.top, InlineAssignHelper(ref this.right, InlineAssignHelper(ref this.bottom, 0)));
+                left = InlineAssignHelper(ref top, InlineAssignHelper(ref right, InlineAssignHelper(ref bottom, 0)));
             }
 
             public void Set(Rectangle rect)
             {
-                this.left = rect.Left;
-                this.top = rect.Top;
-                this.right = rect.Right;
-                this.bottom = rect.Bottom;
+                left = rect.Left;
+                top = rect.Top;
+                right = rect.Right;
+                bottom = rect.Bottom;
             }
 
             public void Set(int left, int top, int right, int bottom)
@@ -84,23 +84,14 @@ namespace MetroFramework.Native
 
             public Rectangle ToRectangle()
             {
-                return new Rectangle(this.left, this.top, this.right - this.left, this.bottom - this.top);
+                return new Rectangle(left, top, right - left, bottom - top);
             }
 
-            public int Height
-            {
-                get { return (this.bottom - this.top); }
-            }
+            public int Height => bottom - top;
 
-            public Size Size
-            {
-                get { return new Size(this.Width, this.Height); }
-            }
+            public Size Size => new Size(Width, Height);
 
-            public int Width
-            {
-                get { return (this.right - this.left); }
-            }
+            public int Width => right - left;
             private static T InlineAssignHelper<T>(ref T target, T value)
             {
                 target = value;
@@ -194,10 +185,10 @@ namespace MetroFramework.Native
             public int cyBottomHeight;
             public MARGINS(int Left, int Right, int Top, int Bottom)
             {
-                this.cxLeftWidth = Left;
-                this.cxRightWidth = Right;
-                this.cyTopHeight = Top;
-                this.cyBottomHeight = Bottom;
+                cxLeftWidth = Left;
+                cxRightWidth = Right;
+                cyTopHeight = Top;
+                cyBottomHeight = Bottom;
             }
         }
 
@@ -265,7 +256,7 @@ namespace MetroFramework.Native
         public const int DWM_TNP_RECTSOURCE = 2;
         public const int DWM_TNP_SOURCECLIENTAREAONLY = 0x10;
         public const int DWM_TNP_VISIBLE = 8;
-        public static readonly bool DwmApiAvailable = (Environment.OSVersion.Version.Major >= 6);
+        public static readonly bool DwmApiAvailable = Environment.OSVersion.Version.Major >= 6;
 
         public const int WM_DWMCOMPOSITIONCHANGED = 0x31e;
 

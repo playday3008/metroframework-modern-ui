@@ -22,9 +22,8 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 
 using MetroFramework.Components;
@@ -92,7 +91,7 @@ namespace MetroFramework.Controls
 
                 return metroStyle;
             }
-            set { metroStyle = value; }
+            set => metroStyle = value;
         }
 
         private MetroThemeStyle metroTheme = MetroThemeStyle.Default;
@@ -118,96 +117,50 @@ namespace MetroFramework.Controls
 
                 return metroTheme;
             }
-            set { metroTheme = value; }
+            set => metroTheme = value;
         }
 
-        private MetroStyleManager metroStyleManager = null;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public MetroStyleManager StyleManager
-        {
-            get { return metroStyleManager; }
-            set { metroStyleManager = value; }
-        }
-
-        private bool useCustomBackColor = false;
+        public MetroStyleManager StyleManager { get; set; } = null;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseCustomBackColor
-        {
-            get { return useCustomBackColor; }
-            set { useCustomBackColor = value; }
-        }
-
-        private bool useCustomForeColor = false;
+        public bool UseCustomBackColor { get; set; } = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseCustomForeColor
-        {
-            get { return useCustomForeColor; }
-            set { useCustomForeColor = value; }
-        }
-
-        private bool useStyleColors = false;
+        public bool UseCustomForeColor { get; set; } = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseStyleColors
-        {
-            get { return useStyleColors; }
-            set { useStyleColors = value; }
-        }
+        public bool UseStyleColors { get; set; } = false;
 
         [Browsable(false)]
         [Category(MetroDefaults.PropertyCategory.Behaviour)]
         [DefaultValue(false)]
         public bool UseSelectable
         {
-            get { return GetStyle(ControlStyles.Selectable); }
-            set { SetStyle(ControlStyles.Selectable, value); }
+            get => GetStyle(ControlStyles.Selectable);
+            set => SetStyle(ControlStyles.Selectable, value);
         }
 
         #endregion
 
         #region Fields
 
-        private bool displayFocusRectangle = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool DisplayFocus
-        {
-            get { return displayFocusRectangle; }
-            set { displayFocusRectangle = value; }
-        }
-
-        private MetroCheckBoxSize metroCheckBoxSize = MetroCheckBoxSize.Small;
+        public bool DisplayFocus { get; set; } = false;
         [DefaultValue(MetroCheckBoxSize.Small)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public MetroCheckBoxSize FontSize
-        {
-            get { return metroCheckBoxSize; }
-            set { metroCheckBoxSize = value; }
-        }
-
-        private MetroCheckBoxWeight metroCheckBoxWeight = MetroCheckBoxWeight.Regular;
+        public MetroCheckBoxSize FontSize { get; set; } = MetroCheckBoxSize.Small;
         [DefaultValue(MetroCheckBoxWeight.Regular)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public MetroCheckBoxWeight FontWeight
-        {
-            get { return metroCheckBoxWeight; }
-            set { metroCheckBoxWeight = value; }
-        }
+        public MetroCheckBoxWeight FontWeight { get; set; } = MetroCheckBoxWeight.Regular;
 
         [Browsable(false)]
         public override Font Font
         {
-            get
-            {
-                return base.Font;
-            }
-            set
-            {
-                base.Font = value;
-            }
+            get => base.Font;
+            set => base.Font = value;
         }
 
         private bool isHovered = false;
@@ -236,7 +189,7 @@ namespace MetroFramework.Controls
             {
                 Color backColor = BackColor;
 
-                if (!useCustomBackColor)
+                if (!UseCustomBackColor)
                 {
                     backColor = MetroPaint.BackColor.Form(Theme);
                     if (Parent is MetroTile)
@@ -283,7 +236,7 @@ namespace MetroFramework.Controls
         {
             Color borderColor, foreColor;
 
-            if (useCustomForeColor)
+            if (UseCustomForeColor)
             {
                 foreColor = ForeColor;
 
@@ -323,7 +276,7 @@ namespace MetroFramework.Controls
                 }
                 else
                 {
-                    foreColor = !useStyleColors ? MetroPaint.ForeColor.CheckBox.Normal(Theme) : MetroPaint.GetStyleColor(Style);
+                    foreColor = !UseStyleColors ? MetroPaint.ForeColor.CheckBox.Normal(Theme) : MetroPaint.GetStyleColor(Style);
                     borderColor = MetroPaint.BorderColor.CheckBox.Normal(Theme);
                 }
             }
@@ -332,7 +285,7 @@ namespace MetroFramework.Controls
             Rectangle boxRect = new Rectangle(0, Height / 2 - 6, 12, 12);
             using (Pen p = new Pen(borderColor))
             {
-                switch (CheckAlign )
+                switch (CheckAlign)
                 {
                     case ContentAlignment.TopLeft:
                         boxRect = new Rectangle(0, 0, 12, 12);
@@ -345,11 +298,11 @@ namespace MetroFramework.Controls
                         break;
                     case ContentAlignment.TopCenter:
                         boxRect = new Rectangle(Width / 2 - 6, 0, 12, 12);
-                        textRect = new Rectangle(16, boxRect.Top + boxRect.Height - 5, Width - 16 / 2, Height);  
+                        textRect = new Rectangle(16, boxRect.Top + boxRect.Height - 5, Width - 16 / 2, Height);
                         break;
-                    case ContentAlignment.BottomCenter:                        
+                    case ContentAlignment.BottomCenter:
                         boxRect = new Rectangle(Width / 2 - 6, Height - 13, 12, 12);
-                        textRect = new Rectangle(16, -10, Width - 16 / 2, Height);  
+                        textRect = new Rectangle(16, -10, Width - 16 / 2, Height);
                         break;
                     case ContentAlignment.MiddleCenter:
                         boxRect = new Rectangle(Width / 2 - 6, Height / 2 - 6, 12, 12);
@@ -382,12 +335,12 @@ namespace MetroFramework.Controls
                 }
             }
 
-           
-            TextRenderer.DrawText(e.Graphics, Text, MetroFonts.CheckBox(metroCheckBoxSize, metroCheckBoxWeight), textRect, foreColor, MetroPaint.GetTextFormatFlags(TextAlign, !this.AutoSize));
+
+            TextRenderer.DrawText(e.Graphics, Text, MetroFonts.CheckBox(FontSize, FontWeight), textRect, foreColor, MetroPaint.GetTextFormatFlags(TextAlign, !AutoSize));
 
             OnCustomPaintForeground(new MetroPaintEventArgs(Color.Empty, foreColor, e.Graphics));
 
-            if (displayFocusRectangle && isFocused)
+            if (DisplayFocus && isFocused)
                 ControlPaint.DrawFocusRectangle(e.Graphics, ClientRectangle);
         }
 
@@ -524,13 +477,13 @@ namespace MetroFramework.Controls
             Size preferredSize;
             base.GetPreferredSize(proposedSize);
 
-            using (var g = CreateGraphics())
+            using (Graphics g = CreateGraphics())
             {
                 proposedSize = new Size(int.MaxValue, int.MaxValue);
-                preferredSize = TextRenderer.MeasureText(g, Text, MetroFonts.CheckBox(metroCheckBoxSize, metroCheckBoxWeight), proposedSize, MetroPaint.GetTextFormatFlags(TextAlign));
+                preferredSize = TextRenderer.MeasureText(g, Text, MetroFonts.CheckBox(FontSize, FontWeight), proposedSize, MetroPaint.GetTextFormatFlags(TextAlign));
                 preferredSize.Width += 16;
 
-                if (CheckAlign == ContentAlignment.TopCenter || CheckAlign == ContentAlignment.BottomCenter )
+                if (CheckAlign == ContentAlignment.TopCenter || CheckAlign == ContentAlignment.BottomCenter)
                 {
                     preferredSize.Height += 16;
                 }

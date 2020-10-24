@@ -25,8 +25,6 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms.Design;
 
-using MetroFramework.Controls;
-
 namespace MetroFramework.Design.Controls
 {
     internal class MetroTextBoxDesigner : ControlDesigner

@@ -34,12 +34,11 @@ namespace MetroFramework.Animation
         public event EventHandler AnimationCompleted;
         private void OnAnimationCompleted()
         {
-            if (AnimationCompleted != null)
-                AnimationCompleted(this, EventArgs.Empty);
+            AnimationCompleted?.Invoke(this, EventArgs.Empty);
         }
 
         private DelayedCall timer;
-        private Control targetControl;
+        //private Control targetControl;
 
         private AnimationAction actionHandler;
         private AnimationFinishedEvaluator evaluatorHandler;
@@ -49,7 +48,7 @@ namespace MetroFramework.Animation
         protected int startTime;
         protected int targetTime;
 
-        public bool IsCompleted 
+        public bool IsCompleted
         {
             get
             {
@@ -59,7 +58,7 @@ namespace MetroFramework.Animation
                 return true;
             }
         }
-        public bool IsRunning 
+        public bool IsRunning
         {
             get
             {
@@ -82,14 +81,15 @@ namespace MetroFramework.Animation
         }
         protected void Start(Control control, TransitionType transitionType, int duration, AnimationAction actionHandler, AnimationFinishedEvaluator evaluatorHandler)
         {
-            this.targetControl = control;
+            //targetControl = control;
+            _ = control;
             this.transitionType = transitionType;
             this.actionHandler = actionHandler;
             this.evaluatorHandler = evaluatorHandler;
 
-            this.counter = 0;
-            this.startTime = 0;
-            this.targetTime = duration;
+            counter = 0;
+            startTime = 0;
+            targetTime = duration;
 
             timer = DelayedCall.Start(DoAnimation, duration);
         }
@@ -123,7 +123,7 @@ namespace MetroFramework.Animation
 
                 case TransitionType.EaseOutQuad:
                     // quadratic (t^2) easing out - decelerating to zero velocity
-                    return (int)(-c * (t = t / d) * (t - 2) + b);
+                    return (int)(-c * (t /= d) * (t - 2) + b);
 
                 case TransitionType.EaseInOutQuad:
                     // quadratic easing in/out - acceleration until halfway, then deceleration
@@ -167,7 +167,7 @@ namespace MetroFramework.Animation
                     }
                     else
                     {
-                        return (int)(c * Math.Pow(2, (10 * (t / d - 1))) + b);
+                        return (int)(c * Math.Pow(2, 10 * (t / d - 1)) + b);
                     }
 
                 case TransitionType.EaseOutExpo:

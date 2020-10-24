@@ -37,13 +37,13 @@ namespace MetroFramework.Animation
             if (duration == 0)
                 duration = 1;
 
-            base.Start(control, transitionType, 2 * duration,
+            Start(control, transitionType, 2 * duration,
                 delegate
                 {
                     Color controlColor = GetPropertyValue(property, control);
                     Color newColor = DoColorBlend(controlColor, targetColor, 0.1 * (percent / 2));
 
-                    PropertyInfo prop = (control.GetType()).GetProperty(property);
+                    PropertyInfo prop = control.GetType().GetProperty(property);
                     MethodInfo method = prop.GetSetMethod(true);
                     method.Invoke(control, new object[] { newColor });
                 },

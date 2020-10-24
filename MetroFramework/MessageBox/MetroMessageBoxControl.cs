@@ -1,21 +1,16 @@
-﻿using MetroFramework.Controls;
-using MetroFramework.Drawing;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
+﻿using System;
 using System.Diagnostics;
-using System.Text;
+using System.Drawing;
 using System.Windows.Forms;
-using MetroFramework.Forms;
+
+using MetroFramework.Controls;
 using MetroFramework.Localization;
 
 namespace MetroFramework
 {
     public partial class MetroMessageBoxControl : Form
     {
-        private MetroLocalize metroLocalize = null;
+        private readonly MetroLocalize metroLocalize = null;
 
         public MetroMessageBoxControl()
         {
@@ -27,44 +22,40 @@ namespace MetroFramework
             StylizeButton(metroButton2);
             StylizeButton(metroButton3);
 
-            metroButton1.Click += new EventHandler(button_Click);
-            metroButton2.Click += new EventHandler(button_Click);
-            metroButton3.Click += new EventHandler(button_Click);
+            metroButton1.Click += new EventHandler(Button_Click);
+            metroButton2.Click += new EventHandler(Button_Click);
+            metroButton3.Click += new EventHandler(Button_Click);
 
             metroLocalize = new MetroLocalize(this);
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private Color _defaultColor = Color.FromArgb(57, 179, 215);
+        private readonly Color _defaultColor = Color.FromArgb(57, 179, 215);
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private Color _errorColor = Color.FromArgb(210, 50, 45);
+        private readonly Color _errorColor = Color.FromArgb(210, 50, 45);
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private Color _warningColor = Color.FromArgb(237, 156, 40);
+        private readonly Color _warningColor = Color.FromArgb(237, 156, 40);
+
+        //[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        //private readonly Color _success = Color.FromArgb(71, 164, 71);
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private Color _success = Color.FromArgb(71, 164, 71);
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private Color _question = Color.FromArgb(71, 164, 71);
+        private readonly Color _question = Color.FromArgb(71, 164, 71);
 
         /// <summary>
         /// Gets the top body section of the control. 
         /// </summary>
-        public Panel Body
-        {
-            get { return panelbody; }
-        }
+        public Panel Body { get; private set; }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private MetroMessageBoxProperties _properties = null;
+        private readonly MetroMessageBoxProperties _properties = null;
 
         /// <summary>
         /// Gets the message box display properties.
         /// </summary>
-        public MetroMessageBoxProperties Properties
-        { get { return _properties; } }
+        public MetroMessageBoxProperties Properties => _properties;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private DialogResult _result = DialogResult.None;
@@ -72,10 +63,7 @@ namespace MetroFramework
         /// <summary>
         /// Gets the dialog result that the user have chosen.
         /// </summary>
-        public DialogResult Result
-        {
-            get { return _result; }
-        }
+        public DialogResult Result => _result;
 
         /// <summary>
         /// Arranges the apperance of the message box overlay.
@@ -88,10 +76,10 @@ namespace MetroFramework
             switch (_properties.Icon)
             {
                 case MessageBoxIcon.Exclamation:
-                    panelbody.BackColor = _warningColor;
+                    Body.BackColor = _warningColor;
                     break;
                 case MessageBoxIcon.Error:
-                    panelbody.BackColor = _errorColor;
+                    Body.BackColor = _errorColor;
                     break;
                 default: break;
             }
@@ -101,7 +89,7 @@ namespace MetroFramework
                 case MessageBoxButtons.OK:
                     EnableButton(metroButton1);
 
-                    metroButton1.Text = metroLocalize.translate("Ok");
+                    metroButton1.Text = metroLocalize.Translate("Ok");
                     metroButton1.Location = metroButton3.Location;
                     metroButton1.Tag = DialogResult.OK;
 
@@ -111,13 +99,13 @@ namespace MetroFramework
                 case MessageBoxButtons.OKCancel:
                     EnableButton(metroButton1);
 
-                    metroButton1.Text = metroLocalize.translate("Ok");
+                    metroButton1.Text = metroLocalize.Translate("Ok");
                     metroButton1.Location = metroButton2.Location;
                     metroButton1.Tag = DialogResult.OK;
 
                     EnableButton(metroButton2);
 
-                    metroButton2.Text = metroLocalize.translate("Cancel");
+                    metroButton2.Text = metroLocalize.Translate("Cancel");
                     metroButton2.Location = metroButton3.Location;
                     metroButton2.Tag = DialogResult.Cancel;
 
@@ -126,13 +114,13 @@ namespace MetroFramework
                 case MessageBoxButtons.RetryCancel:
                     EnableButton(metroButton1);
 
-                    metroButton1.Text = metroLocalize.translate("Retry");
+                    metroButton1.Text = metroLocalize.Translate("Retry");
                     metroButton1.Location = metroButton2.Location;
                     metroButton1.Tag = DialogResult.Retry;
 
                     EnableButton(metroButton2);
 
-                    metroButton2.Text = metroLocalize.translate("Cancel");
+                    metroButton2.Text = metroLocalize.Translate("Cancel");
                     metroButton2.Location = metroButton3.Location;
                     metroButton2.Tag = DialogResult.Cancel;
 
@@ -141,13 +129,13 @@ namespace MetroFramework
                 case MessageBoxButtons.YesNo:
                     EnableButton(metroButton1);
 
-                    metroButton1.Text = metroLocalize.translate("Yes");
+                    metroButton1.Text = metroLocalize.Translate("Yes");
                     metroButton1.Location = metroButton2.Location;
                     metroButton1.Tag = DialogResult.Yes;
 
                     EnableButton(metroButton2);
 
-                    metroButton2.Text = metroLocalize.translate("No");
+                    metroButton2.Text = metroLocalize.Translate("No");
                     metroButton2.Location = metroButton3.Location;
                     metroButton2.Tag = DialogResult.No;
 
@@ -156,53 +144,53 @@ namespace MetroFramework
                 case MessageBoxButtons.YesNoCancel:
                     EnableButton(metroButton1);
 
-                    metroButton1.Text = metroLocalize.translate("Yes");
+                    metroButton1.Text = metroLocalize.Translate("Yes");
                     metroButton1.Tag = DialogResult.Yes;
 
                     EnableButton(metroButton2);
 
-                    metroButton2.Text = metroLocalize.translate("No");
+                    metroButton2.Text = metroLocalize.Translate("No");
                     metroButton2.Tag = DialogResult.No;
 
                     EnableButton(metroButton3);
 
-                    metroButton3.Text = metroLocalize.translate("Cancel");
+                    metroButton3.Text = metroLocalize.Translate("Cancel");
                     metroButton3.Tag = DialogResult.Cancel;
 
                     break;
                 case MessageBoxButtons.AbortRetryIgnore:
                     EnableButton(metroButton1);
 
-                    metroButton1.Text = metroLocalize.translate("Abort");
+                    metroButton1.Text = metroLocalize.Translate("Abort");
                     metroButton1.Tag = DialogResult.Abort;
 
                     EnableButton(metroButton2);
 
-                    metroButton2.Text = metroLocalize.translate("Retry");
+                    metroButton2.Text = metroLocalize.Translate("Retry");
                     metroButton2.Tag = DialogResult.Retry;
 
                     EnableButton(metroButton3);
 
-                    metroButton3.Text = metroLocalize.translate("Ignore");
+                    metroButton3.Text = metroLocalize.Translate("Ignore");
                     metroButton3.Tag = DialogResult.Ignore;
 
                     break;
-                default : break;
+                default: break;
             }
 
             switch (_properties.Icon)
             {
-                case  MessageBoxIcon.Error:
-                    panelbody.BackColor = _errorColor; break;
+                case MessageBoxIcon.Error:
+                    Body.BackColor = _errorColor; break;
                 case MessageBoxIcon.Warning:
-                    panelbody.BackColor = _warningColor; break;
+                    Body.BackColor = _warningColor; break;
                 case MessageBoxIcon.Information:
-                    panelbody.BackColor = _defaultColor;                    
-                     break;
+                    Body.BackColor = _defaultColor;
+                    break;
                 case MessageBoxIcon.Question:
-                    panelbody.BackColor = _question; break;
+                    Body.BackColor = _question; break;
                 default:
-                    panelbody.BackColor = Color.DarkGray; break;
+                    Body.BackColor = Color.DarkGray; break;
             }
         }
 
@@ -238,12 +226,12 @@ namespace MetroFramework
                     {
                         if (metroButton3.Enabled) metroButton3.Focus();
                     }
-                    break;  
+                    break;
                 default: break;
             }
         }
 
-        private void button_MouseClick(object sender, MouseEventArgs e)
+        private void Button_MouseClick(object sender, MouseEventArgs e)
         {
             //MetroButton button = (MetroButton)sender;
             //button.BackColor = MetroPaint.BackColor.Button.Press(MetroFramework.MetroThemeStyle.Light);
@@ -251,10 +239,10 @@ namespace MetroFramework
             //button.ForeColor = MetroPaint.ForeColor.Button.Press(MetroFramework.MetroThemeStyle.Light);
         }
 
-        private void button_MouseEnter(object sender, EventArgs e)
+        private void Button_MouseEnter(object sender, EventArgs e)
         { StylizeButton((MetroButton)sender, true); }
 
-        private void button_MouseLeave(object sender, EventArgs e)
+        private void Button_MouseLeave(object sender, EventArgs e)
         { StylizeButton((MetroButton)sender); }
 
         private void StylizeButton(MetroButton button)
@@ -264,15 +252,16 @@ namespace MetroFramework
         {
             button.Cursor = Cursors.Hand;
 
-            button.MouseClick -= button_MouseClick;
-            button.MouseClick += button_MouseClick;
-            
-            button.MouseEnter -= button_MouseEnter;
-            button.MouseEnter += button_MouseEnter;
+            button.MouseClick -= Button_MouseClick;
+            button.MouseClick += Button_MouseClick;
 
-            button.MouseLeave -= button_MouseLeave;
-            button.MouseLeave += button_MouseLeave;
+            button.MouseEnter -= Button_MouseEnter;
+            button.MouseEnter += Button_MouseEnter;
 
+            button.MouseLeave -= Button_MouseLeave;
+            button.MouseLeave += Button_MouseLeave;
+
+            _ = hovered;
             //if (hovered)
             //{
             //    button.FlatAppearance.BorderColor = MetroPaint.BorderColor.Button.Hover(MetroFramework.MetroThemeStyle.Light);
@@ -288,12 +277,12 @@ namespace MetroFramework
             //}
         }
 
-        private void button_Click(object sender, EventArgs e)
+        private void Button_Click(object sender, EventArgs e)
         {
             MetroButton button = (MetroButton)sender;
             if (!button.Enabled) return;
             _result = (DialogResult)button.Tag;
-            Hide(); 
+            Hide();
         }
 
     }

@@ -3,15 +3,15 @@ using System.Windows.Forms;
 
 namespace MetroFramework.Demo
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
-        /// Der Haupteinstiegspunkt für die Anwendung.
+        /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
-            System.Globalization.CultureInfo cultureInfo = new System.Globalization.CultureInfo("de-DE");
+            System.Globalization.CultureInfo cultureInfo = new System.Globalization.CultureInfo("en-US");
             Application.CurrentCulture = cultureInfo;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

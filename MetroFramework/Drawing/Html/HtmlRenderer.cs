@@ -24,11 +24,9 @@
  * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF 
  * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Reflection;
 using System.Drawing;
+using System.Reflection;
 
 namespace MetroFramework.Drawing.Html
 {
@@ -37,21 +35,13 @@ namespace MetroFramework.Drawing.Html
         #region References
 
         /// <summary>
-        /// List of assembly references
-        /// </summary>
-        private static List<Assembly> _references;
-
-        /// <summary>
         /// Gets a list of Assembly references used to search for external references
         /// </summary>
         /// <remarks>
         /// This references are used when loading images and other content, when
         /// rendering a piece of HTML/CSS
         /// </remarks>
-        public static List<Assembly> References
-        {
-            get { return _references; }
-        }
+        public static List<Assembly> References { get; private set; }
 
         /// <summary>
         /// Adds a reference to the References list if not yet listed
@@ -68,10 +58,11 @@ namespace MetroFramework.Drawing.Html
         static HtmlRenderer()
         {
             //Initialize references list
-            _references = new List<Assembly>();
-
-            //Add this assembly as a reference
-            References.Add(Assembly.GetExecutingAssembly());
+            References = new List<Assembly>
+            {
+                //Add this assembly as a reference
+                Assembly.GetExecutingAssembly()
+            };
         }
 
         #endregion

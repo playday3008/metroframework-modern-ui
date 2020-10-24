@@ -25,8 +25,6 @@
  * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MetroFramework.Drawing.Html
 {
@@ -36,10 +34,6 @@ namespace MetroFramework.Drawing.Html
     /// </summary>
     public class CssPropertyAttribute : Attribute
     {
-        #region Fields
-        private string _name;
-        #endregion
-
         #region Ctor
 
         /// <summary>
@@ -57,12 +51,8 @@ namespace MetroFramework.Drawing.Html
         /// <summary>
         /// Gets or sets the name of the CSS property
         /// </summary>
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-	
+        public string Name { get; set; }
+
 
         #endregion
     }

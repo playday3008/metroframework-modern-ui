@@ -21,14 +21,12 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-using MetroFramework.Interfaces;
 using MetroFramework.Drawing;
+using MetroFramework.Interfaces;
 
 namespace MetroFramework.Components
 {
@@ -48,7 +46,7 @@ namespace MetroFramework.Components
 
                 return metroStyle;
             }
-            set { metroStyle = value; }
+            set => metroStyle = value;
         }
 
         private MetroThemeStyle metroTheme = MetroThemeStyle.Light;
@@ -62,16 +60,11 @@ namespace MetroFramework.Components
 
                 return metroTheme;
             }
-            set { metroTheme = value; }
+            set => metroTheme = value;
         }
 
-        private MetroStyleManager metroStyleManager = null;
         [Browsable(false)]
-        public MetroStyleManager StyleManager
-        {
-            get { return metroStyleManager; }
-            set { metroStyleManager = value; }
-        }
+        public MetroStyleManager StyleManager { get; set; } = null;
 
         #endregion
 
@@ -81,51 +74,51 @@ namespace MetroFramework.Components
         [Browsable(false)]
         public new bool ShowAlways
         {
-            get { return base.ShowAlways; }
-            set { base.ShowAlways = true; }
+            get => base.ShowAlways;
+            set => base.ShowAlways = true;
         }
 
         [DefaultValue(true)]
         [Browsable(false)]
         public new bool OwnerDraw
         {
-            get { return base.OwnerDraw; }
-            set { base.OwnerDraw = true; }
+            get => base.OwnerDraw;
+            set => base.OwnerDraw = true;
         }
 
         [Browsable(false)]
         public new bool IsBalloon
         {
-            get { return base.IsBalloon; }
-            set { base.IsBalloon = false; }
+            get => base.IsBalloon;
+            set => base.IsBalloon = false;
         }
 
         [Browsable(false)]
         public new Color BackColor
         {
-            get { return base.BackColor; }
-            set { base.BackColor = value; }
+            get => base.BackColor;
+            set => base.BackColor = value;
         }
 
         [Browsable(false)]
         public new Color ForeColor
         {
-            get { return base.ForeColor; }
-            set { base.ForeColor = value; }
+            get => base.ForeColor;
+            set => base.ForeColor = value;
         }
 
         [Browsable(false)]
         public new string ToolTipTitle
         {
-            get { return base.ToolTipTitle; }
-            set { base.ToolTipTitle = ""; }
+            get => base.ToolTipTitle;
+            set => base.ToolTipTitle = "";
         }
 
         [Browsable(false)]
         public new ToolTipIcon ToolTipIcon
         {
-            get { return base.ToolTipIcon; }
-            set { base.ToolTipIcon = ToolTipIcon.None; }
+            get => base.ToolTipIcon;
+            set => base.ToolTipIcon = ToolTipIcon.None;
         }
 
         #endregion
@@ -160,17 +153,17 @@ namespace MetroFramework.Components
 
         private void MetroToolTip_Popup(object sender, PopupEventArgs e)
         {
-            if (e.AssociatedWindow is IMetroForm)
+            if (e.AssociatedWindow is IMetroForm form)
             {
-                Style = ((IMetroForm)e.AssociatedWindow).Style;
-                Theme = ((IMetroForm)e.AssociatedWindow).Theme;
-                StyleManager = ((IMetroForm)e.AssociatedWindow).StyleManager;
+                Style = form.Style;
+                Theme = form.Theme;
+                StyleManager = form.StyleManager;
             }
-            else if (e.AssociatedControl is IMetroControl)
+            else if (e.AssociatedControl is IMetroControl control)
             {
-                Style = ((IMetroControl)e.AssociatedControl).Style;
-                Theme = ((IMetroControl)e.AssociatedControl).Theme;
-                StyleManager = ((IMetroControl)e.AssociatedControl).StyleManager;
+                Style = control.Style;
+                Theme = control.Theme;
+                StyleManager = control.StyleManager;
             }
 
             e.ToolTipSize = new Size(e.ToolTipSize.Width + 24, e.ToolTipSize.Height + 9);

@@ -22,12 +22,12 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 using System;
-using System.Drawing;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 
-using MetroFramework.Drawing;
 using MetroFramework.Components;
+using MetroFramework.Drawing;
 using MetroFramework.Interfaces;
 
 namespace MetroFramework.Controls
@@ -91,7 +91,7 @@ namespace MetroFramework.Controls
 
                 return metroStyle;
             }
-            set { metroStyle = value; }
+            set => metroStyle = value;
         }
 
         private MetroThemeStyle metroTheme = MetroThemeStyle.Default;
@@ -117,56 +117,33 @@ namespace MetroFramework.Controls
 
                 return metroTheme;
             }
-            set { metroTheme = value; }
+            set => metroTheme = value;
         }
 
-        private MetroStyleManager metroStyleManager = null;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public MetroStyleManager StyleManager
-        {
-            get { return metroStyleManager; }
-            set { metroStyleManager = value; }
-        }
-
-        private bool useCustomBackColor = false;
+        public MetroStyleManager StyleManager { get; set; } = null;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseCustomBackColor
-        {
-            get { return useCustomBackColor; }
-            set { useCustomBackColor = value; }
-        }
-
-        private bool useCustomForeColor = false;
+        public bool UseCustomBackColor { get; set; } = false;
         [Browsable(false)]
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool UseCustomForeColor
-        {
-            get { return useCustomForeColor; }
-            set { useCustomForeColor = value; }
-        }
-
-        private bool useStyleColors = false;
+        public bool UseCustomForeColor { get; set; } = false;
         [Browsable(false)]
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool UseStyleColors
-        {
-            get { return useStyleColors; }
-            set { useStyleColors = value; }
-        }
+        public bool UseStyleColors { get; set; } = false;
 
         [Browsable(false)]
         [Category(MetroDefaults.PropertyCategory.Behaviour)]
         [DefaultValue(true)]
         public bool UseSelectable
         {
-            get { return GetStyle(ControlStyles.Selectable); }
-            set { SetStyle(ControlStyles.Selectable, value); }
+            get => GetStyle(ControlStyles.Selectable);
+            set => SetStyle(ControlStyles.Selectable, value);
         }
 
         #endregion
@@ -176,15 +153,13 @@ namespace MetroFramework.Controls
         public event EventHandler ValueChanged;
         private void OnValueChanged()
         {
-            if (ValueChanged != null)
-                ValueChanged(this, EventArgs.Empty);
+            ValueChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public event ScrollEventHandler Scroll;
         private void OnScroll(ScrollEventType scrollType, int newValue)
         {
-            if (Scroll != null)
-                Scroll(this, new ScrollEventArgs(scrollType, newValue));
+            Scroll?.Invoke(this, new ScrollEventArgs(scrollType, newValue));
         }
 
 
@@ -192,20 +167,15 @@ namespace MetroFramework.Controls
 
         #region Fields
 
-        private bool displayFocusRectangle = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool DisplayFocus
-        {
-            get { return displayFocusRectangle; }
-            set { displayFocusRectangle = value; }
-        }
+        public bool DisplayFocus { get; set; } = false;
 
         private int trackerValue = 50;
         [DefaultValue(50)]
         public int Value
         {
-            get { return trackerValue; }
+            get => trackerValue;
             set
             {
                 if (value >= barMinimum & value <= barMaximum)
@@ -222,7 +192,7 @@ namespace MetroFramework.Controls
         [DefaultValue(0)]
         public int Minimum
         {
-            get { return barMinimum; }
+            get => barMinimum;
             set
             {
                 if (value < barMaximum)
@@ -231,7 +201,7 @@ namespace MetroFramework.Controls
                     if (trackerValue < barMinimum)
                     {
                         trackerValue = barMinimum;
-                        if (ValueChanged != null) ValueChanged(this, new EventArgs());
+                        ValueChanged?.Invoke(this, new EventArgs());
                     }
                     Invalidate();
                 }
@@ -244,7 +214,7 @@ namespace MetroFramework.Controls
         [DefaultValue(100)]
         public int Maximum
         {
-            get { return barMaximum; }
+            get => barMaximum;
             set
             {
                 if (value > barMinimum)
@@ -253,7 +223,7 @@ namespace MetroFramework.Controls
                     if (trackerValue > barMaximum)
                     {
                         trackerValue = barMaximum;
-                        if (ValueChanged != null) ValueChanged(this, new EventArgs());
+                        ValueChanged?.Invoke(this, new EventArgs());
                     }
                     Invalidate();
                 }
@@ -261,27 +231,16 @@ namespace MetroFramework.Controls
             }
         }
 
-        private int smallChange = 1;
         [DefaultValue(1)]
-        public int SmallChange
-        {
-            get { return smallChange; }
-            set { smallChange = value; }
-        }
-
-        private int largeChange = 5;
+        public int SmallChange { get; set; } = 1;
         [DefaultValue(5)]
-        public int LargeChange
-        {
-            get { return largeChange; }
-            set { largeChange = value; }
-        }
+        public int LargeChange { get; set; } = 5;
 
         private int mouseWheelBarPartitions = 10;
         [DefaultValue(10)]
         public int MouseWheelBarPartitions
         {
-            get { return mouseWheelBarPartitions; }
+            get => mouseWheelBarPartitions;
             set
             {
                 if (value > 0)
@@ -300,11 +259,11 @@ namespace MetroFramework.Controls
 
         public MetroTrackBar(int min, int max, int value)
         {
-            SetStyle(ControlStyles.AllPaintingInWmPaint | 
+            SetStyle(ControlStyles.AllPaintingInWmPaint |
                      ControlStyles.OptimizedDoubleBuffer |
-                     ControlStyles.ResizeRedraw | 
+                     ControlStyles.ResizeRedraw |
                      ControlStyles.Selectable |
-                     ControlStyles.SupportsTransparentBackColor | 
+                     ControlStyles.SupportsTransparentBackColor |
                      ControlStyles.UserMouse |
                      ControlStyles.UserPaint, true);
 
@@ -327,7 +286,7 @@ namespace MetroFramework.Controls
             {
                 Color backColor = BackColor;
 
-                if (!useCustomBackColor)
+                if (!UseCustomBackColor)
                 {
                     backColor = MetroPaint.BackColor.Form(Theme);
                 }
@@ -393,13 +352,13 @@ namespace MetroFramework.Controls
 
             DrawTrackBar(e.Graphics, thumbColor, barColor);
 
-            if (displayFocusRectangle && isFocused)
+            if (DisplayFocus && isFocused)
                 ControlPaint.DrawFocusRectangle(e.Graphics, ClientRectangle);
         }
 
         private void DrawTrackBar(Graphics g, Color thumbColor, Color barColor)
         {
-            int TrackX = (((trackerValue - barMinimum) * (Width - 6)) / (barMaximum - barMinimum));
+            int TrackX = (trackerValue - barMinimum) * (Width - 6) / (barMaximum - barMinimum);
 
             using (SolidBrush b = new SolidBrush(thumbColor))
             {
@@ -482,12 +441,12 @@ namespace MetroFramework.Controls
             {
                 case Keys.Down:
                 case Keys.Left:
-                    SetProperValue(Value - (int)smallChange);
+                    SetProperValue(Value - SmallChange);
                     OnScroll(ScrollEventType.SmallDecrement, Value);
                     break;
                 case Keys.Up:
                 case Keys.Right:
-                    SetProperValue(Value + (int)smallChange);
+                    SetProperValue(Value + SmallChange);
                     OnScroll(ScrollEventType.SmallIncrement, Value);
                     break;
                 case Keys.Home:
@@ -497,15 +456,15 @@ namespace MetroFramework.Controls
                     Value = barMaximum;
                     break;
                 case Keys.PageDown:
-                    SetProperValue(Value - (int)largeChange);
+                    SetProperValue(Value - LargeChange);
                     OnScroll(ScrollEventType.LargeDecrement, Value);
                     break;
                 case Keys.PageUp:
-                    SetProperValue(Value + (int)largeChange);
+                    SetProperValue(Value + LargeChange);
                     OnScroll(ScrollEventType.LargeIncrement, Value);
                     break;
             }
-            
+
             if (Value == barMinimum)
                 OnScroll(ScrollEventType.First, Value);
 
@@ -567,8 +526,8 @@ namespace MetroFramework.Controls
                 ScrollEventType set = ScrollEventType.ThumbPosition;
                 Point pt = e.Location;
                 int p = pt.X;
-                
-                float coef = (float)(barMaximum - barMinimum) / (float)(ClientSize.Width - 3);
+
+                float coef = (barMaximum - barMinimum) / (float)(ClientSize.Width - 3);
                 trackerValue = (int)(p * coef + barMinimum);
 
                 if (trackerValue <= barMinimum)

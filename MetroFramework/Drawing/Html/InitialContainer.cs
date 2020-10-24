@@ -26,9 +26,8 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace MetroFramework.Drawing.Html
 {
@@ -37,13 +36,8 @@ namespace MetroFramework.Drawing.Html
         : CssBox
     {
         #region Fields
-        private Dictionary<string, Dictionary<string, CssBlock>> _media_blocks;
-        private string _documentSource;
-        private bool _avoidGeometryAntialias;
         private SizeF _maxSize;
         private PointF _scrollOffset;
-        private Dictionary<CssBox, RectangleF> _linkRegions;
-        private bool _avoidTextAntialias;
         #endregion
 
         #region Ctor
@@ -51,8 +45,8 @@ namespace MetroFramework.Drawing.Html
         public InitialContainer()
         {
             _initialContainer = this;
-            _media_blocks = new Dictionary<string, Dictionary<string, CssBlock>>();
-            _linkRegions = new Dictionary<CssBox, RectangleF>();
+            MediaBlocks = new Dictionary<string, Dictionary<string, CssBlock>>();
+            LinkRegions = new Dictionary<CssBox, RectangleF>();
             MediaBlocks.Add("all", new Dictionary<string, CssBlock>());
 
             Display = CssConstants.Block;
@@ -63,7 +57,7 @@ namespace MetroFramework.Drawing.Html
         public InitialContainer(string documentSource)
             : this()
         {
-            _documentSource = documentSource;
+            DocumentSource = documentSource;
             ParseDocument();
             CascadeStyles(this);
             BlockCorrection(this);
@@ -76,10 +70,7 @@ namespace MetroFramework.Drawing.Html
         /// <summary>
         /// Gets the link regions of the container
         /// </summary>
-        internal Dictionary<CssBox, RectangleF> LinkRegions
-        {
-            get { return _linkRegions; }
-        }
+        internal Dictionary<CssBox, RectangleF> LinkRegions { get; }
 
 
         /// <summary>
@@ -95,46 +86,32 @@ namespace MetroFramework.Drawing.Html
         /// 
         /// MediaBlocks["all"]["strong"].Properties
         /// </remarks>
-        public Dictionary<string, Dictionary<string, CssBlock>> MediaBlocks
-        {
-            get { return _media_blocks; }
-        }
+        public Dictionary<string, Dictionary<string, CssBlock>> MediaBlocks { get; }
 
         /// <summary>
         /// Gets the document's source
         /// </summary>
-        public string DocumentSource
-        {
-            get { return _documentSource; }
-        }
+        public string DocumentSource { get; }
 
         /// <summary>
         /// Gets or sets a value indicating if antialiasing should be avoided 
         /// for geometry like backgrounds and borders
         /// </summary>
-        public bool AvoidGeometryAntialias
-        {
-            get { return _avoidGeometryAntialias; }
-            set { _avoidGeometryAntialias = value; }
-        }
+        public bool AvoidGeometryAntialias { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating if antialiasing should be avoided
         /// for text rendering
         /// </summary>
-        public bool AvoidTextAntialias
-        {
-            get { return _avoidTextAntialias; }
-            set { _avoidTextAntialias = value; }
-        }
+        public bool AvoidTextAntialias { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum size of the container
         /// </summary>
         public SizeF MaximumSize
         {
-            get { return _maxSize; }
-            set { _maxSize = value; }
+            get => _maxSize;
+            set => _maxSize = value;
         }
 
         /// <summary>
@@ -142,8 +119,8 @@ namespace MetroFramework.Drawing.Html
         /// </summary>
         public PointF ScrollOffset
         {
-            get { return _scrollOffset; }
-            set { _scrollOffset = value; }
+            get => _scrollOffset;
+            set => _scrollOffset = value;
         }
 
 
@@ -168,14 +145,14 @@ namespace MetroFramework.Drawing.Html
             {
                 stylesheet = stylesheet.Remove(comments[0].Index, comments[0].Length);
             }
-            
+
             #endregion
 
             #region Extract @media blocks
 
             //MatchCollection atrules = Parser.Match(Parser.CssAtRules, stylesheet);
 
-            for(MatchCollection atrules = Parser.Match(Parser.CssAtRules, stylesheet); atrules.Count > 0; atrules = Parser.Match(Parser.CssAtRules, stylesheet))
+            for (MatchCollection atrules = Parser.Match(Parser.CssAtRules, stylesheet); atrules.Count > 0; atrules = Parser.Match(Parser.CssAtRules, stylesheet))
             {
                 Match match = atrules[0];
 
@@ -260,7 +237,7 @@ namespace MetroFramework.Drawing.Html
 
             for (int i = 0; i < classes.Length; i++)
             {
-                string className = classes[i].Trim(); if(string.IsNullOrEmpty(className)) continue;
+                string className = classes[i].Trim(); if (string.IsNullOrEmpty(className)) continue;
 
                 CssBlock newblock = new CssBlock(blockSource);
 
@@ -311,22 +288,26 @@ namespace MetroFramework.Drawing.Html
 
                 if (!string.IsNullOrEmpty(text.Trim()))
                 {
-                    CssAnonymousBox abox = new CssAnonymousBox(curBox);
-                    abox.Text = text;
+                    CssAnonymousBox abox = new CssAnonymousBox(curBox)
+                    {
+                        Text = text
+                    };
                 }
-                else if(text != null && text.Length > 0)
+                else if (text != null && text.Length > 0)
                 {
-                    CssAnonymousSpaceBox sbox = new CssAnonymousSpaceBox(curBox);
-                    sbox.Text = text;
+                    CssAnonymousSpaceBox sbox = new CssAnonymousSpaceBox(curBox)
+                    {
+                        Text = text
+                    };
                 }
 
                 HtmlTag tag = new HtmlTag(tagmatch.Value);
-                
+
                 if (tag.IsClosing)
                 {
                     curBox = FindParent(tag.TagName, curBox);
                 }
-                else if(tag.IsSingle)
+                else if (tag.IsSingle)
                 {
                     CssBox foo = new CssBox(curBox, tag);
                 }
@@ -335,17 +316,19 @@ namespace MetroFramework.Drawing.Html
                     curBox = new CssBox(curBox, tag);
                 }
 
-                
+
 
                 lastEnd = tagmatch.Index + tagmatch.Length - 1;
-            }               
-            
-            string finaltext = DocumentSource.Substring((lastEnd > 0 ? lastEnd + 1 : 0), DocumentSource.Length - lastEnd - 1 + (lastEnd == 0 ? 1 : 0)) ;
+            }
+
+            string finaltext = DocumentSource.Substring(lastEnd > 0 ? lastEnd + 1 : 0, DocumentSource.Length - lastEnd - 1 + (lastEnd == 0 ? 1 : 0));
 
             if (!string.IsNullOrEmpty(finaltext))
             {
-                CssAnonymousBox abox = new CssAnonymousBox(curBox);
-                abox.Text = finaltext;
+                _ = new CssAnonymousBox(curBox)
+                {
+                    Text = finaltext
+                };
             }
         }
 
@@ -362,7 +345,7 @@ namespace MetroFramework.Drawing.Html
             }
             else if (b.HtmlTag != null && b.HtmlTag.TagName.Equals(tagName, StringComparison.CurrentCultureIgnoreCase))
             {
-                return b.ParentBox == null ? InitialContainer : b.ParentBox;
+                return b.ParentBox ?? InitialContainer;
             }
             else
             {
@@ -395,7 +378,7 @@ namespace MetroFramework.Drawing.Html
                     {
                         MediaBlocks["all"]["." + b.HtmlTag.Attributes["class"]].AssignTo(b);
                     }
-                    
+
                     b.HtmlTag.TranslateAttributes(b);
 
                     //Check for the style="" attribute
@@ -410,7 +393,7 @@ namespace MetroFramework.Drawing.Html
                         b.Boxes.Count == 1)
                     {
                         FeedStyleSheet(b.Boxes[0].Text);
-                    } 
+                    }
 
                     //Check for the <link rel=stylesheet> tag
                     if (b.HtmlTag.TagName.Equals("link", StringComparison.CurrentCultureIgnoreCase) &&
@@ -430,7 +413,7 @@ namespace MetroFramework.Drawing.Html
                     box.Display = CssConstants.Block;
                 }
             }
-            
+
         }
 
         /// <summary>

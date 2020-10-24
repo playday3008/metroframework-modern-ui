@@ -24,9 +24,7 @@
  * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF 
  * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MetroFramework.Drawing.Html
 {
@@ -63,9 +61,6 @@ namespace MetroFramework.Drawing.Html
         #endregion
 
         #region Fields
-        private CssBox _box;
-        private string _text;
-        private List<CssBoxWord> _words;
         private CssBoxWord _curword;
 
         #endregion
@@ -74,15 +69,15 @@ namespace MetroFramework.Drawing.Html
 
         private CssBoxWordSplitter()
         {
-            _words = new List<CssBoxWord>();
+            Words = new List<CssBoxWord>();
             _curword = null;
         }
 
         public CssBoxWordSplitter(CssBox box, string text)
             : this()
         {
-            _box = box;
-            _text = text.Replace("\r", string.Empty); ;
+            Box = box;
+            Text = text.Replace("\r", string.Empty); ;
         }
 
         #endregion
@@ -90,22 +85,13 @@ namespace MetroFramework.Drawing.Html
         #region Props
 
 
-        public List<CssBoxWord> Words
-        {
-            get { return _words; }
-        }
+        public List<CssBoxWord> Words { get; }
 
 
-        public string Text
-        {
-            get { return _text; }
-        }
+        public string Text { get; }
 
 
-        public CssBox Box
-        {
-            get { return _box; }
-        }
+        public CssBox Box { get; }
 
 
         #endregion
@@ -163,7 +149,7 @@ namespace MetroFramework.Drawing.Html
 
         private void CutWord()
         {
-            if(_curword.Text.Length > 0)
+            if (_curword.Text.Length > 0)
                 Words.Add(_curword);
             _curword = new CssBoxWord(Box);
         }

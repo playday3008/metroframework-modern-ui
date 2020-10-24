@@ -30,7 +30,7 @@ namespace MetroFramework.Animation
     {
         public void Start(Control control, Point targetPoint, TransitionType transitionType, int duration)
         {
-            base.Start(control, transitionType, duration,
+            Start(control, transitionType, duration,
                 delegate
                 {
                     int x = DoMoveAnimation(control.Location.X, targetPoint.X);
@@ -40,14 +40,14 @@ namespace MetroFramework.Animation
                 },
                 delegate
                 {
-                    return (control.Location.Equals(targetPoint));
+                    return control.Location.Equals(targetPoint);
                 });
         }
 
         private int DoMoveAnimation(int startPos, int targetPos)
         {
             float t = (float)counter - startTime;
-            float b = (float)startPos;
+            float b = startPos;
             float c = (float)targetPos - startPos;
             float d = (float)targetTime - startTime;
 

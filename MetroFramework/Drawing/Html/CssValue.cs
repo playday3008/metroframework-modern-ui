@@ -26,13 +26,11 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Drawing.Drawing2D;
+using System.Diagnostics;
+using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
-using System.Diagnostics;
-using System.Globalization;
-using System.Drawing;
 
 namespace MetroFramework.Drawing.Html
 {
@@ -54,18 +52,17 @@ namespace MetroFramework.Drawing.Html
 
             string toParse = number;
             bool isPercent = number.EndsWith("%");
-            float result = 0f;
 
             if (isPercent) toParse = number.Substring(0, number.Length - 1);
 
-            if (!float.TryParse(toParse, NumberStyles.Number, NumberFormatInfo.InvariantInfo, out result))
+            if (!float.TryParse(toParse, NumberStyles.Number, NumberFormatInfo.InvariantInfo, out float result))
             {
                 return 0f;
             }
 
             if (isPercent)
             {
-                result = (result / 100f) * hundredPercent;
+                result = result / 100f * hundredPercent;
             }
 
             return result;
@@ -94,6 +91,7 @@ namespace MetroFramework.Drawing.Html
         /// <returns></returns>
         public static float ParseLength(string length, float hundredPercent, CssBox box, float emFactor, bool returnPoints)
         {
+            _ = box;
             //Return zero if no length specified, zero specified
             if (string.IsNullOrEmpty(length) || length == "0") return 0f;
 
@@ -107,7 +105,7 @@ namespace MetroFramework.Drawing.Html
             string unit = length.Substring(length.Length - 2, 2);
 
             //Factor will depend on the unit
-            float factor = 1f;
+            float factor;
 
             //Number of the length
             string number = length.Substring(0, length.Length - 2);
@@ -147,7 +145,7 @@ namespace MetroFramework.Drawing.Html
                     break;
             }
 
-            
+
 
             return factor * ParseNumber(number, hundredPercent);
         }
@@ -159,9 +157,9 @@ namespace MetroFramework.Drawing.Html
         /// <returns>System.Drawing.Color value</returns>
         public static Color GetActualColor(string colorValue)
         {
-            int r = 0;
-            int g = 0;
-            int b = 0;
+            int r;
+            int g;
+            int b;
             Color onError = Color.Empty;
 
             if (string.IsNullOrEmpty(colorValue)) return onError;
@@ -181,14 +179,14 @@ namespace MetroFramework.Drawing.Html
                 }
                 else if (hex.Length == 3)
                 {
-                    r = int.Parse(new String(hex.Substring(0, 1)[0], 2), System.Globalization.NumberStyles.HexNumber);
-                    g = int.Parse(new String(hex.Substring(1, 1)[0], 2), System.Globalization.NumberStyles.HexNumber);
-                    b = int.Parse(new String(hex.Substring(2, 1)[0], 2), System.Globalization.NumberStyles.HexNumber);
+                    r = int.Parse(new string(hex.Substring(0, 1)[0], 2), System.Globalization.NumberStyles.HexNumber);
+                    g = int.Parse(new string(hex.Substring(1, 1)[0], 2), System.Globalization.NumberStyles.HexNumber);
+                    b = int.Parse(new string(hex.Substring(2, 1)[0], 2), System.Globalization.NumberStyles.HexNumber);
                 }
                 else
                 {
                     return onError;
-                } 
+                }
                 #endregion
             }
             else if (colorValue.StartsWith("rgb(") && colorValue.EndsWith(")"))
@@ -204,7 +202,7 @@ namespace MetroFramework.Drawing.Html
                     {
                         r = Convert.ToInt32(ParseNumber(chunks[0].Trim(), 255f));
                         g = Convert.ToInt32(ParseNumber(chunks[1].Trim(), 255f));
-                        b = Convert.ToInt32(ParseNumber(chunks[2].Trim(), 255f)); 
+                        b = Convert.ToInt32(ParseNumber(chunks[2].Trim(), 255f));
                     }
                 }
                 else
@@ -301,7 +299,7 @@ namespace MetroFramework.Drawing.Html
             }
         }
 
-         /// <summary>
+        /// <summary>
         /// Split the value by spaces; e.g. Useful in values like 'padding:5 4 3 inherit'
         /// </summary>
         /// <param name="value">Value to be splitted</param>
@@ -413,13 +411,12 @@ namespace MetroFramework.Drawing.Html
         {
             object source = DetectSource(path);
 
-            FileInfo finfo = source as FileInfo;
             PropertyInfo prop = source as PropertyInfo;
             MethodInfo method = source as MethodInfo;
 
             try
             {
-                if (finfo != null)
+                if (source is FileInfo finfo)
                 {
                     if (!finfo.Exists) return null;
 
@@ -429,7 +426,7 @@ namespace MetroFramework.Drawing.Html
                 else if (prop != null)
                 {
                     if (!prop.PropertyType.IsSubclassOf(typeof(Image)) && !prop.PropertyType.Equals(typeof(Image))) return null;
-                    
+
                     return prop.GetValue(null, null) as Image;
                 }
                 else if (method != null)
@@ -458,13 +455,12 @@ namespace MetroFramework.Drawing.Html
         {
             object source = DetectSource(path);
 
-            FileInfo finfo = source as FileInfo;
             PropertyInfo prop = source as PropertyInfo;
             MethodInfo method = source as MethodInfo;
 
             try
             {
-                if (finfo != null)
+                if (source is FileInfo finfo)
                 {
                     if (!finfo.Exists) return null;
 
@@ -506,7 +502,6 @@ namespace MetroFramework.Drawing.Html
             object source = DetectSource(href);
 
             FileInfo finfo = source as FileInfo;
-            PropertyInfo prop = source as PropertyInfo;
             MethodInfo method = source as MethodInfo;
             Uri uri = source as Uri;
 
@@ -514,8 +509,10 @@ namespace MetroFramework.Drawing.Html
             {
                 if (finfo != null || uri != null)
                 {
-                    ProcessStartInfo nfo = new ProcessStartInfo(href);
-                    nfo.UseShellExecute = true;
+                    ProcessStartInfo nfo = new ProcessStartInfo(href)
+                    {
+                        UseShellExecute = true
+                    };
 
                     Process.Start(nfo);
 

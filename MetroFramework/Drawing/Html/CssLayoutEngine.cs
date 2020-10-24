@@ -26,12 +26,11 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 
 namespace MetroFramework.Drawing.Html
 {
-    
+
 
     /// <summary>
     /// Helps on CSS Layout
@@ -40,7 +39,7 @@ namespace MetroFramework.Drawing.Html
     {
         #region Fields
 
-        private static CssBoxWord _lastTreatedWord = null;
+        //private static CssBoxWord _lastTreatedWord = null;
 
         #endregion
 
@@ -74,12 +73,12 @@ namespace MetroFramework.Drawing.Html
             CssLineBox line = new CssLineBox(blockBox);
 
             //Flow words and boxes
-            FlowBox(g, blockBox, blockBox, maxRight, lineSpacing, startx,ref line, ref curx, ref cury, ref maxBottom);
+            FlowBox(g, blockBox, blockBox, maxRight, lineSpacing, startx, ref line, ref curx, ref cury, ref maxBottom);
 
             //Gets the rectangles foreach linebox
             foreach (CssLineBox linebox in blockBox.LineBoxes)
             {
-                
+
                 BubbleRectangles(blockBox, linebox);
                 linebox.AssignRectanglesToBoxes();
                 ApplyAlignment(g, linebox);
@@ -104,7 +103,7 @@ namespace MetroFramework.Drawing.Html
         /// <param name="curx">Current x coordinate that will be the left of the next word</param>
         /// <param name="cury">Current y coordinate that will be the top of the next word</param>
         /// <param name="maxbottom">Maximum bottom reached so far</param>
-        private static void FlowBox(Graphics g, CssBox blockbox, CssBox box, float maxright, float linespacing, float startx,ref CssLineBox line, ref float curx, ref float cury, ref float maxbottom)
+        private static void FlowBox(Graphics g, CssBox blockbox, CssBox box, float maxright, float linespacing, float startx, ref CssLineBox line, ref float curx, ref float cury, ref float maxbottom)
         {
             box.FirstHostingLineBox = line;
 
@@ -153,16 +152,16 @@ namespace MetroFramework.Drawing.Html
                         word.Top = cury;// - word.LastMeasureOffset.Y;
 
                         curx = word.Right;// +word.SpacesAfterWidth;
-                        maxbottom = Math.Max(maxbottom, word.Bottom );//+ (word.IsImage ? topspacing + bottomspacing : 0));
+                        maxbottom = Math.Max(maxbottom, word.Bottom);//+ (word.IsImage ? topspacing + bottomspacing : 0));
 
-                        _lastTreatedWord = word;
+                        //_lastTreatedWord = word;
                     }
 
                     #endregion
                 }
                 else
                 {
-                    FlowBox(g, blockbox, b, maxright, linespacing, startx,ref line, ref curx, ref cury, ref maxbottom);
+                    FlowBox(g, blockbox, b, maxright, linespacing, startx, ref line, ref curx, ref cury, ref maxbottom);
                 }
 
                 curx += rightspacing;
@@ -191,7 +190,7 @@ namespace MetroFramework.Drawing.Html
                         y = Math.Min(y, word.Top);
                         b = Math.Max(b, word.Bottom);
                     }
-                    line.UpdateRectangle(box, x, y, r, b); 
+                    line.UpdateRectangle(box, x, y, r, b);
                 }
             }
             else
@@ -212,9 +211,9 @@ namespace MetroFramework.Drawing.Html
         public static float WhiteSpace(Graphics g, CssBox b)
         {
             string space = " .";
-            float w = 0f;
+            float w;
             float onError = 5f;
-            
+
             StringFormat sf = new StringFormat();
             sf.SetMeasurableCharacterRanges(new CharacterRange[] { new CharacterRange(0, 1) });
             Region[] regs = g.MeasureCharacterRanges(space, b.ActualFont, new RectangleF(0, 0, float.MaxValue, float.MaxValue), sf);
@@ -327,15 +326,14 @@ namespace MetroFramework.Drawing.Html
         /// <param name="lineBox"></param>
         private static void ApplyVerticalAlignment(Graphics g, CssLineBox lineBox)
         {
-
-            bool isTableCell = lineBox.OwnerBox.Display == CssConstants.TableCell;
+            //bool isTableCell = lineBox.OwnerBox.Display == CssConstants.TableCell;
             float baseline = lineBox.GetMaxWordBottom() - GetDescent(lineBox.OwnerBox.ActualFont) - 2;
             List<CssBox> boxes = new List<CssBox>(lineBox.Rectangles.Keys);
 
             foreach (CssBox b in boxes)
             {
-                float ascent = GetAscent(b.ActualFont);
-                float descent = GetDescent(b.ActualFont);
+                //float ascent = GetAscent(b.ActualFont);
+                //float descent = GetDescent(b.ActualFont);
 
                 //Important notes on http://www.w3.org/TR/CSS21/tables.html#height-layout
                 switch (b.VerticalAlign)
@@ -353,7 +351,7 @@ namespace MetroFramework.Drawing.Html
 
                         break;
                     case CssConstants.Top:
-                        
+
                         break;
                     case CssConstants.Bottom:
 
@@ -384,9 +382,10 @@ namespace MetroFramework.Drawing.Html
         /// <param name="cell"></param>
         public static void ApplyCellVerticalAlignment(Graphics g, CssBox cell)
         {
+            _ = g;
             if (cell.VerticalAlign == CssConstants.Top || cell.VerticalAlign == CssConstants.Baseline) return;
 
-            float celltop = cell.ClientTop;
+            //float celltop = cell.ClientTop;
             float cellbot = cell.ClientBottom;
             float bottom = cell.GetMaximumBottom(cell, 0f);
             float dist = 0f;
@@ -436,6 +435,7 @@ namespace MetroFramework.Drawing.Html
         /// <param name="lineBox"></param>
         private static void ApplyJustifyAlignment(Graphics g, CssLineBox lineBox)
         {
+            _ = g;
             if (lineBox.Equals(lineBox.OwnerBox.LineBoxes[lineBox.OwnerBox.LineBoxes.Count - 1])) return;
 
             float indent = lineBox.Equals(lineBox.OwnerBox.LineBoxes[0]) ? lineBox.OwnerBox.ActualTextIndent : 0f;
@@ -468,8 +468,8 @@ namespace MetroFramework.Drawing.Html
                 //TODO: Background rectangles are being deactivated when justifying text.
             }
 
-            
-            
+
+
         }
 
         /// <summary>
@@ -479,6 +479,7 @@ namespace MetroFramework.Drawing.Html
         /// <param name="lineBox"></param>
         private static void ApplyCenterAlignment(Graphics g, CssLineBox line)
         {
+            _ = g;
             if (line.Words.Count == 0) return;
 
             CssBoxWord lastWord = line.Words[line.Words.Count - 1];
@@ -507,6 +508,7 @@ namespace MetroFramework.Drawing.Html
         /// <param name="lineBox"></param>
         private static void ApplyRightAlignment(Graphics g, CssLineBox line)
         {
+            _ = g;
             if (line.Words.Count == 0) return;
 
 
@@ -541,6 +543,8 @@ namespace MetroFramework.Drawing.Html
         /// <param name="lineBox"></param>
         private static void ApplyLeftAlignment(Graphics g, CssLineBox line)
         {
+            _ = g;
+            _ = line;
             //No alignment needed.
 
             //foreach (LineBoxRectangle r in line.Rectangles)

@@ -24,28 +24,18 @@
  * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF 
  * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace MetroFramework.Drawing.Html
 {
     public class HtmlTag
     {
-        #region Fields
-
-        private string _tagName;
-        private bool _isClosing;
-        private Dictionary<string, string> _attributes;
-
-        #endregion
-
         #region Ctor
 
         private HtmlTag()
         {
-            _attributes = new Dictionary<string, string>();
+            Attributes = new Dictionary<string, string>();
         }
 
         public HtmlTag(string tag)
@@ -58,21 +48,21 @@ namespace MetroFramework.Drawing.Html
             //Extract tag name
             if (spaceIndex < 0)
             {
-                _tagName = tag;
+                TagName = tag;
             }
             else
             {
-                _tagName = tag.Substring(0, spaceIndex);
+                TagName = tag.Substring(0, spaceIndex);
             }
 
             //Check if is end tag
-            if (_tagName.StartsWith("/"))
+            if (TagName.StartsWith("/"))
             {
-                _isClosing = true;
-                _tagName = _tagName.Substring(1);
+                IsClosing = true;
+                TagName = TagName.Substring(1);
             }
 
-            _tagName = _tagName.ToLower();
+            TagName = TagName.ToLower();
 
             //Extract attributes
             MatchCollection atts = Parser.Match(Parser.HmlTagAttributes, tag);
@@ -84,7 +74,7 @@ namespace MetroFramework.Drawing.Html
 
                 if (chunks.Length == 1)
                 {
-                    if(!Attributes.ContainsKey(chunks[0]))
+                    if (!Attributes.ContainsKey(chunks[0]))
                         Attributes.Add(chunks[0].ToLower(), string.Empty);
                 }
                 else if (chunks.Length == 2)
@@ -110,47 +100,32 @@ namespace MetroFramework.Drawing.Html
         /// <summary>
         /// Gets the dictionary of attributes in the tag
         /// </summary>
-        public Dictionary<string, string> Attributes
-        {
-            get { return _attributes; }
-        }
+        public Dictionary<string, string> Attributes { get; }
 
 
         /// <summary>
         /// Gets the name of this tag
         /// </summary>
-        public string TagName
-        {
-            get { return _tagName; }
-        }
+        public string TagName { get; }
 
         /// <summary>
         /// Gets if the tag is actually a closing tag
         /// </summary>
-        public bool IsClosing
-        {
-            get { return _isClosing; }
-        }
+        public bool IsClosing { get; }
 
         /// <summary>
         /// Gets if the tag is single placed; in other words it doesn't need a closing tag; 
         /// e.g. &lt;br&gt;
         /// </summary>
-        public bool IsSingle
-        {
-            get
-            {
-                return TagName.StartsWith("!")
-                    || (new List<string>(
+        public bool IsSingle => TagName.StartsWith("!")
+                    || new List<string>(
                             new string[]{
                              "area", "base", "basefont", "br", "col",
                              "frame", "hr", "img", "input", "isindex",
                              "link", "meta", "param"
                             }
-                        )).Contains(TagName)
+                        ).Contains(TagName)
                     ;
-            }
-        }
 
         internal void TranslateAttributes(CssBox box)
         {
@@ -169,14 +144,14 @@ namespace MetroFramework.Drawing.Html
                             box.VerticalAlign = value;
                         break;
                     case HtmlConstants.background:
-                            box.BackgroundImage = value;
+                        box.BackgroundImage = value;
                         break;
                     case HtmlConstants.bgcolor:
                         box.BackgroundColor = value;
                         break;
                     case HtmlConstants.border:
                         box.BorderWidth = TranslateLength(value);
-                        
+
                         if (t == HtmlConstants.TABLE)
                         {
                             ApplyTableBorder(box, value);

@@ -24,9 +24,6 @@
  * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF 
  * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 
 namespace MetroFramework.Drawing.Html
@@ -47,9 +44,7 @@ namespace MetroFramework.Drawing.Html
         #region Fields
 
 
-        private string _word;
         private PointF _lastMeasureOffset;
-        private CssBox _ownerBox;
         private Image _image;
 
 
@@ -59,8 +54,8 @@ namespace MetroFramework.Drawing.Html
 
         internal CssBoxWord(CssBox owner)
         {
-            _ownerBox = owner;
-            _word = string.Empty;
+            OwnerBox = owner;
+            Text = string.Empty;
         }
 
         /// <summary>
@@ -81,20 +76,16 @@ namespace MetroFramework.Drawing.Html
         /// <summary>
         /// Gets the width of the word including white-spaces
         /// </summary>
-        public float FullWidth
-        {
-            //get { return OwnerBox.ActualWordSpacing * (SpacesBefore + SpacesAfter) + Width; }
-            get { return Width; }
-        }
+        public float FullWidth => Width;
 
         /// <summary>
         /// Gets the image this words represents (if one)
         /// </summary>
         public Image Image
         {
-            get { return _image; }
-            set 
-            { 
+            get => _image;
+            set
+            {
                 _image = value;
 
                 if (value != null)
@@ -121,7 +112,7 @@ namespace MetroFramework.Drawing.Html
                     }
 
                     Height += OwnerBox.ActualBorderBottomWidth + OwnerBox.ActualBorderTopWidth + OwnerBox.ActualPaddingTop + OwnerBox.ActualPaddingBottom;
-                    
+
                 }
             }
         }
@@ -129,59 +120,41 @@ namespace MetroFramework.Drawing.Html
         /// <summary>
         /// Gets if the word represents an image.
         /// </summary>
-        public bool IsImage
-        {
-            get { return Image != null; }
-        }
+        public bool IsImage => Image != null;
 
         /// <summary>
         /// Gets a bool indicating if this word is composed only by spaces.
         /// Spaces include tabs and line breaks
         /// </summary>
-        public bool IsSpaces
-        {
-            get { return string.IsNullOrEmpty(Text.Trim()); }
-        }
+        public bool IsSpaces => string.IsNullOrEmpty(Text.Trim());
 
         /// <summary>
         /// Gets if the word is composed by only a line break
         /// </summary>
-        public bool IsLineBreak
-        {
-            get { return Text == "\n"; }
-        }
+        public bool IsLineBreak => Text == "\n";
 
         /// <summary>
         /// Gets if the word is composed by only a tab
         /// </summary>
-        public bool IsTab
-        {
-            get { return Text == "\t"; }
-        }
+        public bool IsTab => Text == "\t";
 
         /// <summary>
         /// Gets the Box where this word belongs.
         /// </summary>
-        public CssBox OwnerBox
-        {
-            get { return _ownerBox; }
-        }
+        public CssBox OwnerBox { get; }
 
         /// <summary>
         /// Gets the text of the word
         /// </summary>
-        public string Text
-        {
-            get { return _word; }
-        }
+        public string Text { get; private set; }
 
         /// <summary>
         /// Gets or sets an offset to be considered in measurements
         /// </summary>
         internal PointF LastMeasureOffset
         {
-            get { return _lastMeasureOffset; }
-            set { _lastMeasureOffset = value; }
+            get => _lastMeasureOffset;
+            set => _lastMeasureOffset = value;
         }
 
         #endregion
@@ -194,8 +167,8 @@ namespace MetroFramework.Drawing.Html
         /// </summary>
         internal void ReplaceLineBreaksAndTabs()
         {
-            _word = _word.Replace('\n', ' ');
-            _word = _word.Replace('\t', ' ');
+            Text = Text.Replace('\n', ' ');
+            Text = Text.Replace('\t', ' ');
         }
 
         /// <summary>
@@ -204,7 +177,7 @@ namespace MetroFramework.Drawing.Html
         /// <param name="c"></param>
         internal void AppendChar(char c)
         {
-            _word += c;
+            Text += c;
         }
 
         /// <summary>
@@ -213,7 +186,7 @@ namespace MetroFramework.Drawing.Html
         /// <returns></returns>
         public override string ToString()
         {
-            
+
             return string.Format("{0} ({1} char{2})", Text.Replace(' ', '-').Replace("\n", "\\n"), Text.Length, Text.Length != 1 ? "s" : string.Empty);
         }
 

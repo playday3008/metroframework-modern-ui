@@ -39,7 +39,7 @@ using System.Security;
 [assembly: AssemblyVersion(MetroFrameworkAssembly.Version)]
 [assembly: AssemblyFileVersion(MetroFrameworkAssembly.Version)]
 
-[assembly:AllowPartiallyTrustedCallers]
+[assembly: AllowPartiallyTrustedCallers]
 
 [assembly: InternalsVisibleTo(MetroFramework.AssemblyRef.MetroFrameworkDesignIVT)]
 [assembly: InternalsVisibleTo(MetroFramework.AssemblyRef.MetroFrameworkFontsIVT)]

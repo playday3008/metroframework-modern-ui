@@ -91,7 +91,7 @@ namespace MetroFramework.Controls
 
                 return metroStyle;
             }
-            set { metroStyle = value; }
+            set => metroStyle = value;
         }
 
         private MetroThemeStyle metroTheme = MetroThemeStyle.Default;
@@ -117,140 +117,73 @@ namespace MetroFramework.Controls
 
                 return metroTheme;
             }
-            set { metroTheme = value; }
+            set => metroTheme = value;
         }
 
-        private MetroStyleManager metroStyleManager = null;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public MetroStyleManager StyleManager
-        {
-            get { return metroStyleManager; }
-            set { metroStyleManager = value; }
-        }
-
-        private bool useCustomBackColor = false;
+        public MetroStyleManager StyleManager { get; set; } = null;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseCustomBackColor
-        {
-            get { return useCustomBackColor; }
-            set { useCustomBackColor = value; }
-        }
-
-        private bool useCustomForeColor = false;
+        public bool UseCustomBackColor { get; set; } = false;
         [Browsable(false)]
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool UseCustomForeColor
-        {
-            get { return useCustomForeColor; }
-            set { useCustomForeColor = value; }
-        }
-
-        private bool useStyleColors = true;
+        public bool UseCustomForeColor { get; set; } = false;
         [Browsable(false)]
         [DefaultValue(true)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool UseStyleColors
-        {
-            get { return useStyleColors; }
-            set { useStyleColors = value; }
-        }
+        public bool UseStyleColors { get; set; } = true;
 
         [Browsable(false)]
         [Category(MetroDefaults.PropertyCategory.Behaviour)]
         [DefaultValue(false)]
         public bool UseSelectable
         {
-            get { return GetStyle(ControlStyles.Selectable); }
-            set { SetStyle(ControlStyles.Selectable, value); }
+            get => GetStyle(ControlStyles.Selectable);
+            set => SetStyle(ControlStyles.Selectable, value);
         }
 
         #endregion
 
         #region Fields
 
-        private MetroProgressBarSize metroLabelSize = MetroProgressBarSize.Medium;
         [DefaultValue(MetroProgressBarSize.Medium)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public MetroProgressBarSize FontSize
-        {
-            get { return metroLabelSize; }
-            set { metroLabelSize = value; }
-        }
-
-        private MetroProgressBarWeight metroLabelWeight = MetroProgressBarWeight.Light;
+        public MetroProgressBarSize FontSize { get; set; } = MetroProgressBarSize.Medium;
         [DefaultValue(MetroProgressBarWeight.Light)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public MetroProgressBarWeight FontWeight
-        {
-            get { return metroLabelWeight; }
-            set { metroLabelWeight = value; }
-        }
-
-        private ContentAlignment textAlign = ContentAlignment.MiddleRight;
+        public MetroProgressBarWeight FontWeight { get; set; } = MetroProgressBarWeight.Light;
         [DefaultValue(ContentAlignment.MiddleRight)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public ContentAlignment TextAlign
-        {
-            get { return textAlign; }
-            set { textAlign = value; }
-        }
-
-        private bool hideProgressText = true;
+        public ContentAlignment TextAlign { get; set; } = ContentAlignment.MiddleRight;
         [DefaultValue(true)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool HideProgressText
-        {
-            get { return hideProgressText; }
-            set { hideProgressText = value; }
-        }
-
-        private ProgressBarStyle progressBarStyle = ProgressBarStyle.Continuous;
+        public bool HideProgressText { get; set; } = true;
         [DefaultValue(ProgressBarStyle.Continuous)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public ProgressBarStyle ProgressBarStyle
-        {
-            get { return progressBarStyle; }
-            set { progressBarStyle = value; }
-        }
+        public ProgressBarStyle ProgressBarStyle { get; set; } = ProgressBarStyle.Continuous;
 
         public new int Value
         {
-            get { return base.Value; }
+            get => base.Value;
             set { if (value > Maximum) return; base.Value = value; Invalidate(); }
         }
 
         [Browsable(false)]
-        public double ProgressTotalPercent
-        {
-            get { return ((1 - (double)(Maximum - Value) / Maximum) * 100); }
-        }
+        public double ProgressTotalPercent => (1 - (double)(Maximum - Value) / Maximum) * 100;
 
         [Browsable(false)]
-        public double ProgressTotalValue
-        {
-            get { return (1 - (double)(Maximum - Value) / Maximum); }
-        }
+        public double ProgressTotalValue => 1 - (double)(Maximum - Value) / Maximum;
 
         [Browsable(false)]
-        public string ProgressPercentText
-        {
-            get { return (string.Format("{0}%", Math.Round(ProgressTotalPercent))); }
-        }
+        public string ProgressPercentText => string.Format("{0}%", Math.Round(ProgressTotalPercent));
 
-        private double ProgressBarWidth
-        {
-            get { return (((double)Value / Maximum) * ClientRectangle.Width); }
-        }
+        private double ProgressBarWidth => (double)Value / Maximum * ClientRectangle.Width;
 
-        private int ProgressBarMarqueeWidth
-        {
-            get { return (ClientRectangle.Width / 3); }
-        }
+        private int ProgressBarMarqueeWidth => ClientRectangle.Width / 3;
 
         #endregion
 
@@ -274,7 +207,7 @@ namespace MetroFramework.Controls
             {
                 Color backColor = BackColor;
 
-                if (!useCustomBackColor)
+                if (!UseCustomBackColor)
                 {
                     if (!Enabled)
                     {
@@ -284,7 +217,7 @@ namespace MetroFramework.Controls
                     {
                         backColor = MetroPaint.BackColor.ProgressBar.Bar.Normal(Theme);
                     }
-                }                
+                }
 
                 if (backColor.A == 255)
                 {
@@ -322,19 +255,19 @@ namespace MetroFramework.Controls
 
         protected virtual void OnPaintForeground(PaintEventArgs e)
         {
-            if (progressBarStyle == ProgressBarStyle.Continuous)
+            if (ProgressBarStyle == ProgressBarStyle.Continuous)
             {
                 if (!DesignMode) StopTimer();
 
                 DrawProgressContinuous(e.Graphics);
             }
-            else if (progressBarStyle == ProgressBarStyle.Blocks)
+            else if (ProgressBarStyle == ProgressBarStyle.Blocks)
             {
                 if (!DesignMode) StopTimer();
 
                 DrawProgressContinuous(e.Graphics);
             }
-            else if (progressBarStyle == ProgressBarStyle.Marquee)
+            else if (ProgressBarStyle == ProgressBarStyle.Marquee)
             {
                 if (!DesignMode && Enabled) StartTimer();
                 if (!Enabled) StopTimer();
@@ -387,8 +320,8 @@ namespace MetroFramework.Controls
             {
                 foreColor = MetroPaint.ForeColor.ProgressBar.Normal(Theme);
             }
-           
-            TextRenderer.DrawText(graphics, ProgressPercentText, MetroFonts.ProgressBar(metroLabelSize, metroLabelWeight), ClientRectangle, foreColor, MetroPaint.GetTextFormatFlags(TextAlign));
+
+            TextRenderer.DrawText(graphics, ProgressPercentText, MetroFonts.ProgressBar(FontSize, FontWeight), ClientRectangle, foreColor, MetroPaint.GetTextFormatFlags(TextAlign));
         }
 
         #endregion
@@ -400,10 +333,10 @@ namespace MetroFramework.Controls
             Size preferredSize;
             base.GetPreferredSize(proposedSize);
 
-            using (var g = CreateGraphics())
+            using (Graphics g = CreateGraphics())
             {
                 proposedSize = new Size(int.MaxValue, int.MaxValue);
-                preferredSize = TextRenderer.MeasureText(g, ProgressPercentText, MetroFonts.ProgressBar(metroLabelSize, metroLabelWeight), proposedSize, MetroPaint.GetTextFormatFlags(TextAlign));
+                preferredSize = TextRenderer.MeasureText(g, ProgressPercentText, MetroFonts.ProgressBar(FontSize, FontWeight), proposedSize, MetroPaint.GetTextFormatFlags(TextAlign));
             }
 
             return preferredSize;
@@ -414,26 +347,20 @@ namespace MetroFramework.Controls
         #region Private Methods
 
         private Timer marqueeTimer;
-        private bool marqueeTimerEnabled
-        {
-            get
-            {
-                return marqueeTimer != null && marqueeTimer.Enabled;
-            }
-        }
+        private bool MarqueeTimerEnabled => marqueeTimer != null && marqueeTimer.Enabled;
 
         private void StartTimer()
         {
-            if (marqueeTimerEnabled) return;
+            if (MarqueeTimerEnabled) return;
 
             if (marqueeTimer == null)
             {
-                marqueeTimer = new Timer {Interval = 10};
-                marqueeTimer.Tick += marqueeTimer_Tick;
+                marqueeTimer = new Timer { Interval = 10 };
+                marqueeTimer.Tick += MarqueeTimer_Tick;
             }
 
             marqueeX = -ProgressBarMarqueeWidth;
-    
+
             marqueeTimer.Stop();
             marqueeTimer.Start();
 
@@ -450,7 +377,7 @@ namespace MetroFramework.Controls
             Invalidate();
         }
 
-        private void marqueeTimer_Tick(object sender, EventArgs e)
+        private void MarqueeTimer_Tick(object sender, EventArgs e)
         {
             marqueeX++;
 

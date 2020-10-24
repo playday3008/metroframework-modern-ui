@@ -24,24 +24,12 @@
  * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF 
  * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 
 namespace MetroFramework.Drawing.Html
 {
     public class CssRectangle
     {
-        #region Fields
-        private float _left;
-        private float _top;
-        private float _width;
-        private float _height;        
-        
-
-        #endregion
-
         #region Props
 
 
@@ -49,46 +37,30 @@ namespace MetroFramework.Drawing.Html
         /// <summary>
         /// Left of the rectangle
         /// </summary>
-        public float Left
-        {
-            get { return _left; }
-            set { _left = value; }
-        }
+        public float Left { get; set; }
 
         /// <summary>
         /// Top of the rectangle
         /// </summary>
-        public float Top
-        {
-            get { return _top; }
-            set { _top = value; }
-        }
+        public float Top { get; set; }
 
         /// <summary>
         /// Width of the rectangle
         /// </summary>
-        public float Width
-        {
-            get { return _width; }
-            set { _width = value; }
-        }
+        public float Width { get; set; }
 
         /// <summary>
         /// Height of the rectangle
         /// </summary>
-        public float Height
-        {
-            get { return _height; }
-            set { _height = value; }
-        }
+        public float Height { get; set; }
 
         /// <summary>
         /// Gets or sets the right of the rectangle. When setting, it only affects the Width of the rectangle.
         /// </summary>
         public float Right
         {
-            get { return Bounds.Right; }
-            set { Width = value - Left; }
+            get => Bounds.Right;
+            set => Width = value - Left;
         }
 
         /// <summary>
@@ -96,8 +68,8 @@ namespace MetroFramework.Drawing.Html
         /// </summary>
         public float Bottom
         {
-            get { return Bounds.Bottom; }
-            set { Height = value - Top; }
+            get => Bounds.Bottom;
+            set => Height = value - Top;
         }
 
         /// <summary>
@@ -105,7 +77,7 @@ namespace MetroFramework.Drawing.Html
         /// </summary>
         public RectangleF Bounds
         {
-            get { return new RectangleF(Left, Top, Width, Height); }
+            get => new RectangleF(Left, Top, Width, Height);
             set { Left = value.Left; Top = value.Top; Width = value.Width; Height = value.Height; }
         }
 
@@ -114,7 +86,7 @@ namespace MetroFramework.Drawing.Html
         /// </summary>
         public PointF Location
         {
-            get { return new PointF(Left, Top); }
+            get => new PointF(Left, Top);
             set { Left = value.X; Top = value.Y; }
         }
 
@@ -123,7 +95,7 @@ namespace MetroFramework.Drawing.Html
         /// </summary>
         public SizeF Size
         {
-            get { return new SizeF(Width, Height); }
+            get => new SizeF(Width, Height);
             set { Width = value.Width; Height = value.Height; }
         }
 

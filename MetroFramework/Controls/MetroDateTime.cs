@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
-using MetroFramework.Interfaces;
-using MetroFramework.Drawing;
+
 using MetroFramework.Components;
+using MetroFramework.Drawing;
+using MetroFramework.Interfaces;
 
 namespace MetroFramework.Controls
 {
@@ -69,7 +67,7 @@ namespace MetroFramework.Controls
 
                 return metroStyle;
             }
-            set { metroStyle = value; }
+            set => metroStyle = value;
         }
 
         private MetroThemeStyle metroTheme = MetroThemeStyle.Default;
@@ -95,105 +93,58 @@ namespace MetroFramework.Controls
 
                 return metroTheme;
             }
-            set { metroTheme = value; }
+            set => metroTheme = value;
         }
 
-        private MetroStyleManager metroStyleManager = null;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public MetroStyleManager StyleManager
-        {
-            get { return metroStyleManager; }
-            set { metroStyleManager = value; }
-        }
-
-        private bool useCustomBackColor = false;
+        public MetroStyleManager StyleManager { get; set; } = null;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseCustomBackColor
-        {
-            get { return useCustomBackColor; }
-            set { useCustomBackColor = value; }
-        }
-
-        private bool useCustomForeColor = false;
+        public bool UseCustomBackColor { get; set; } = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseCustomForeColor
-        {
-            get { return useCustomForeColor; }
-            set { useCustomForeColor = value; }
-        }
-
-        private bool useStyleColors = false;
+        public bool UseCustomForeColor { get; set; } = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseStyleColors
-        {
-            get { return useStyleColors; }
-            set { useStyleColors = value; }
-        }
+        public bool UseStyleColors { get; set; } = false;
 
         [Browsable(false)]
         [Category(MetroDefaults.PropertyCategory.Behaviour)]
         [DefaultValue(true)]
         public bool UseSelectable
         {
-            get { return GetStyle(ControlStyles.Selectable); }
-            set { SetStyle(ControlStyles.Selectable, value); }
+            get => GetStyle(ControlStyles.Selectable);
+            set => SetStyle(ControlStyles.Selectable, value);
         }
 
         #endregion
 
         #region Fields
 
-        private bool displayFocusRectangle = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool DisplayFocus
-        {
-            get { return displayFocusRectangle; }
-            set { displayFocusRectangle = value; }
-        }
-
-
-        private MetroDateTimeSize metroDateTimeSize = MetroDateTimeSize.Medium;
+        public bool DisplayFocus { get; set; } = false;
         [DefaultValue(MetroDateTimeSize.Medium)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public MetroDateTimeSize FontSize
-        {
-            get { return metroDateTimeSize; }
-            set { metroDateTimeSize = value; }
-        }
-
-        private MetroDateTimeWeight metroDateTimeWeight = MetroDateTimeWeight.Regular;
+        public MetroDateTimeSize FontSize { get; set; } = MetroDateTimeSize.Medium;
         [DefaultValue(MetroDateTimeWeight.Regular)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public MetroDateTimeWeight FontWeight
-        {
-            get { return metroDateTimeWeight; }
-            set { metroDateTimeWeight = value; }
-        }
+        public MetroDateTimeWeight FontWeight { get; set; } = MetroDateTimeWeight.Regular;
 
         [DefaultValue(false)]
         [Browsable(false)]
         public new bool ShowUpDown
         {
-            get { return base.ShowUpDown; }
-            set { base.ShowUpDown = false; }
+            get => base.ShowUpDown;
+            set => base.ShowUpDown = false;
         }
 
         [Browsable(false)]
         public override Font Font
         {
-            get
-            {
-                return base.Font;
-            }
-            set
-            {
-                base.Font = value;
-            }
+            get => base.Font;
+            set => base.Font = value;
         }
 
         private bool isHovered = false;
@@ -221,7 +172,7 @@ namespace MetroFramework.Controls
             {
                 Color backColor = BackColor;
 
-                if (!useCustomBackColor)
+                if (!UseCustomBackColor)
                 {
                     backColor = MetroPaint.BackColor.Form(Theme);
                 }
@@ -262,7 +213,7 @@ namespace MetroFramework.Controls
 
         protected virtual void OnPaintForeground(PaintEventArgs e)
         {
-            this.MinimumSize = new Size(0, GetPreferredSize(Size.Empty).Height);
+            MinimumSize = new Size(0, GetPreferredSize(Size.Empty).Height);
 
             Color borderColor, foreColor;
 
@@ -301,7 +252,7 @@ namespace MetroFramework.Controls
 
             int _check = 0;
 
-            if (this.ShowCheckBox)
+            if (ShowCheckBox)
             {
                 _check = 15;
                 using (Pen p = new Pen(borderColor))
@@ -329,11 +280,11 @@ namespace MetroFramework.Controls
 
             Rectangle textRect = new Rectangle(2 + _check, 2, Width - 20, Height - 4);
 
-            TextRenderer.DrawText(e.Graphics, Text, MetroFonts.DateTime(metroDateTimeSize, metroDateTimeWeight), textRect, foreColor, TextFormatFlags.Left | TextFormatFlags.VerticalCenter);
+            TextRenderer.DrawText(e.Graphics, Text, MetroFonts.DateTime(FontSize, FontWeight), textRect, foreColor, TextFormatFlags.Left | TextFormatFlags.VerticalCenter);
 
             OnCustomPaintForeground(new MetroPaintEventArgs(Color.Empty, foreColor, e.Graphics));
 
-            if (displayFocusRectangle && isFocused)
+            if (DisplayFocus && isFocused)
                 ControlPaint.DrawFocusRectangle(e.Graphics, ClientRectangle);
         }
 
@@ -458,11 +409,11 @@ namespace MetroFramework.Controls
             Size preferredSize;
             base.GetPreferredSize(proposedSize);
 
-            using (var g = CreateGraphics())
+            using (Graphics g = CreateGraphics())
             {
                 string measureText = Text.Length > 0 ? Text : "MeasureText";
                 proposedSize = new Size(int.MaxValue, int.MaxValue);
-                preferredSize = TextRenderer.MeasureText(g, measureText, MetroFonts.DateTime(metroDateTimeSize, metroDateTimeWeight), proposedSize, TextFormatFlags.Left | TextFormatFlags.LeftAndRightPadding | TextFormatFlags.VerticalCenter);
+                preferredSize = TextRenderer.MeasureText(g, measureText, MetroFonts.DateTime(FontSize, FontWeight), proposedSize, TextFormatFlags.Left | TextFormatFlags.LeftAndRightPadding | TextFormatFlags.VerticalCenter);
                 preferredSize.Height += 10;
             }
 

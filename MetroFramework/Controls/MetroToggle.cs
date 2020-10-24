@@ -22,9 +22,8 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 
 using MetroFramework.Components;
@@ -93,7 +92,7 @@ namespace MetroFramework.Controls
 
                 return metroStyle;
             }
-            set { metroStyle = value; }
+            set => metroStyle = value;
         }
 
         private MetroThemeStyle metroTheme = MetroThemeStyle.Default;
@@ -119,122 +118,65 @@ namespace MetroFramework.Controls
 
                 return metroTheme;
             }
-            set { metroTheme = value; }
+            set => metroTheme = value;
         }
 
-        private MetroStyleManager metroStyleManager = null;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public MetroStyleManager StyleManager
-        {
-            get { return metroStyleManager; }
-            set { metroStyleManager = value; }
-        }
-
-        private bool useCustomBackColor = false;
+        public MetroStyleManager StyleManager { get; set; } = null;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseCustomBackColor
-        {
-            get { return useCustomBackColor; }
-            set { useCustomBackColor = value; }
-        }
-
-        private bool useCustomForeColor = false;
+        public bool UseCustomBackColor { get; set; } = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseCustomForeColor
-        {
-            get { return useCustomForeColor; }
-            set { useCustomForeColor = value; }
-        }
-
-        private bool useStyleColors = false;
+        public bool UseCustomForeColor { get; set; } = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseStyleColors
-        {
-            get { return useStyleColors; }
-            set { useStyleColors = value; }
-        }
+        public bool UseStyleColors { get; set; } = false;
 
         [Browsable(false)]
         [Category(MetroDefaults.PropertyCategory.Behaviour)]
         [DefaultValue(false)]
         public bool UseSelectable
         {
-            get { return GetStyle(ControlStyles.Selectable); }
-            set { SetStyle(ControlStyles.Selectable, value); }
+            get => GetStyle(ControlStyles.Selectable);
+            set => SetStyle(ControlStyles.Selectable, value);
         }
 
         #endregion
 
         #region Fields
 
-        private bool displayFocusRectangle = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool DisplayFocus
-        {
-            get { return displayFocusRectangle; }
-            set { displayFocusRectangle = value; }
-        }
+        public bool DisplayFocus { get; set; } = false;
 
-        private MetroLocalize metroLocalize = null;
+        private readonly MetroLocalize metroLocalize = null;
 
-        private MetroLinkSize metroLinkSize = MetroLinkSize.Small;
         [DefaultValue(MetroLinkSize.Small)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public MetroLinkSize FontSize
-        {
-            get { return metroLinkSize; }
-            set { metroLinkSize = value; }
-        }
-
-        private MetroLinkWeight metroLinkWeight = MetroLinkWeight.Regular;
+        public MetroLinkSize FontSize { get; set; } = MetroLinkSize.Small;
         [DefaultValue(MetroLinkWeight.Regular)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public MetroLinkWeight FontWeight
-        {
-            get { return metroLinkWeight; }
-            set { metroLinkWeight = value; }
-        }
-
-        private bool displayStatus = true;
+        public MetroLinkWeight FontWeight { get; set; } = MetroLinkWeight.Regular;
         [DefaultValue(true)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool DisplayStatus
-        {
-            get { return displayStatus; }
-            set { displayStatus = value; }
-        }
+        public bool DisplayStatus { get; set; } = true;
 
         [Browsable(false)]
         public override Font Font
         {
-            get
-            {
-                return base.Font;
-            }
-            set
-            {
-                base.Font = value;
-            }
+            get => base.Font;
+            set => base.Font = value;
         }
 
         [Browsable(false)]
         public override Color ForeColor
         {
-            get
-            {
-                return base.ForeColor;
-            }
-            set
-            {
-                base.ForeColor = value;
-            }
+            get => base.ForeColor;
+            set => base.ForeColor = value;
         }
-        
+
         [Browsable(false)]
         public override string Text
         {
@@ -242,10 +184,10 @@ namespace MetroFramework.Controls
             {
                 if (Checked)
                 {
-                    return metroLocalize.translate("StatusOn");
+                    return metroLocalize.Translate("StatusOn");
                 }
 
-                return metroLocalize.translate("StatusOff");
+                return metroLocalize.Translate("StatusOff");
             }
         }
 
@@ -279,7 +221,7 @@ namespace MetroFramework.Controls
             {
                 Color backColor = BackColor;
 
-                if (!useCustomBackColor)
+                if (!UseCustomBackColor)
                 {
                     backColor = MetroPaint.BackColor.Form(Theme);
                 }
@@ -339,13 +281,13 @@ namespace MetroFramework.Controls
             }
             else
             {
-                foreColor = !useStyleColors ? MetroPaint.ForeColor.CheckBox.Normal(Theme) : MetroPaint.GetStyleColor(Style);
+                foreColor = !UseStyleColors ? MetroPaint.ForeColor.CheckBox.Normal(Theme) : MetroPaint.GetStyleColor(Style);
                 borderColor = MetroPaint.BorderColor.CheckBox.Normal(Theme);
             }
 
             using (Pen p = new Pen(borderColor))
             {
-                Rectangle boxRect = new Rectangle((DisplayStatus ? 30 : 0), 0, ClientRectangle.Width - (DisplayStatus ? 31 : 1), ClientRectangle.Height - 1);
+                Rectangle boxRect = new Rectangle(DisplayStatus ? 30 : 0, 0, ClientRectangle.Width - (DisplayStatus ? 31 : 1), ClientRectangle.Height - 1);
                 e.Graphics.DrawRectangle(p, boxRect);
             }
 
@@ -359,7 +301,7 @@ namespace MetroFramework.Controls
 
             Color backColor = BackColor;
 
-            if (!useCustomBackColor)
+            if (!UseCustomBackColor)
             {
                 backColor = MetroPaint.BackColor.Form(Theme);
             }
@@ -382,10 +324,10 @@ namespace MetroFramework.Controls
             if (DisplayStatus)
             {
                 Rectangle textRect = new Rectangle(0, 0, 30, ClientRectangle.Height);
-                TextRenderer.DrawText(e.Graphics, Text, MetroFonts.Link(metroLinkSize, metroLinkWeight), textRect, foreColor, MetroPaint.GetTextFormatFlags(TextAlign));
+                TextRenderer.DrawText(e.Graphics, Text, MetroFonts.Link(FontSize, FontWeight), textRect, foreColor, MetroPaint.GetTextFormatFlags(TextAlign));
             }
 
-            if (displayFocusRectangle && isFocused)
+            if (DisplayFocus && isFocused)
                 ControlPaint.DrawFocusRectangle(e.Graphics, ClientRectangle);
         }
 

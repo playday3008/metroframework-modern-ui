@@ -91,7 +91,7 @@ namespace MetroFramework.Controls
 
                 return metroStyle;
             }
-            set { metroStyle = value; }
+            set => metroStyle = value;
         }
 
         private MetroThemeStyle metroTheme = MetroThemeStyle.Default;
@@ -117,59 +117,36 @@ namespace MetroFramework.Controls
 
                 return metroTheme;
             }
-            set { metroTheme = value; }
+            set => metroTheme = value;
         }
 
-        private MetroStyleManager metroStyleManager = null;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public MetroStyleManager StyleManager
-        {
-            get { return metroStyleManager; }
-            set { metroStyleManager = value; }
-        }
-
-        private bool useCustomBackColor = false;
+        public MetroStyleManager StyleManager { get; set; } = null;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseCustomBackColor
-        {
-            get { return useCustomBackColor; }
-            set { useCustomBackColor = value; }
-        }
-
-        private bool useCustomForeColor = false;
+        public bool UseCustomBackColor { get; set; } = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseCustomForeColor
-        {
-            get { return useCustomForeColor; }
-            set { useCustomForeColor = value; }
-        }
-
-        private bool useStyleColors = false;
+        public bool UseCustomForeColor { get; set; } = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseStyleColors
-        {
-            get { return useStyleColors; }
-            set { useStyleColors = value; }
-        }
+        public bool UseStyleColors { get; set; } = false;
 
         [Browsable(false)]
         [Category(MetroDefaults.PropertyCategory.Behaviour)]
         [DefaultValue(false)]
         public bool UseSelectable
         {
-            get { return GetStyle(ControlStyles.Selectable); }
-            set { SetStyle(ControlStyles.Selectable, value); }
+            get => GetStyle(ControlStyles.Selectable);
+            set => SetStyle(ControlStyles.Selectable, value);
         }
 
         #endregion
 
         #region Fields
 
-        private Timer timer;
+        private readonly Timer timer;
         private int progress;
         private float angle = 270;
 
@@ -177,15 +154,15 @@ namespace MetroFramework.Controls
         [Category(MetroDefaults.PropertyCategory.Behaviour)]
         public bool Spinning
         {
-            get { return timer.Enabled; }
-            set { timer.Enabled = value; }
+            get => timer.Enabled;
+            set => timer.Enabled = value;
         }
 
         [DefaultValue(0)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public int Value
         {
-            get { return progress; }
+            get => progress;
             set
             {
                 if (value != -1 && (value < minimum || value > maximum))
@@ -200,7 +177,7 @@ namespace MetroFramework.Controls
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public int Minimum
         {
-            get { return minimum; }
+            get => minimum;
             set
             {
                 if (value < 0)
@@ -219,7 +196,7 @@ namespace MetroFramework.Controls
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public int Maximum
         {
-            get { return maximum; }
+            get => maximum;
             set
             {
                 if (value <= minimum)
@@ -236,7 +213,7 @@ namespace MetroFramework.Controls
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public bool EnsureVisible
         {
-            get { return ensureVisible; }
+            get => ensureVisible;
             set { ensureVisible = value; Refresh(); }
         }
 
@@ -245,7 +222,7 @@ namespace MetroFramework.Controls
         [Category(MetroDefaults.PropertyCategory.Behaviour)]
         public float Speed
         {
-            get { return speed; }
+            get => speed;
             set
             {
                 if (value <= 0 || value > 10)
@@ -260,18 +237,13 @@ namespace MetroFramework.Controls
         [Category(MetroDefaults.PropertyCategory.Behaviour)]
         public bool Backwards
         {
-            get { return backwards; }
+            get => backwards;
             set { backwards = value; Refresh(); }
         }
 
-        private bool useCustomBackground = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool CustomBackground
-        {
-            get { return useCustomBackground; }
-            set { useCustomBackground = value; }
-        }
+        public bool CustomBackground { get; set; } = false;
 
         #endregion
 
@@ -279,9 +251,11 @@ namespace MetroFramework.Controls
 
         public MetroProgressSpinner()
         {
-            timer = new Timer();
-            timer.Interval = 20;
-            timer.Tick += timer_Tick;
+            timer = new Timer
+            {
+                Interval = 20
+            };
+            timer.Tick += Timer_Tick;
             timer.Enabled = true;
 
             Width = 16;
@@ -305,7 +279,7 @@ namespace MetroFramework.Controls
 
         #region Management Methods
 
-        private void timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
             if (!DesignMode)
             {
@@ -324,7 +298,7 @@ namespace MetroFramework.Controls
             {
                 Color backColor = BackColor;
 
-                if (!useCustomBackColor)
+                if (!UseCustomBackColor)
                 {
                     if (Parent is MetroTile)
                     {
@@ -374,7 +348,7 @@ namespace MetroFramework.Controls
         {
             Color foreColor;
 
-            if (useCustomBackground)
+            if (CustomBackground)
             {
                 foreColor = MetroPaint.GetStyleColor(Style);
             }
@@ -399,7 +373,7 @@ namespace MetroFramework.Controls
                 if (progress != -1)
                 {
                     float sweepAngle;
-                    float progFrac = (float)(progress - minimum) / (float)(maximum - minimum);
+                    float progFrac = (progress - minimum) / (float)(maximum - minimum);
 
                     if (ensureVisible)
                     {

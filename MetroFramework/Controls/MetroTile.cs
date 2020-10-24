@@ -22,13 +22,12 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 using System;
-using System.Drawing;
-using System.Collections;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 
-using MetroFramework.Drawing;
 using MetroFramework.Components;
+using MetroFramework.Drawing;
 using MetroFramework.Interfaces;
 
 namespace MetroFramework.Controls
@@ -92,7 +91,7 @@ namespace MetroFramework.Controls
 
                 return metroStyle;
             }
-            set { metroStyle = value; }
+            set => metroStyle = value;
         }
 
         private MetroThemeStyle metroTheme = MetroThemeStyle.Default;
@@ -118,68 +117,39 @@ namespace MetroFramework.Controls
 
                 return metroTheme;
             }
-            set { metroTheme = value; }
+            set => metroTheme = value;
         }
 
-        private MetroStyleManager metroStyleManager = null;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public MetroStyleManager StyleManager
-        {
-            get { return metroStyleManager; }
-            set { metroStyleManager = value; }
-        }
-
-        private bool useCustomBackColor = false;
+        public MetroStyleManager StyleManager { get; set; } = null;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseCustomBackColor
-        {
-            get { return useCustomBackColor; }
-            set { useCustomBackColor = value; }
-        }
-
-        private bool useCustomForeColor = false;
+        public bool UseCustomBackColor { get; set; } = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseCustomForeColor
-        {
-            get { return useCustomForeColor; }
-            set { useCustomForeColor = value; }
-        }
-
-        private bool useStyleColors = false;
+        public bool UseCustomForeColor { get; set; } = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseStyleColors
-        {
-            get { return useStyleColors; }
-            set { useStyleColors = value; }
-        }
+        public bool UseStyleColors { get; set; } = false;
 
         [Browsable(false)]
         [Category(MetroDefaults.PropertyCategory.Behaviour)]
         [DefaultValue(false)]
         public bool UseSelectable
         {
-            get { return GetStyle(ControlStyles.Selectable); }
-            set { SetStyle(ControlStyles.Selectable, value); }
+            get => GetStyle(ControlStyles.Selectable);
+            set => SetStyle(ControlStyles.Selectable, value);
         }
-
-        private Control activeControl = null;
         [Browsable(false)]
-        public Control ActiveControl
-        {
-            get { return activeControl; }
-            set { activeControl = value; }
-        }
+        public Control ActiveControl { get; set; } = null;
 
         public bool ActivateControl(Control ctrl)
         {
             if (Controls.Contains(ctrl))
             {
                 ctrl.Select();
-                activeControl = ctrl;
+                ActiveControl = ctrl;
                 return true;
             }
 
@@ -190,63 +160,34 @@ namespace MetroFramework.Controls
 
         #region Fields
 
-        private bool paintTileCount = true;
         [DefaultValue(true)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool PaintTileCount
-        {
-            get { return paintTileCount; }
-            set { paintTileCount = value; }
-        }
-
-        private int tileCount = 0;
+        public bool PaintTileCount { get; set; } = true;
         [DefaultValue(0)]
-        public int TileCount
-        {
-            get { return tileCount; }
-            set { tileCount = value; }
-        }
+        public int TileCount { get; set; } = 0;
 
         [DefaultValue(ContentAlignment.BottomLeft)]
         public new ContentAlignment TextAlign
         {
-            get { return base.TextAlign; }
-            set { base.TextAlign = value; }
+            get => base.TextAlign;
+            set => base.TextAlign = value;
         }
-
-        private Image tileImage = null;
         [DefaultValue(null)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public Image TileImage
-        {
-            get { return tileImage; }
-            set { tileImage = value; }
-        }
-
-        private bool useTileImage = false;
+        public Image TileImage { get; set; } = null;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseTileImage
-        {
-            get { return useTileImage; }
-            set { useTileImage = value; }
-        }
-
-        private ContentAlignment tileImageAlign = ContentAlignment.TopLeft;
+        public bool UseTileImage { get; set; } = false;
         [DefaultValue(ContentAlignment.TopLeft)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public ContentAlignment TileImageAlign
-        {
-            get { return tileImageAlign; }
-            set { tileImageAlign = value; }
-        }
+        public ContentAlignment TileImageAlign { get; set; } = ContentAlignment.TopLeft;
 
         private MetroTileTextSize tileTextFontSize = MetroTileTextSize.Medium;
         [DefaultValue(MetroTileTextSize.Medium)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public MetroTileTextSize TileTextFontSize
         {
-            get { return tileTextFontSize; }
+            get => tileTextFontSize;
             set { tileTextFontSize = value; Refresh(); }
         }
 
@@ -255,18 +196,13 @@ namespace MetroFramework.Controls
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public MetroTileTextWeight TileTextFontWeight
         {
-            get { return tileTextFontWeight; }
+            get => tileTextFontWeight;
             set { tileTextFontWeight = value; Refresh(); }
         }
 
-        private bool displayFocusBorder = true;
         [DefaultValue(true)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool DisplayFocusBorder
-        {
-            get { return displayFocusBorder; }
-            set { displayFocusBorder = value; }
-        }
+        public bool DisplayFocusBorder { get; set; } = true;
 
         private bool isHovered = false;
         private bool isPressed = false;
@@ -296,7 +232,7 @@ namespace MetroFramework.Controls
             {
                 Color backColor = BackColor;
 
-                if (!useCustomBackColor)
+                if (!UseCustomBackColor)
                 {
                     backColor = MetroPaint.GetStyleColor(Style);
                 }
@@ -358,12 +294,12 @@ namespace MetroFramework.Controls
                 foreColor = MetroPaint.ForeColor.Tile.Normal(Theme);
             }
 
-            if (useCustomForeColor)
+            if (UseCustomForeColor)
             {
                 foreColor = ForeColor;
             }
 
-            if (isPressed || ((isHovered || isFocused) && displayFocusBorder))
+            if (isPressed || ((isHovered || isFocused) && DisplayFocusBorder))
             {
                 using (Pen p = new Pen(borderColor))
                 {
@@ -376,51 +312,51 @@ namespace MetroFramework.Controls
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             e.Graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
 
-            if (useTileImage)
+            if (UseTileImage)
             {
-                if (tileImage != null)
+                if (TileImage != null)
                 {
                     Rectangle imageRectangle;
-                    switch (tileImageAlign)
+                    switch (TileImageAlign)
                     {
                         case ContentAlignment.BottomLeft:
-                            imageRectangle = new Rectangle(new Point(0, Height - TileImage.Height), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(0, Height - TileImage.Height), new Size(TileImage.Width, TileImage.Height));
                             break;
 
                         case ContentAlignment.BottomCenter:
-                            imageRectangle = new Rectangle(new Point(Width / 2 - TileImage.Width / 2, Height - TileImage.Height), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(Width / 2 - TileImage.Width / 2, Height - TileImage.Height), new Size(TileImage.Width, TileImage.Height));
                             break;
 
                         case ContentAlignment.BottomRight:
-                            imageRectangle = new Rectangle(new Point(Width - TileImage.Width, Height - TileImage.Height), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(Width - TileImage.Width, Height - TileImage.Height), new Size(TileImage.Width, TileImage.Height));
                             break;
 
                         case ContentAlignment.MiddleLeft:
-                            imageRectangle = new Rectangle(new Point(0, Height / 2 - TileImage.Height / 2), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(0, Height / 2 - TileImage.Height / 2), new Size(TileImage.Width, TileImage.Height));
                             break;
 
                         case ContentAlignment.MiddleCenter:
-                            imageRectangle = new Rectangle(new Point(Width / 2 - TileImage.Width / 2, Height / 2 - TileImage.Height / 2), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(Width / 2 - TileImage.Width / 2, Height / 2 - TileImage.Height / 2), new Size(TileImage.Width, TileImage.Height));
                             break;
 
                         case ContentAlignment.MiddleRight:
-                            imageRectangle = new Rectangle(new Point(Width - TileImage.Width, Height / 2 - TileImage.Height / 2), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(Width - TileImage.Width, Height / 2 - TileImage.Height / 2), new Size(TileImage.Width, TileImage.Height));
                             break;
 
                         case ContentAlignment.TopLeft:
-                            imageRectangle = new Rectangle(new Point(0, 0), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(0, 0), new Size(TileImage.Width, TileImage.Height));
                             break;
 
                         case ContentAlignment.TopCenter:
-                            imageRectangle = new Rectangle(new Point(Width / 2 - TileImage.Width / 2, 0), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(Width / 2 - TileImage.Width / 2, 0), new Size(TileImage.Width, TileImage.Height));
                             break;
 
                         case ContentAlignment.TopRight:
-                            imageRectangle = new Rectangle(new Point(Width - TileImage.Width, 0), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(Width - TileImage.Width, 0), new Size(TileImage.Width, TileImage.Height));
                             break;
 
                         default:
-                            imageRectangle = new Rectangle(new Point(0, 0), new System.Drawing.Size(TileImage.Width, TileImage.Height));
+                            imageRectangle = new Rectangle(new Point(0, 0), new Size(TileImage.Width, TileImage.Height));
                             break;
                     }
 
@@ -428,7 +364,7 @@ namespace MetroFramework.Controls
                 }
             }
 
-            if (TileCount > 0 && paintTileCount)
+            if (TileCount > 0 && PaintTileCount)
             {
                 Size countSize = TextRenderer.MeasureText(TileCount.ToString(), MetroFonts.TileCount);
 
@@ -437,7 +373,7 @@ namespace MetroFramework.Controls
                 e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
             }
 
-            Size textSize = TextRenderer.MeasureText(Text, MetroFonts.Tile(tileTextFontSize, tileTextFontWeight));
+            //Size textSize = TextRenderer.MeasureText(Text, MetroFonts.Tile(tileTextFontSize, tileTextFontWeight));
 
             TextFormatFlags flags = MetroPaint.GetTextFormatFlags(TextAlign) | TextFormatFlags.LeftAndRightPadding | TextFormatFlags.EndEllipsis;
             Rectangle textRectangle = ClientRectangle;

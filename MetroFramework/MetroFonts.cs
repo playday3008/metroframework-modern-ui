@@ -21,13 +21,9 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Reflection;
-using System.Drawing.Text;
-using System;
 
 namespace MetroFramework
 {
@@ -197,7 +193,7 @@ namespace MetroFramework
             }
         }
 
-        private static IMetroFontResolver FontResolver;
+        private static readonly IMetroFontResolver FontResolver;
 
         static MetroFonts()
         {
@@ -244,15 +240,9 @@ namespace MetroFramework
             return FontResolver.ResolveFont("Segoe UI", size, FontStyle.Italic, GraphicsUnit.Pixel);
         }
 
-        public static Font Title
-        {
-            get { return DefaultLight(24f); }
-        }
+        public static Font Title => DefaultLight(24f);
 
-        public static Font Subtitle
-        {
-            get { return Default(14f); }
-        }
+        public static Font Subtitle => Default(14f);
 
         public static Font Tile(MetroTileTextSize labelSize, MetroTileTextWeight labelWeight)
         {
@@ -287,10 +277,7 @@ namespace MetroFramework
             return DefaultLight(14f);
         }
 
-        public static Font TileCount
-        {
-            get { return Default(44f); }
-        }
+        public static Font TileCount => Default(44f);
 
         public static Font Link(MetroLinkSize linkSize, MetroLinkWeight linkWeight)
         {

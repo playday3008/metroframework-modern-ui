@@ -26,9 +26,8 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace MetroFramework.Drawing.Html
 {
@@ -42,13 +41,6 @@ namespace MetroFramework.Drawing.Html
     [CLSCompliant(false)]
     public class CssBlock
     {
-        #region Fields
-        private string _block;
-        private Dictionary<PropertyInfo, string> _propertyValues;
-        private Dictionary<string,string> _properties;
-
-        #endregion
-
         #region Ctor
 
         /// <summary>
@@ -56,8 +48,8 @@ namespace MetroFramework.Drawing.Html
         /// </summary>
         private CssBlock()
         {
-            _propertyValues = new Dictionary<PropertyInfo, string>();
-            _properties = new Dictionary<string, string>();
+            PropertyValues = new Dictionary<PropertyInfo, string>();
+            Properties = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -67,7 +59,7 @@ namespace MetroFramework.Drawing.Html
         public CssBlock(string blockSource)
             : this()
         {
-            _block = blockSource;
+            BlockSource = blockSource;
 
             //Extract property assignments
             MatchCollection matches = Parser.Match(Parser.CssProperties, blockSource);
@@ -83,7 +75,7 @@ namespace MetroFramework.Drawing.Html
                 //Extract property name and value
                 string propName = chunks[0].Trim();
                 string propValue = chunks[1].Trim();
-                
+
                 //Remove semicolon
                 if (propValue.EndsWith(";")) propValue = propValue.Substring(0, propValue.Length - 1).Trim();
 
@@ -103,27 +95,18 @@ namespace MetroFramework.Drawing.Html
         /// <summary>
         /// Gets the properties and its values
         /// </summary>
-        public Dictionary<string,string> Properties
-        {
-            get { return _properties; }
-        }
+        public Dictionary<string, string> Properties { get; }
 
         /// <summary>
         /// Gets the dictionary with property-ready values
         /// </summary>
-        public Dictionary<PropertyInfo, string> PropertyValues
-        {
-            get { return _propertyValues; }
-        }
+        public Dictionary<PropertyInfo, string> PropertyValues { get; }
 
 
         /// <summary>
         /// Gets the block's source
         /// </summary>
-        public string BlockSource
-        {
-            get { return _block; }
-        }
+        public string BlockSource { get; }
 
 
         #endregion

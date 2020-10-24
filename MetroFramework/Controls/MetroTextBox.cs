@@ -25,6 +25,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+
 using MetroFramework.Components;
 using MetroFramework.Drawing;
 using MetroFramework.Interfaces;
@@ -89,7 +90,7 @@ namespace MetroFramework.Controls
 
                 return metroStyle;
             }
-            set { metroStyle = value; }
+            set => metroStyle = value;
         }
 
         private MetroThemeStyle metroTheme = MetroThemeStyle.Default;
@@ -115,52 +116,29 @@ namespace MetroFramework.Controls
 
                 return metroTheme;
             }
-            set { metroTheme = value; }
+            set => metroTheme = value;
         }
 
-        private MetroStyleManager metroStyleManager = null;
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public MetroStyleManager StyleManager
-        {
-            get { return metroStyleManager; }
-            set { metroStyleManager = value; }
-        }
-
-        private bool useCustomBackColor = false;
+        public MetroStyleManager StyleManager { get; set; } = null;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseCustomBackColor
-        {
-            get { return useCustomBackColor; }
-            set { useCustomBackColor = value; }
-        }
-
-        private bool useCustomForeColor = false;
+        public bool UseCustomBackColor { get; set; } = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseCustomForeColor
-        {
-            get { return useCustomForeColor; }
-            set { useCustomForeColor = value; }
-        }
-
-        private bool useStyleColors = false;
+        public bool UseCustomForeColor { get; set; } = false;
         [DefaultValue(false)]
         [Category(MetroDefaults.PropertyCategory.Appearance)]
-        public bool UseStyleColors
-        {
-            get { return useStyleColors; }
-            set { useStyleColors = value; }
-        }
+        public bool UseStyleColors { get; set; } = false;
 
         [Browsable(false)]
         [Category(MetroDefaults.PropertyCategory.Behaviour)]
         [DefaultValue(false)]
         public bool UseSelectable
         {
-            get { return GetStyle(ControlStyles.Selectable); }
-            set { SetStyle(ControlStyles.Selectable, value); }
+            get => GetStyle(ControlStyles.Selectable);
+            set => SetStyle(ControlStyles.Selectable, value);
         }
 
         #endregion
@@ -174,7 +152,7 @@ namespace MetroFramework.Controls
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public MetroTextBoxSize FontSize
         {
-            get { return metroTextBoxSize; }
+            get => metroTextBoxSize;
             set { metroTextBoxSize = value; UpdateBaseTextBox(); }
         }
 
@@ -183,7 +161,7 @@ namespace MetroFramework.Controls
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public MetroTextBoxWeight FontWeight
         {
-            get { return metroTextBoxWeight; }
+            get => metroTextBoxWeight;
             set { metroTextBoxWeight = value; UpdateBaseTextBox(); }
         }
 
@@ -194,8 +172,8 @@ namespace MetroFramework.Controls
         [Obsolete("Use watermark")]
         public string PromptText
         {
-            get { return baseTextBox.WaterMark; }
-            set { baseTextBox.WaterMark = value; }
+            get => baseTextBox.WaterMark;
+            set => baseTextBox.WaterMark = value;
         }
 
         [Browsable(true)]
@@ -204,8 +182,8 @@ namespace MetroFramework.Controls
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public string WaterMark
         {
-            get { return baseTextBox.WaterMark; }
-            set { baseTextBox.WaterMark = value; }
+            get => baseTextBox.WaterMark;
+            set => baseTextBox.WaterMark = value;
         }
 
         private Image textBoxIcon = null;
@@ -215,7 +193,7 @@ namespace MetroFramework.Controls
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public Image Icon
         {
-            get { return textBoxIcon; }
+            get => textBoxIcon;
             set
             {
                 textBoxIcon = value;
@@ -230,7 +208,7 @@ namespace MetroFramework.Controls
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public bool IconRight
         {
-            get { return textBoxIconRight; }
+            get => textBoxIconRight;
             set
             {
                 textBoxIconRight = value;
@@ -245,7 +223,7 @@ namespace MetroFramework.Controls
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public bool DisplayIcon
         {
-            get { return displayIcon; }
+            get => displayIcon;
             set
             {
                 displayIcon = value;
@@ -253,7 +231,7 @@ namespace MetroFramework.Controls
             }
         }
 
-        protected Size iconSize
+        protected Size IconSize
         {
             get
             {
@@ -264,7 +242,7 @@ namespace MetroFramework.Controls
                     Size originalSize = textBoxIcon.Size;
                     double resizeFactor = _height / (double)originalSize.Height;
 
-                    Point iconLocation = new Point(1, 1);
+                    //Point iconLocation = new Point(1, 1);
                     return new Size((int)(originalSize.Width * resizeFactor), (int)(originalSize.Height * resizeFactor));
                 }
 
@@ -282,7 +260,7 @@ namespace MetroFramework.Controls
                 int _butwidth = 0;
                 if (_button != null)
                 {
-                    _butwidth = (_showbutton) ? _button.Width : 0;
+                    _butwidth = _showbutton ? _button.Width : 0;
                 }
 
                 return _butwidth;
@@ -295,7 +273,7 @@ namespace MetroFramework.Controls
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public bool ShowButton
         {
-            get { return _showbutton; }
+            get => _showbutton;
             set
             {
                 _showbutton = value;
@@ -312,7 +290,7 @@ namespace MetroFramework.Controls
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public bool ShowClearButton
         {
-            get { return _showclear; }
+            get => _showclear;
             set
             {
                 _showclear = value;
@@ -326,7 +304,7 @@ namespace MetroFramework.Controls
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public MetroTextButton CustomButton
         {
-            get { return _button; }
+            get => _button;
             set
             {
                 _button = value;
@@ -340,7 +318,7 @@ namespace MetroFramework.Controls
         [Browsable(false)]
         public bool WithError
         {
-            get { return _witherror; }
+            get => _witherror;
             set
             {
                 _witherror = value;
@@ -353,7 +331,7 @@ namespace MetroFramework.Controls
 
         public override ContextMenu ContextMenu
         {
-            get { return baseTextBox.ContextMenu; }
+            get => baseTextBox.ContextMenu;
             set
             {
                 ContextMenu = value;
@@ -363,7 +341,7 @@ namespace MetroFramework.Controls
 
         public override ContextMenuStrip ContextMenuStrip
         {
-            get { return baseTextBox.ContextMenuStrip; }
+            get => baseTextBox.ContextMenuStrip;
             set
             {
                 ContextMenuStrip = value;
@@ -374,128 +352,125 @@ namespace MetroFramework.Controls
         [DefaultValue(false)]
         public bool Multiline
         {
-            get { return baseTextBox.Multiline; }
-            set { baseTextBox.Multiline = value; }
+            get => baseTextBox.Multiline;
+            set => baseTextBox.Multiline = value;
         }
 
         public override string Text
         {
-            get { return baseTextBox.Text; }
-            set { baseTextBox.Text = value; }
+            get => baseTextBox.Text;
+            set => baseTextBox.Text = value;
         }
 
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public Color WaterMarkColor
         {
-            get { return baseTextBox.WaterMarkColor; }
-            set { baseTextBox.WaterMarkColor = value; }
+            get => baseTextBox.WaterMarkColor;
+            set => baseTextBox.WaterMarkColor = value;
         }
 
         [Category(MetroDefaults.PropertyCategory.Appearance)]
         public Font WaterMarkFont
         {
-            get { return baseTextBox.WaterMarkFont; }
-            set { baseTextBox.WaterMarkFont = value; }
+            get => baseTextBox.WaterMarkFont;
+            set => baseTextBox.WaterMarkFont = value;
         }
 
         public string[] Lines
         {
-            get { return baseTextBox.Lines; }
-            set { baseTextBox.Lines = value; }
+            get => baseTextBox.Lines;
+            set => baseTextBox.Lines = value;
         }
 
         [Browsable(false)]
         public string SelectedText
         {
-            get { return baseTextBox.SelectedText; }
-            set { baseTextBox.Text = value; }
+            get => baseTextBox.SelectedText;
+            set => baseTextBox.Text = value;
         }
 
         [DefaultValue(false)]
         public bool ReadOnly
         {
-            get { return baseTextBox.ReadOnly; }
-            set
-            {
-                baseTextBox.ReadOnly = value;
-            }
+            get => baseTextBox.ReadOnly;
+            set => baseTextBox.ReadOnly = value;
         }
 
         public char PasswordChar
         {
-            get { return baseTextBox.PasswordChar; }
-            set { baseTextBox.PasswordChar = value; }
+            get => baseTextBox.PasswordChar;
+            set => baseTextBox.PasswordChar = value;
         }
 
         [DefaultValue(false)]
         public bool UseSystemPasswordChar
         {
-            get { return baseTextBox.UseSystemPasswordChar; }
-            set { baseTextBox.UseSystemPasswordChar = value; }
+            get => baseTextBox.UseSystemPasswordChar;
+            set => baseTextBox.UseSystemPasswordChar = value;
         }
 
         [DefaultValue(HorizontalAlignment.Left)]
         public HorizontalAlignment TextAlign
         {
-            get { return baseTextBox.TextAlign; }
-            set { baseTextBox.TextAlign = value; }
+            get => baseTextBox.TextAlign;
+            set => baseTextBox.TextAlign = value;
         }
 
         public int SelectionStart
         {
-            get { return baseTextBox.SelectionStart; }
-            set { baseTextBox.SelectionStart = value; }
+            get => baseTextBox.SelectionStart;
+            set => baseTextBox.SelectionStart = value;
         }
 
         public int SelectionLength
         {
-            get { return baseTextBox.SelectionLength; }
-            set { baseTextBox.SelectionLength = value; }
+            get => baseTextBox.SelectionLength;
+            set => baseTextBox.SelectionLength = value;
         }
 
         [DefaultValue(true)]
         public new bool TabStop
         {
-            get { return baseTextBox.TabStop; }
-            set { baseTextBox.TabStop = value; }
+            get => baseTextBox.TabStop;
+            set => baseTextBox.TabStop = value;
         }
 
         public int MaxLength
         {
-            get { return baseTextBox.MaxLength; }
-            set { baseTextBox.MaxLength = value; }
+            get => baseTextBox.MaxLength;
+            set => baseTextBox.MaxLength = value;
         }
 
         public ScrollBars ScrollBars
         {
-            get { return baseTextBox.ScrollBars; }
-            set { baseTextBox.ScrollBars = value; }
+            get => baseTextBox.ScrollBars;
+            set => baseTextBox.ScrollBars = value;
         }
 
         [DefaultValue(AutoCompleteMode.None)]
         public AutoCompleteMode AutoCompleteMode
         {
-            get { return baseTextBox.AutoCompleteMode; }
-            set { baseTextBox.AutoCompleteMode = value; }
+            get => baseTextBox.AutoCompleteMode;
+            set => baseTextBox.AutoCompleteMode = value;
         }
 
         [DefaultValue(AutoCompleteSource.None)]
         public AutoCompleteSource AutoCompleteSource
         {
-            get { return baseTextBox.AutoCompleteSource;}
-            set { baseTextBox.AutoCompleteSource = value; }
+            get => baseTextBox.AutoCompleteSource;
+            set => baseTextBox.AutoCompleteSource = value;
         }
 
         public AutoCompleteStringCollection AutoCompleteCustomSource
         {
-            get { return baseTextBox.AutoCompleteCustomSource; }
-            set { baseTextBox.AutoCompleteCustomSource = value; }
+            get => baseTextBox.AutoCompleteCustomSource;
+            set => baseTextBox.AutoCompleteCustomSource = value;
         }
 
         public bool ShortcutsEnabled
         {
-            get { return baseTextBox.ShortcutsEnabled; }
-            set { baseTextBox.ShortcutsEnabled = value; }
+            get => baseTextBox.ShortcutsEnabled;
+            set => baseTextBox.ShortcutsEnabled = value;
         }
 
         #endregion
@@ -505,7 +480,7 @@ namespace MetroFramework.Controls
         public MetroTextBox()
         {
             SetStyle(ControlStyles.DoubleBuffer | ControlStyles.OptimizedDoubleBuffer, true);
-            this.GotFocus += MetroTextBox_GotFocus;
+            GotFocus += MetroTextBox_GotFocus;
             base.TabStop = false;
 
             CreateBaseTextBox();
@@ -520,8 +495,7 @@ namespace MetroFramework.Controls
         public event EventHandler AcceptsTabChanged;
         private void BaseTextBoxAcceptsTabChanged(object sender, EventArgs e)
         {
-            if (AcceptsTabChanged != null)
-                AcceptsTabChanged(this, e);
+            AcceptsTabChanged?.Invoke(this, e);
         }
 
         private void BaseTextBoxSizeChanged(object sender, EventArgs e)
@@ -579,8 +553,8 @@ namespace MetroFramework.Controls
             base.OnKeyDown(e);
         }
 
-        bool _cleared = false;
-        bool _withtext = false;
+        private bool _cleared = false;
+        private bool _withtext = false;
 
         private void BaseTextBoxTextChanged(object sender, EventArgs e)
         {
@@ -616,7 +590,7 @@ namespace MetroFramework.Controls
             baseTextBox.Clear();
         }
 
-        void MetroTextBox_GotFocus(object sender, EventArgs e)
+        private void MetroTextBox_GotFocus(object sender, EventArgs e)
         {
             baseTextBox.Focus();
         }
@@ -637,7 +611,7 @@ namespace MetroFramework.Controls
                 Color backColor = BackColor;
                 baseTextBox.BackColor = backColor;
 
-                if (!useCustomBackColor)
+                if (!UseCustomBackColor)
                 {
                     backColor = MetroPaint.BackColor.Form(Theme);
                     baseTextBox.BackColor = backColor;
@@ -679,7 +653,7 @@ namespace MetroFramework.Controls
 
         protected virtual void OnPaintForeground(PaintEventArgs e)
         {
-            if (useCustomForeColor)
+            if (UseCustomForeColor)
             {
                 baseTextBox.ForeColor = ForeColor;
             }
@@ -690,13 +664,13 @@ namespace MetroFramework.Controls
 
             Color borderColor = MetroPaint.BorderColor.ComboBox.Normal(Theme);
 
-            if (useStyleColors)
+            if (UseStyleColors)
                 borderColor = MetroPaint.GetStyleColor(Style);
 
             if (_witherror)
             {
                 borderColor = MetroColors.Red;
-                if (this.Style == MetroColorStyle.Red) borderColor = MetroColors.Orange;
+                if (Style == MetroColorStyle.Red) borderColor = MetroColors.Orange;
             }
 
             using (Pen p = new Pen(borderColor))
@@ -714,10 +688,10 @@ namespace MetroFramework.Controls
                 Point iconLocation = new Point(5, 5);
                 if (textBoxIconRight)
                 {
-                    iconLocation = new Point(ClientRectangle.Width - iconSize.Width - 1, 1);
+                    iconLocation = new Point(ClientRectangle.Width - IconSize.Width - 1, 1);
                 }
 
-                g.DrawImage(textBoxIcon, new Rectangle(iconLocation, iconSize));
+                g.DrawImage(textBoxIcon, new Rectangle(iconLocation, IconSize));
 
                 UpdateBaseTextBox();
             }
@@ -749,8 +723,8 @@ namespace MetroFramework.Controls
         [DefaultValue(CharacterCasing.Normal)]
         public CharacterCasing CharacterCasing
         {
-            get { return baseTextBox.CharacterCasing; }
-            set { baseTextBox.CharacterCasing = value; }
+            get => baseTextBox.CharacterCasing;
+            set => baseTextBox.CharacterCasing = value;
         }
         #endregion
 
@@ -760,12 +734,13 @@ namespace MetroFramework.Controls
         {
             if (baseTextBox != null) return;
 
-            baseTextBox = new PromptedTextBox();
-
-            baseTextBox.BorderStyle = BorderStyle.None;
-            baseTextBox.Font = MetroFonts.TextBox(metroTextBoxSize, metroTextBoxWeight);
-            baseTextBox.Location = new Point(3, 3);
-            baseTextBox.Size = new Size(Width - 6, Height - 6);
+            baseTextBox = new PromptedTextBox
+            {
+                BorderStyle = BorderStyle.None,
+                Font = MetroFonts.TextBox(metroTextBoxSize, metroTextBoxWeight),
+                Location = new Point(3, 3),
+                Size = new Size(Width - 6, Height - 6)
+            };
 
             Size = new Size(baseTextBox.Width + 6, baseTextBox.Height + 6);
 
@@ -776,17 +751,19 @@ namespace MetroFramework.Controls
 
             if (_button != null) return;
 
-            _button = new MetroTextButton();
-            _button.Theme = Theme;
-            _button.Style = Style;
-            _button.Location = new Point(3, 1);
-            _button.Size = new Size(Height - 4, Height - 4);
-            _button.TextChanged += _button_TextChanged;
-            _button.MouseEnter += _button_MouseEnter;
-            _button.MouseLeave += _button_MouseLeave;
-            _button.Click += _button_Click;
+            _button = new MetroTextButton
+            {
+                Theme = Theme,
+                Style = Style,
+                Location = new Point(3, 1),
+                Size = new Size(Height - 4, Height - 4)
+            };
+            _button.TextChanged += Button_TextChanged;
+            _button.MouseEnter += Button_MouseEnter;
+            _button.MouseLeave += Button_MouseLeave;
+            _button.Click += Button_Click;
 
-            if (!this.Controls.Contains(this._button)) this.Controls.Add(_button);
+            if (!Controls.Contains(_button)) Controls.Add(_button);
 
             if (lnkClear != null) return;
 
@@ -801,24 +778,24 @@ namespace MetroFramework.Controls
             base.OnCreateControl();
         }
 
-        void _button_Click(object sender, EventArgs e)
+        private void Button_Click(object sender, EventArgs e)
         {
-            if (ButtonClick != null) ButtonClick(this, e);
+            ButtonClick?.Invoke(this, e);
         }
 
-        void _button_MouseLeave(object sender, EventArgs e)
+        private void Button_MouseLeave(object sender, EventArgs e)
         {
             UseStyleColors = baseTextBox.Focused;
             Invalidate();
         }
 
-        void _button_MouseEnter(object sender, EventArgs e)
+        private void Button_MouseEnter(object sender, EventArgs e)
         {
             UseStyleColors = true;
             Invalidate();
         }
 
-        void _button_TextChanged(object sender, EventArgs e)
+        private void Button_TextChanged(object sender, EventArgs e)
         {
             _button.Invalidate();
         }
@@ -842,23 +819,23 @@ namespace MetroFramework.Controls
             baseTextBox.SizeChanged += BaseTextBoxSizeChanged;
 
             baseTextBox.TextChanged += BaseTextBoxTextChanged;
-            baseTextBox.GotFocus += baseTextBox_GotFocus;
-            baseTextBox.LostFocus += baseTextBox_LostFocus;
+            baseTextBox.GotFocus += BaseTextBox_GotFocus;
+            baseTextBox.LostFocus += BaseTextBox_LostFocus;
         }
 
-        void baseTextBox_LostFocus(object sender, EventArgs e)
+        private void BaseTextBox_LostFocus(object sender, EventArgs e)
         {
             UseStyleColors = false;
             Invalidate();
-            this.InvokeLostFocus(this, e);
+            InvokeLostFocus(this, e);
         }
 
-        void baseTextBox_GotFocus(object sender, EventArgs e)
+        private void BaseTextBox_GotFocus(object sender, EventArgs e)
         {
             _witherror = false;
             UseStyleColors = true;
             Invalidate();
-            this.InvokeGotFocus(this, e);
+            InvokeGotFocus(this, e);
         }
 
         protected override void OnMouseEnter(EventArgs e)
@@ -867,7 +844,7 @@ namespace MetroFramework.Controls
             base.Cursor = Cursors.IBeam;
             UpdateTextBoxCursor();
 
-        }       
+        }
 
         protected override void OnMouseLeave(EventArgs e)
         {
@@ -884,19 +861,19 @@ namespace MetroFramework.Controls
 
         private void UpdateBaseTextBox()
         {
-            UpdateTextBoxCursor();       
+            UpdateTextBoxCursor();
 
             if (_button != null)
             {
                 if ((Height % 2) > 0)
                 {
                     _button.Size = new Size(Height - 2, Height - 2);
-                    _button.Location = new Point(this.Width - (_button.Width + 1), 1);
+                    _button.Location = new Point(Width - (_button.Width + 1), 1);
                 }
                 else
                 {
                     _button.Size = new Size(Height - 5, Height - 5);
-                    _button.Location = new Point((this.Width - _button.Width) - 3, 2);
+                    _button.Location = new Point(Width - _button.Width - 3, 2);
                 }
 
                 _button.Visible = _showbutton;
@@ -906,10 +883,10 @@ namespace MetroFramework.Controls
             if (lnkClear != null)
             {
                 lnkClear.Visible = false;
-                if (_showclear && this.Text != "" && !this.ReadOnly && this.Enabled)
+                if (_showclear && Text != "" && !ReadOnly && Enabled)
                 {
                     _clearloc = 16;
-                    lnkClear.Location = new Point(this.Width - (ButtonWidth + 17), (this.Height - 14) / 2);
+                    lnkClear.Location = new Point(Width - (ButtonWidth + 17), (Height - 14) / 2);
                     lnkClear.Visible = true;
                 }
             }
@@ -921,14 +898,14 @@ namespace MetroFramework.Controls
 
             if (displayIcon)
             {
-                Point textBoxLocation = new Point(iconSize.Width + 10, 5);
+                Point textBoxLocation = new Point(IconSize.Width + 10, 5);
                 if (textBoxIconRight)
                 {
                     textBoxLocation = new Point(3, 3);
                 }
 
                 baseTextBox.Location = textBoxLocation;
-                baseTextBox.Size = new Size(Width - (20 + ButtonWidth + _clearloc) - iconSize.Width, Height - 6);
+                baseTextBox.Size = new Size(Width - (20 + ButtonWidth + _clearloc) - IconSize.Width, Height - 6);
             }
             else
             {
@@ -954,7 +931,7 @@ namespace MetroFramework.Controls
             [DefaultValue("")]
             public string WaterMark
             {
-                get { return promptText; }
+                get => promptText;
                 set
                 {
                     promptText = value.Trim();
@@ -965,7 +942,7 @@ namespace MetroFramework.Controls
             private Color _waterMarkColor = MetroPaint.ForeColor.Button.Disabled(MetroThemeStyle.Dark);
             public Color WaterMarkColor
             {
-                get { return _waterMarkColor; }
+                get => _waterMarkColor;
                 set
                 {
                     _waterMarkColor = value; Invalidate();/*thanks to Bernhard Elbl
@@ -973,17 +950,12 @@ namespace MetroFramework.Controls
                 }
             }
 
-            private Font _waterMarkFont = MetroFramework.MetroFonts.WaterMark(MetroLabelSize.Small, MetroWaterMarkWeight.Italic);
-            public Font WaterMarkFont
-            {
-                get { return _waterMarkFont; }
-                set { _waterMarkFont = value; }
-            }
+            public Font WaterMarkFont { get; set; } = MetroFonts.WaterMark(MetroLabelSize.Small, MetroWaterMarkWeight.Italic);
 
             public PromptedTextBox()
             {
                 SetStyle(ControlStyles.DoubleBuffer | ControlStyles.OptimizedDoubleBuffer, true);
-                drawPrompt = (Text.Trim().Length == 0);
+                drawPrompt = Text.Trim().Length == 0;
             }
 
             private void DrawTextPrompt()
@@ -1016,9 +988,9 @@ namespace MetroFramework.Controls
                         break;
                 }
 
-                SolidBrush drawBrush = new SolidBrush(WaterMarkColor);
+                //SolidBrush drawBrush = new SolidBrush(WaterMarkColor);
 
-                TextRenderer.DrawText(g, promptText, _waterMarkFont, clientRectangle, _waterMarkColor, BackColor, flags);
+                TextRenderer.DrawText(g, promptText, WaterMarkFont, clientRectangle, _waterMarkColor, BackColor, flags);
             }
 
             protected override void OnPaint(PaintEventArgs e)
@@ -1044,14 +1016,14 @@ namespace MetroFramework.Controls
             protected override void OnTextChanged(EventArgs e)
             {
                 base.OnTextChanged(e);
-                drawPrompt = (Text.Trim().Length == 0);
+                drawPrompt = Text.Trim().Length == 0;
                 Invalidate();
             }
 
             protected override void WndProc(ref Message m)
             {
                 base.WndProc(ref m);
-                if (((m.Msg == WM_PAINT) || (m.Msg == OCM_COMMAND)) && (drawPrompt && !GetStyle(ControlStyles.UserPaint)))
+                if (((m.Msg == WM_PAINT) || (m.Msg == OCM_COMMAND)) && drawPrompt && !GetStyle(ControlStyles.UserPaint))
                 {
                     DrawTextPrompt();
                 }
@@ -1060,65 +1032,65 @@ namespace MetroFramework.Controls
             protected override void OnMouseEnter(EventArgs e)
             {
                 base.OnMouseEnter(e);
-                base.Cursor = Cursors.IBeam;                
+                base.Cursor = Cursors.IBeam;
 
-            }           
+            }
 
             protected override void OnMouseLeave(EventArgs e)
             {
                 base.OnMouseLeave(e);
-                base.Cursor = Cursors.Default;               
+                base.Cursor = Cursors.Default;
             }
 
             protected override void OnLostFocus(EventArgs e)
             {
                 base.OnLostFocus(e);
             }
-            
+
         }
 
         #endregion
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MetroTextBox));
-            this.lnkClear = new MetroFramework.Controls.MetroLink();
-            this.SuspendLayout();
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(MetroTextBox));
+            lnkClear = new MetroLink();
+            SuspendLayout();
             // 
             // lnkClear
             // 
-            this.lnkClear.FontSize = MetroFramework.MetroLinkSize.Medium;
-            this.lnkClear.FontWeight = MetroFramework.MetroLinkWeight.Regular;
-            this.lnkClear.Image = ((System.Drawing.Image)(resources.GetObject("lnkClear.Image")));
-            this.lnkClear.ImageSize = 10;
-            this.lnkClear.Location = new System.Drawing.Point(654, 96);
-            this.lnkClear.Name = "lnkClear";
-            this.lnkClear.NoFocusImage = ((System.Drawing.Image)(resources.GetObject("lnkClear.NoFocusImage")));
-            this.lnkClear.Size = new System.Drawing.Size(12, 12);
-            this.lnkClear.TabIndex = 2;
-            this.lnkClear.UseSelectable = true;
-            this.lnkClear.Click += new EventHandler(lnkClear_Click);
-            this.ResumeLayout(false);
-            this.Controls.Add(lnkClear);
+            lnkClear.FontSize = MetroLinkSize.Medium;
+            lnkClear.FontWeight = MetroLinkWeight.Regular;
+            lnkClear.Image = (Image)resources.GetObject("lnkClear.Image");
+            lnkClear.ImageSize = 10;
+            lnkClear.Location = new Point(654, 96);
+            lnkClear.Name = "lnkClear";
+            lnkClear.NoFocusImage = (Image)resources.GetObject("lnkClear.NoFocusImage");
+            lnkClear.Size = new Size(12, 12);
+            lnkClear.TabIndex = 2;
+            lnkClear.UseSelectable = true;
+            lnkClear.Click += new EventHandler(LnkClear_Click);
+            ResumeLayout(false);
+            Controls.Add(lnkClear);
         }
 
         public delegate void LUClear();
         public event LUClear ClearClicked;
 
-        void lnkClear_Click(object sender, EventArgs e)
+        private void LnkClear_Click(object sender, EventArgs e)
         {
-            this.Focus();
-            this.Clear();
+            Focus();
+            Clear();
             baseTextBox.Focus();
 
-            if (ClearClicked != null) ClearClicked();
+            ClearClicked?.Invoke();
         }
 
         #region MetroTextButton
         [ToolboxItem(false)]
         public class MetroTextButton : Button, IMetroControl
         {
-            
+
             #region Interface
 
             [Category(MetroDefaults.PropertyCategory.Appearance)]
@@ -1174,7 +1146,7 @@ namespace MetroFramework.Controls
 
                     return metroStyle;
                 }
-                set { metroStyle = value; }
+                set => metroStyle = value;
             }
 
             private MetroThemeStyle metroTheme = MetroThemeStyle.Default;
@@ -1200,55 +1172,29 @@ namespace MetroFramework.Controls
 
                     return metroTheme;
                 }
-                set
-                {
-                    metroTheme = value;
-                }
+                set => metroTheme = value;
             }
 
-            private MetroStyleManager metroStyleManager = null;
             [Browsable(false)]
             [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-            public MetroStyleManager StyleManager
-            {
-                get { return metroStyleManager; }
-                set { metroStyleManager = value; }
-            }
-
-            private bool useCustomBackColor = false;
+            public MetroStyleManager StyleManager { get; set; } = null;
             [DefaultValue(false)]
             [Category(MetroDefaults.PropertyCategory.Appearance)]
-            public bool UseCustomBackColor
-            {
-                get { return useCustomBackColor; }
-                set { useCustomBackColor = value; }
-            }
-
-            private bool useCustomForeColor = false;
+            public bool UseCustomBackColor { get; set; } = false;
             [DefaultValue(false)]
             [Category(MetroDefaults.PropertyCategory.Appearance)]
-            public bool UseCustomForeColor
-            {
-                get { return useCustomForeColor; }
-                set { useCustomForeColor = value; }
-            }
-
-            private bool useStyleColors = false;
+            public bool UseCustomForeColor { get; set; } = false;
             [DefaultValue(false)]
             [Category(MetroDefaults.PropertyCategory.Appearance)]
-            public bool UseStyleColors
-            {
-                get { return useStyleColors; }
-                set { useStyleColors = value; }
-            }
+            public bool UseStyleColors { get; set; } = false;
 
             [Browsable(false)]
             [Category(MetroDefaults.PropertyCategory.Behaviour)]
             [DefaultValue(false)]
             public bool UseSelectable
             {
-                get { return GetStyle(ControlStyles.Selectable); }
-                set { SetStyle(ControlStyles.Selectable, value); }
+                get => GetStyle(ControlStyles.Selectable);
+                set => SetStyle(ControlStyles.Selectable, value);
             }
 
             #endregion
@@ -1284,17 +1230,17 @@ namespace MetroFramework.Controls
 
                 if (Parent != null)
                 {
-                    if (Parent is IMetroForm)
+                    if (Parent is IMetroForm form)
                     {
-                        _Theme = ((IMetroForm)Parent).Theme;
-                        _Style = ((IMetroForm)Parent).Style;
+                        _Theme = form.Theme;
+                        _Style = form.Style;
                         foreColor = MetroPaint.ForeColor.Button.Press(_Theme);
                         backColor = MetroPaint.GetStyleColor(_Style);
                     }
-                    else if (Parent is IMetroControl)
+                    else if (Parent is IMetroControl control)
                     {
-                        _Theme = ((IMetroControl)Parent).Theme;
-                        _Style = ((IMetroControl)Parent).Style;
+                        _Theme = control.Theme;
+                        _Style = control.Style;
                         foreColor = MetroPaint.ForeColor.Button.Press(_Theme);
                         backColor = MetroPaint.GetStyleColor(_Style);
                     }
@@ -1312,9 +1258,9 @@ namespace MetroFramework.Controls
 
                 if (isHovered && !isPressed && Enabled)
                 {
-                    int _r = backColor.R;
-                    int _g = backColor.G;
-                    int _b = backColor.B;
+                    //int _r = backColor.R;
+                    //int _g = backColor.G;
+                    //int _b = backColor.B;
 
                     backColor = ControlPaint.Light(backColor, 0.25f);
                 }
@@ -1344,7 +1290,7 @@ namespace MetroFramework.Controls
 
             public new Image Image
             {
-                get { return base.Image; }
+                get => base.Image;
                 set
                 {
                     base.Image = value;
@@ -1367,14 +1313,14 @@ namespace MetroFramework.Controls
                         R = (byte)(255 - pixelColor.R);
                         G = (byte)(255 - pixelColor.G);
                         B = (byte)(255 - pixelColor.B);
-                        bitmapImage.SetPixel(x, y, Color.FromArgb((int)A, (int)R, (int)G, (int)B));
+                        bitmapImage.SetPixel(x, y, Color.FromArgb(A, R, G, B));
                     }
                 }
 
                 return bitmapImage;
             }
 
-            protected Size iconSize
+            protected Size IconSize
             {
                 get
                 {
@@ -1383,7 +1329,7 @@ namespace MetroFramework.Controls
                         Size originalSize = Image.Size;
                         double resizeFactor = 14 / (double)originalSize.Height;
 
-                        Point iconLocation = new Point(1, 1);
+                        //Point iconLocation = new Point(1, 1);
                         return new Size((int)(originalSize.Width * resizeFactor), (int)(originalSize.Height * resizeFactor));
                     }
 
@@ -1395,41 +1341,41 @@ namespace MetroFramework.Controls
             {
                 if (Image != null)
                 {
-                    Point iconLocation = new Point(2, (ClientRectangle.Height - iconSize.Height) / 2);
+                    Point iconLocation = new Point(2, (ClientRectangle.Height - IconSize.Height) / 2);
                     int _filler = 5;
 
                     switch (ImageAlign)
                     {
                         case ContentAlignment.BottomCenter:
-                            iconLocation = new Point((ClientRectangle.Width - iconSize.Width) / 2, (ClientRectangle.Height - iconSize.Height) - _filler);
+                            iconLocation = new Point((ClientRectangle.Width - IconSize.Width) / 2, ClientRectangle.Height - IconSize.Height - _filler);
                             break;
                         case ContentAlignment.BottomLeft:
-                            iconLocation = new Point(_filler, (ClientRectangle.Height - iconSize.Height) - _filler);
+                            iconLocation = new Point(_filler, ClientRectangle.Height - IconSize.Height - _filler);
                             break;
                         case ContentAlignment.BottomRight:
-                            iconLocation = new Point((ClientRectangle.Width - iconSize.Width) - _filler, (ClientRectangle.Height - iconSize.Height) - _filler);
+                            iconLocation = new Point(ClientRectangle.Width - IconSize.Width - _filler, ClientRectangle.Height - IconSize.Height - _filler);
                             break;
                         case ContentAlignment.MiddleCenter:
-                            iconLocation = new Point((ClientRectangle.Width - iconSize.Width) / 2, (ClientRectangle.Height - iconSize.Height) / 2);
+                            iconLocation = new Point((ClientRectangle.Width - IconSize.Width) / 2, (ClientRectangle.Height - IconSize.Height) / 2);
                             break;
                         case ContentAlignment.MiddleLeft:
-                            iconLocation = new Point(_filler, (ClientRectangle.Height - iconSize.Height) / 2);
+                            iconLocation = new Point(_filler, (ClientRectangle.Height - IconSize.Height) / 2);
                             break;
                         case ContentAlignment.MiddleRight:
-                            iconLocation = new Point((ClientRectangle.Width - iconSize.Width) - _filler, (ClientRectangle.Height - iconSize.Height) / 2);
+                            iconLocation = new Point(ClientRectangle.Width - IconSize.Width - _filler, (ClientRectangle.Height - IconSize.Height) / 2);
                             break;
                         case ContentAlignment.TopCenter:
-                            iconLocation = new Point((ClientRectangle.Width - iconSize.Width) / 2, _filler);
+                            iconLocation = new Point((ClientRectangle.Width - IconSize.Width) / 2, _filler);
                             break;
                         case ContentAlignment.TopLeft:
                             iconLocation = new Point(_filler, _filler);
                             break;
                         case ContentAlignment.TopRight:
-                            iconLocation = new Point((ClientRectangle.Width - iconSize.Width) - _filler, _filler);
+                            iconLocation = new Point(ClientRectangle.Width - IconSize.Width - _filler, _filler);
                             break;
                     }
 
-                    g.DrawImage((Theme == MetroThemeStyle.Dark) ? ((isPressed) ? _image : Image) : (isPressed) ? Image : _image, new Rectangle(iconLocation, iconSize));
+                    g.DrawImage((Theme == MetroThemeStyle.Dark) ? (isPressed ? _image : Image) : isPressed ? Image : _image, new Rectangle(iconLocation, IconSize));
                 }
             }
 
@@ -1442,7 +1388,7 @@ namespace MetroFramework.Controls
                 isHovered = true;
                 Invalidate();
 
-                base.OnMouseEnter(e);                
+                base.OnMouseEnter(e);
             }
 
             protected override void OnMouseDown(MouseEventArgs e)

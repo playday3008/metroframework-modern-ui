@@ -1,12 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Media;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using MetroFramework.Forms;
-using MetroFramework.Interfaces;
 
 namespace MetroFramework
 {
@@ -22,7 +18,7 @@ namespace MetroFramework
         /// <param name="message"></param>
         /// <param name="height" optional=211></param>
         /// <returns></returns>
-        public static DialogResult Show(IWin32Window owner, String message)
+        public static DialogResult Show(IWin32Window owner, string message)
         { return Show(owner, message, "Notification", 211); }
 
         /// <summary>
@@ -32,7 +28,7 @@ namespace MetroFramework
         /// <param name="message"></param>
         /// <param name="height" optional=211></param>
         /// <returns></returns>
-        public static DialogResult Show(IWin32Window owner, String message,int height)
+        public static DialogResult Show(IWin32Window owner, string message, int height)
         { return Show(owner, message, "Notification", height); }
 
         /// <summary>
@@ -43,7 +39,7 @@ namespace MetroFramework
         /// <param name="title"></param>
         /// <param name="height" optional=211></param>
         /// <returns></returns>
-        public static DialogResult Show(IWin32Window owner, String message, String title)
+        public static DialogResult Show(IWin32Window owner, string message, string title)
         { return Show(owner, message, title, MessageBoxButtons.OK, 211); }
 
         /// <summary>
@@ -54,7 +50,7 @@ namespace MetroFramework
         /// <param name="title"></param>
         /// <param name="height" optional=211></param>
         /// <returns></returns>
-        public static DialogResult Show(IWin32Window owner, String message, String title, int height)
+        public static DialogResult Show(IWin32Window owner, string message, string title, int height)
         { return Show(owner, message, title, MessageBoxButtons.OK, height); }
 
         /// <summary>
@@ -66,7 +62,7 @@ namespace MetroFramework
         /// <param name="buttons"></param>
         /// <param name="height" optional=211></param>
         /// <returns></returns>
-        public static DialogResult Show(IWin32Window owner, String message, String title, MessageBoxButtons buttons)
+        public static DialogResult Show(IWin32Window owner, string message, string title, MessageBoxButtons buttons)
         { return Show(owner, message, title, buttons, MessageBoxIcon.None, 211); }
 
         /// <summary>
@@ -78,7 +74,7 @@ namespace MetroFramework
         /// <param name="buttons"></param>
         /// <param name="height" optional=211></param>
         /// <returns></returns>
-        public static DialogResult Show(IWin32Window owner, String message, String title, MessageBoxButtons buttons, int height)
+        public static DialogResult Show(IWin32Window owner, string message, string title, MessageBoxButtons buttons, int height)
         { return Show(owner, message, title, buttons, MessageBoxIcon.None, height); }
 
         /// <summary>
@@ -91,7 +87,7 @@ namespace MetroFramework
         /// <param name="icon"></param>
         /// <param name="height" optional=211></param>
         /// <returns></returns>
-        public static DialogResult Show(IWin32Window owner, String message, String title, MessageBoxButtons buttons, MessageBoxIcon icon)
+        public static DialogResult Show(IWin32Window owner, string message, string title, MessageBoxButtons buttons, MessageBoxIcon icon)
         { return Show(owner, message, title, buttons, icon, MessageBoxDefaultButton.Button1, 211); }
 
         /// <summary>
@@ -104,10 +100,10 @@ namespace MetroFramework
         /// <param name="icon"></param>
         /// <param name="height" optional=211></param>
         /// <returns></returns>
-        public static DialogResult Show(IWin32Window owner, String message, String title, MessageBoxButtons buttons, MessageBoxIcon icon, int height)
+        public static DialogResult Show(IWin32Window owner, string message, string title, MessageBoxButtons buttons, MessageBoxIcon icon, int height)
         { return Show(owner, message, title, buttons, icon, MessageBoxDefaultButton.Button1, height); }
 
-           /// <summary>
+        /// <summary>
         /// Shows a metro-styles message notification into the specified owner window.
         /// </summary>
         /// <param name="owner"></param>
@@ -118,7 +114,7 @@ namespace MetroFramework
         /// <param name="defaultbutton"></param>
         /// <param name="height" optional=211></param>
         /// <returns></returns>
-        public static DialogResult Show(IWin32Window owner, String message, String title, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultbutton)
+        public static DialogResult Show(IWin32Window owner, string message, string title, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultbutton)
         {
             return Show(owner, message, title, buttons, icon, defaultbutton, 211);
         }
@@ -134,14 +130,14 @@ namespace MetroFramework
         /// <param name="defaultbutton"></param>
         /// <param name="height" optional=211></param>
         /// <returns></returns>
-        public static DialogResult Show(IWin32Window owner, String message, String title, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultbutton, int height)
+        public static DialogResult Show(IWin32Window owner, string message, string title, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultbutton, int height)
         {
             DialogResult _result = DialogResult.None;
 
             if (owner != null)
             {
                 Form _owner = (owner as Form == null) ? ((UserControl)owner).ParentForm : (Form)owner;
-                
+
                 //int _minWidth = 500;
                 //int _minHeight = 350;
 
@@ -174,8 +170,10 @@ namespace MetroFramework
                         SystemSounds.Asterisk.Play(); break;
                 }
 
-                MetroMessageBoxControl _control = new MetroMessageBoxControl();
-                _control.BackColor = _owner.BackColor;
+                MetroMessageBoxControl _control = new MetroMessageBoxControl
+                {
+                    BackColor = _owner.BackColor
+                };
                 _control.Properties.Buttons = buttons;
                 _control.Properties.DefaultButton = defaultbutton;
                 _control.Properties.Icon = icon;
@@ -216,7 +214,7 @@ namespace MetroFramework
                     while (!_asyncresult.IsCompleted)
                     { Thread.Sleep(1); Application.DoEvents(); }
                 }
-                catch 
+                catch
                 {
                     _cancelled = true;
 
@@ -235,7 +233,7 @@ namespace MetroFramework
                     //_owner.Controls.Remove(_control);
                     _control.Dispose(); _control = null;
                 }
-                 
+
             }
 
             return _result;

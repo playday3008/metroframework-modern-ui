@@ -50,7 +50,7 @@ namespace MetroFramework.Animation
         }
 
         #region Compatibility code
-        private DelayedCall<object>.Callback oldCallback = null;
+        private readonly DelayedCall<object>.Callback oldCallback = null;
         private object oldData = null;
 
         [Obsolete("Use the static method DelayedCall.Create instead.")]
@@ -312,9 +312,9 @@ namespace MetroFramework.Animation
                     if (cancelled) return;
                 }
 
-                if (callback != null) callback();
+                callback?.Invoke();
                 #region Compatibility code
-                if (oldCallback != null) oldCallback(oldData);
+                oldCallback?.Invoke(oldData);
                 #endregion
             }, null);
         }
@@ -418,7 +418,7 @@ namespace MetroFramework.Animation
                     if (cancelled) return;
                 }
 
-                if (callback != null) callback(data);
+                callback?.Invoke(data);
             }, null);
         }
 
@@ -485,7 +485,7 @@ namespace MetroFramework.Animation
                     if (cancelled) return;
                 }
 
-                if (callback != null) callback(data1, data2);
+                callback?.Invoke(data1, data2);
             }, null);
         }
 
@@ -556,7 +556,7 @@ namespace MetroFramework.Animation
                     if (cancelled) return;
                 }
 
-                if (callback != null) callback(data1, data2, data3);
+                callback?.Invoke(data1, data2, data3);
             }, null);
         }
 

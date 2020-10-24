@@ -22,10 +22,8 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel.Design;
 using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Windows.Forms;
 
 using MetroFramework.Components;
@@ -35,7 +33,7 @@ namespace MetroFramework.Design.Components
 {
     internal class MetroStyleManagerDesigner : ComponentDesigner
     {
-        DesignerVerbCollection designerVerbs;
+        private DesignerVerbCollection designerVerbs;
 
         public override DesignerVerbCollection Verbs
         {
@@ -46,8 +44,10 @@ namespace MetroFramework.Design.Components
                     return designerVerbs;
                 }
 
-                designerVerbs = new DesignerVerbCollection();
-                designerVerbs.Add(new DesignerVerb("Reset Styles to Default", OnResetStyles));
+                designerVerbs = new DesignerVerbCollection
+                {
+                    new DesignerVerb("Reset Styles to Default", OnResetStyles)
+                };
 
                 return designerVerbs;
             }
@@ -63,7 +63,7 @@ namespace MetroFramework.Design.Components
                     return designerHost;
                 }
 
-                designerHost = (IDesignerHost)(GetService(typeof(IDesignerHost)));
+                designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 return designerHost;
             }
@@ -79,8 +79,8 @@ namespace MetroFramework.Design.Components
                     return componentChangeService;
                 }
 
-                componentChangeService = (IComponentChangeService)(GetService(typeof(IComponentChangeService)));
-                
+                componentChangeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+
                 return componentChangeService;
             }
         }
@@ -97,13 +97,12 @@ namespace MetroFramework.Design.Components
                 }
             }
 
-            ResetStyles(styleManager, styleManager.Owner as Control);
+            ResetStyles(styleManager, styleManager.Owner);
         }
 
         private void ResetStyles(MetroStyleManager styleManager, Control control)
         {
-            IMetroForm container = control as IMetroForm;
-            if (container != null && !ReferenceEquals(styleManager, container.StyleManager))
+            if (control is IMetroForm container && !ReferenceEquals(styleManager, container.StyleManager))
             {
                 return;
             }
@@ -124,8 +123,7 @@ namespace MetroFramework.Design.Components
                 ResetStyles(styleManager, control.ContextMenuStrip);
             }
 
-            TabControl tabControl = control as TabControl;
-            if (tabControl != null)
+            if (control is TabControl tabControl)
             {
                 foreach (TabPage tp in tabControl.TabPages)
                 {
@@ -144,7 +142,7 @@ namespace MetroFramework.Design.Components
 
         private void ResetProperty(Control control, string name, object newValue)
         {
-            var typeDescriptor = TypeDescriptor.GetProperties(control)[name];
+            PropertyDescriptor typeDescriptor = TypeDescriptor.GetProperties(control)[name];
             if (typeDescriptor == null)
             {
                 return;

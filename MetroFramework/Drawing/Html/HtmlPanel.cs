@@ -25,13 +25,11 @@
  * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-using System.Reflection;
 using System.ComponentModel;
-using System.Drawing.Design;
 using System.Drawing;
+using System.Drawing.Design;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace MetroFramework.Drawing.Html
 {
@@ -69,51 +67,33 @@ namespace MetroFramework.Drawing.Html
 
         #region Properties
 
-        [DesignerSerializationVisibility( DesignerSerializationVisibility.Visible)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override bool AutoSize
         {
-            get
-            {
-                return base.AutoSize;
-            }
-            set
-            {
-                base.AutoSize = value;
-            }
+            get => base.AutoSize;
+            set => base.AutoSize = value;
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override bool AutoScroll
         {
-            get
-            {
-                return base.AutoScroll;
-            }
-            set
-            {
-                base.AutoScroll = value;
-            }
+            get => base.AutoScroll;
+            set => base.AutoScroll = value;
         }
 
         /// <summary>
         /// Gets the Initial HtmlContainer of this HtmlPanel
         /// </summary>
-        public InitialContainer HtmlContainer
-        {
-            get { return htmlContainer; }
-        }
+        public InitialContainer HtmlContainer => htmlContainer;
 
         /// <summary>
         /// Gets or sets the text of this panel
         /// </summary>
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor)), 
+        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor)),
         DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), Localizable(true), Browsable(true), EditorBrowsable(EditorBrowsableState.Always)]
         public override string Text
         {
-            get
-            {
-                return base.Text;
-            }
+            get => base.Text;
             set
             {
                 base.Text = value;
@@ -147,7 +127,7 @@ namespace MetroFramework.Drawing.Html
             {
                 htmlContainer.MeasureBounds(g);
             }
-            
+
             AutoScrollMinSize = Size.Round(htmlContainer.MaximumSize);
         }
 
@@ -169,9 +149,9 @@ namespace MetroFramework.Drawing.Html
         {
             base.OnPaint(e);
 
-            if (!(this is  HtmlLabel)) e.Graphics.Clear(SystemColors.Window);
+            if (!(this is HtmlLabel)) e.Graphics.Clear(SystemColors.Window);
 
-            
+
             htmlContainer.ScrollOffset = AutoScrollPosition;
             e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             htmlContainer.Paint(e.Graphics);
