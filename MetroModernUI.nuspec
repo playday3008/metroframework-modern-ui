@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>MetroModernUI</id>
+    <version>1.4.1</version>
+    <title>Metro Modern UI - Metro Framework</title>
+    <authors>Sven Walter, Dennis Magno, PlayDay</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/playday3008/metroframework-modern-ui</projectUrl>
+    <iconUrl>http://i.imgur.com/178ZNMB.png</iconUrl>
+    <description>Metro Modern UI or MetroFramework brings Windows 8 UI to .NET Windows Forms applications.
+
+Supported platforms:
+
+Windows XP SP1/SP2/SP3
+
+Windows Vista
+
+Windows 7
+
+Windows 8
+
+Windows 10</description>
+    <releaseNotes>1. Added MetroListView
+http://denricdenise.info/2016/01/metrolistview-is-coming-in-metroframework/
+2. Add localization for MetroMessageBox and MetroToggle button
+http://denricdenise.info/2016/06/metromessagebox-localized-preview/
+3. Fix all warnings and messages</releaseNotes>
+    <copyright>Copyright (c) 2011 Sven Walter, 2014 Dennis Magno, 2020 PlayDay</copyright>
+    <language>en-US</language>
+    <tags>metroframework modernui modern ui metro metroui winforms windows8</tags>
+    <dependencies>
+      <group targetFramework="net48" />
+    </dependencies>  
+  </metadata>
+  <files>
+    <file src="MetroFramework\bin\Release\MetroFramework.dll" target="lib\net48\" />
+    <file src="MetroFramework.Design\bin\Release\MetroFramework.Design.dll" target="lib\net48\" />
+    <file src="MetroFramework.Fonts\bin\Release\MetroFramework.Fonts.dll" target="lib\net48\" />
+  </files>
+</package>
