@@ -33,6 +33,7 @@ http://denricdenise.info/2016/06/metromessagebox-localized-preview/
     <dependencies>
       <group targetFramework="net48" />
     </dependencies>  
+    <repository type="git" url="https://github.com/playday3008/metroframework-modern-ui.git" branch="master"/>
   </metadata>
   <files>
     <file src="MetroFramework\bin\Release\MetroFramework.dll" target="lib\net48\" />
