@@ -39,7 +39,7 @@ jobs:
 
     # Build solution
     - name: Build solution
-      run: msbuild MetroFramework.sln
+      run: msbuild MetroFramework.sln /p:Configuration=Release
       
     # Build NuGet package
     - name: Build NuGet package
